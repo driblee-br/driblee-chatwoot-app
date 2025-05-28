@@ -14,22 +14,49 @@
         #error {
             color: red;
         }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Profile Information</h1>
+    <h1>Informações do Perfil</h1>
     <div id="error" style="display: none;"></div>
-    <div id="loading">Loading profile...</div>
+    <div id="loading">Carregando informações...</div>
     <pre id="profile" style="display: none;"></pre>
 
     <script>
-        const options = { method: 'GET', headers: { api_access_token: '<api-key>' } };
+        function isJSONValid(str) {
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
 
-        fetch('https://app.chatwoot.com/api/v1/profile', options)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
+        window.addEventListener("message", function (event) {
+            if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
+                return;
+            }
+
+            const eventData = JSON.parse(event.data);
+
+            const profileElement = document.getElementById('profile');
+            const loadingElement = document.getElementById('loading');
+
+            profileElement.textContent = JSON.stringify(eventData, null, 2);
+            profileElement.style.display = 'block';
+
+            loadingElement.style.display = 'none';
+        });
     </script>
 </body>
 
