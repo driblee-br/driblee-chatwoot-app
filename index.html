@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatwoot Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        #error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Profile Information</h1>
+    <div id="error" style="display: none;"></div>
+    <div id="loading">Loading profile...</div>
+    <pre id="profile" style="display: none;"></pre>
+
+    <script>
+        // Fazendo a requisição diretamente à API do Chatwoot
+        fetch('https://app.chatwoot.com/api/v1/profile')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('profile').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('profile').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none';
+                const errorDiv = document.getElementById('error');
+                errorDiv.textContent = 'Error: ' + error.message;
+                errorDiv.style.display = 'block';
+            });
+    </script>
+</body>
+
+</html>
