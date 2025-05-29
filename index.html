@@ -4,15 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatwoot Profile</title>
+    <title>Informações do Chatwoot - Simples e Direto</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .info-section {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-section h2 {
+            color: #3498db;
+            margin-top: 0;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         #error {
             color: red;
+            font-weight: bold;
+        }
+
+        #loading {
+            text-align: center;
+            font-size: 1.1em;
+            color: #666;
         }
 
         pre {
@@ -20,17 +52,43 @@
             word-wrap: break-word;
             background-color: #f4f4f4;
             border: 1px solid #ddd;
-            padding: 10px;
-            margin-top: 20px;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+            overflow-x: auto;
+            /* Para rolagem horizontal se o conteúdo for muito longo */
         }
     </style>
 </head>
 
 <body>
-    <h1>Informações do Perfil</h1>
-    <div id="error" style="display: none;"></div>
-    <div id="loading">Carregando informações...</div>
-    <pre id="profile" style="display: none;"></pre>
+    <h1>Informações do Chatwoot App Context</h1>
+    <div id="error" style="display: none;">Ocorreu um erro ao carregar as informações.</div>
+    <div id="loading">Aguardando dados do Chatwoot...</div>
+    <div id="profile-display" style="display: none;">
+
+        <div class="info-section">
+            <h2>Dados da Conversa</h2>
+            <pre id="conversation-data"></pre>
+        </div>
+
+        <div class="info-section">
+            <h2>Dados do Contato</h2>
+            <pre id="contact-data"></pre>
+        </div>
+
+        <div class="info-section">
+            <h2>Dados do Agente Atual</h2>
+            <pre id="current-agent-data"></pre>
+        </div>
+
+        <div class="info-section">
+            <h2>JSON Completo do Evento (Payload)</h2>
+            <pre id="raw-json"></pre>
+        </div>
+    </div>
 
     <script>
         function isJSONValid(str) {
@@ -42,21 +100,48 @@
             return true;
         }
 
-        window.addEventListener("message", function (event) {
+        const eventListener = (event) => {
             if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
+                console.warn("Dados recebidos não são um JSON válido ou não são string:", event.data);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').textContent = 'Erro: Dados inválidos recebidos. Verifique o formato JSON.';
+                document.getElementById('error').style.display = 'block';
                 return;
             }
 
-            const eventData = JSON.parse(event.data);
+            const receivedData = JSON.parse(event.data);
 
-            const profileElement = document.getElementById('profile');
-            const loadingElement = document.getElementById('loading');
 
-            profileElement.textContent = JSON.stringify(eventData, null, 2);
-            profileElement.style.display = 'block';
+            if (!receivedData || !receivedData.data || !receivedData.data.conversation || !receivedData.data.contact || !receivedData.data.currentAgent) {
+                console.error("Estrutura de dados inesperada:", receivedData);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando conversation, contact ou currentAgent).';
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
 
-            loadingElement.style.display = 'none';
-        });
+            const conversationData = receivedData.data.conversation;
+            const contactData = receivedData.data.contact;
+            const currentAgentData = receivedData.data.currentAgent;
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('profile-display').style.display = 'block';
+
+            // Exibir o JSON completo do evento 'appContext'
+            document.getElementById('raw-json').textContent = JSON.stringify(receivedData, null, 2);
+
+            // Exibir dados da Conversa
+            document.getElementById('conversation-data').textContent = JSON.stringify(conversationData, null, 2);
+
+            // Exibir dados do Contato
+            document.getElementById('contact-data').textContent = JSON.stringify(contactData, null, 2);
+
+            // Exibir dados do Agente Atual
+            document.getElementById('current-agent-data').textContent = JSON.stringify(currentAgentData, null, 2);
+        };
+        window.addEventListener("message", eventListener);
+
+        window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
     </script>
 </body>
 
