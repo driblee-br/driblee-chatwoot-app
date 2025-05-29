@@ -58,7 +58,6 @@
             font-size: 0.95em;
             line-height: 1.5;
             overflow-x: auto;
-            /* Para rolagem horizontal se o conteúdo for muito longo */
         }
     </style>
 </head>
@@ -68,6 +67,7 @@
     <div id="2morrow-error" style="display: none;">Ocorreu um erro ao carregar as informações.</div>
     <div id="2morrow-loading">Aguardando dados do 2morrow...</div>
     <div id="2morrow-data"></div>
+
     <h1>Informações do Chatwoot App Context</h1>
     <div id="error" style="display: none;">Ocorreu um erro ao carregar as informações.</div>
     <div id="loading">Aguardando dados do Chatwoot...</div>
@@ -147,6 +147,9 @@
 
         window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
 
+        const twoMorrowError = document.getElementById('2morrow-error');
+        const twoMorrowLoading = document.getElementById('2morrow-loading');
+        const twoMorrowData = document.getElementById('2morrow-data');
 
         async function fetchData() {
             twoMorrowLoading.style.display = 'block';
