@@ -166,13 +166,16 @@
             try {
                 console.log("Tentando fetch de:", 'https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/');
 
-                const response = await fetch('https://SEU-URL.ngrok-free.app/list_fan/', {
+                const response = await fetch('https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/', {
+                    method: 'GET',
                     headers: {
-                        'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        'Accept': 'application/json',
+                        'ngrok-skip-browser-warning': '69420',
+                        'Origin': 'https://driblee-br.github.io'
                     },
-                    credentials: 'include'
+                    mode: 'cors',
+                    credentials: 'omit'
                 });
                 console.log("Resposta completa:", {
                     status: response.status,
