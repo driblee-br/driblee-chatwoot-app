@@ -95,16 +95,21 @@
     </div>
 
     <script>
+        // Log para indicar o início do script
+        console.log("Script iniciado.");
+
         function isJSONValid(str) {
             try {
                 JSON.parse(str);
             } catch (e) {
+                console.error("Erro na validação JSON:", e); // Log para erros na validação JSON
                 return false;
             }
             return true;
         }
 
         const eventListener = (event) => {
+            console.log("Evento 'message' recebido do Chatwoot."); // Log ao receber uma mensagem
             if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
                 console.warn("Dados recebidos não são um JSON válido ou não são string:", event.data);
                 document.getElementById('loading').style.display = 'none';
@@ -114,10 +119,10 @@
             }
 
             const receivedData = JSON.parse(event.data);
-
+            console.log("Dados do Chatwoot parsados:", receivedData); // Log dos dados parsados
 
             if (!receivedData || !receivedData.data || !receivedData.data.conversation || !receivedData.data.contact || !receivedData.data.currentAgent) {
-                console.error("Estrutura de dados inesperada:", receivedData);
+                console.error("Estrutura de dados inesperada do Chatwoot:", receivedData);
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('error').textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando conversation, contact ou currentAgent).';
                 document.getElementById('error').style.display = 'block';
@@ -130,50 +135,66 @@
 
             document.getElementById('loading').style.display = 'none';
             document.getElementById('profile-display').style.display = 'block';
+            console.log("Componente de exibição do Chatwoot ativado."); // Log quando o display é ativado
 
             // Exibir o JSON completo do evento 'appContext'
             document.getElementById('raw-json').textContent = JSON.stringify(receivedData, null, 2);
+            console.log("JSON completo do evento 'appContext' exibido.");
 
             // Exibir dados da Conversa
             document.getElementById('conversation-data').textContent = JSON.stringify(conversationData, null, 2);
+            console.log("Dados da conversão exibidos.");
 
             // Exibir dados do Contato
             document.getElementById('contact-data').textContent = JSON.stringify(contactData, null, 2);
+            console.log("Dados do contato exibidos.");
 
             // Exibir dados do Agente Atual
             document.getElementById('current-agent-data').textContent = JSON.stringify(currentAgentData, null, 2);
+            console.log("Dados do agente atual exibidos.");
         };
         window.addEventListener("message", eventListener);
+        console.log("Listener de evento 'message' adicionado."); // Log após adicionar o listener
 
         window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
+        console.log("Mensagem 'chatwoot-dashboard-app:fetch-info' enviada ao pai."); // Log ao solicitar info do Chatwoot
 
         const twoMorrowError = document.getElementById('2morrow-error');
         const twoMorrowLoading = document.getElementById('2morrow-loading');
         const twoMorrowData = document.getElementById('2morrow-data');
 
         async function fetchData() {
+            console.log("Iniciando busca de dados da 2morrow."); // Log ao iniciar a função fetchData
             twoMorrowLoading.style.display = 'block';
             twoMorrowError.style.display = 'none';
             twoMorrowData.style.display = 'none';
             twoMorrowData.innerHTML = '';
 
             try {
+                console.log("Tentando fetch de:", 'https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/'); // Log da URL da requisição
                 const response = await fetch('https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/');
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                console.log("Resposta do fetch recebida:", response.status, response.statusText); // Log da resposta HTTP
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
+                console.log("Dados da 2morrow recebidos e parsados:", data); // Log dos dados recebidos
 
                 twoMorrowLoading.style.display = 'none';
                 twoMorrowData.style.display = 'block';
                 twoMorrowData.textContent = JSON.stringify(data, null, 2);
+                console.log("Dados da 2morrow exibidos com sucesso.");
 
             } catch (error) {
+                console.error("Erro ao buscar dados da 2morrow:", error); // Log detalhado do erro
                 twoMorrowLoading.style.display = 'none';
                 twoMorrowError.style.display = 'block';
                 twoMorrowError.textContent = `Erro: ${error.message}`;
             }
         }
 
-        fetchData();
+        fetchData(); // Chamada inicial da função de busca de dados
+        console.log("Função fetchData() chamada.");
     </script>
 </body>
 
