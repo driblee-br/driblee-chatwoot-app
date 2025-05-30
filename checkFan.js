@@ -1,70 +1,111 @@
-function isJSONValid(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        console.error("Erro na validação JSON:", e);
-        return false;
+document.addEventListener('DOMContentLoaded', function () {
+    // Elementos da interface
+    const btnBuscar = document.getElementById('btnBuscar');
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    const closeNotification = document.getElementById('close-notification');
+
+    // Máscaras para os campos
+    document.getElementById('cpf').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+        e.target.value = value;
+    });
+
+    document.getElementById('telefone').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        e.target.value = value;
+    });
+
+    // Fechar notificação
+    closeNotification.addEventListener('click', function () {
+        notification.classList.remove('show');
+    });
+
+    // Função para mostrar notificação
+    function showNotification(message, type = 'info') {
+        notificationMessage.textContent = message;
+        notification.className = 'notification show';
+
+        // Reset após 5 segundos
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 5000);
     }
-    return true;
-}
 
-// const eventListener = (event) => {
-//     if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
-//         document.getElementById('loading').style.display = 'none';
-//         document.getElementById('error').textContent = 'Erro: Dados inválidos recebidos. Verifique o formato JSON.';
-//         document.getElementById('error').style.display = 'block';
-//         return;
-//     }
+    // Função principal de busca
+    async function fetchData() {
+        const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+        const email = document.getElementById('email').value.trim();
+        const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
+        const nome = document.getElementById('nome').value.trim();
 
-//     const receivedData = JSON.parse(event.data);
-
-//     if (!receivedData || !receivedData.data || !receivedData.data.conversation || !receivedData.data.contact || !receivedData.data.currentAgent) {
-//         document.getElementById('loading').style.display = 'none';
-//         document.getElementById('error').textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando conversation, contact ou currentAgent).';
-//         document.getElementById('error').style.display = 'block';
-//         return;
-//     }
-
-//     const conversationData = receivedData.data.conversation;
-//     const contactData = receivedData.data.contact;
-//     const currentAgentData = receivedData.data.currentAgent;
-
-//     document.getElementById('loading').style.display = 'none';
-//     document.getElementById('profile-display').style.display = 'block';
-//     document.getElementById('raw-json').textContent = JSON.stringify(receivedData, null, 2);
-//     document.getElementById('conversation-data').textContent = JSON.stringify(conversationData, null, 2);
-//     document.getElementById('contact-data').textContent = JSON.stringify(contactData, null, 2);
-//     document.getElementById('current-agent-data').textContent = JSON.stringify(currentAgentData, null, 2);
-// };
-
-
-// window.addEventListener("message", eventListener);
-
-// window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
-
-async function fetchData() {
-    try {
-        const response = await fetch('https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
-            mode: 'cors',
-            credentials: 'omit'
-        });
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
-            throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
+        // Validação - pelo menos um campo preenchido
+        if (!cpf && !email && !telefone && !nome) {
+            showNotification('Por favor, preencha pelo menos um campo para busca.', 'error');
+            return;
         }
-        const data = await response.json();
-        return data.message
 
-    } catch (error) {
-        console.error("Erro completo:", error);
+        // Mostrar loading (opcional - você pode implementar)
+        btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+        btnBuscar.disabled = true;
+
+        try {
+            // Montar URL com parâmetros de busca
+            let url = 'https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/?';
+            const params = [];
+
+            if (cpf) params.push(`cpf=${encodeURIComponent(cpf)}`);
+            else Error("Digite um CPF. Ainda não conseguimos coletar dados com as outras opções")
+
+            url += params.join('&');
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                },
+                mode: 'cors',
+                credentials: 'omit'
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.message) {
+                showNotification(data.message, 'success');
+            } else {
+                showNotification('Torcedor encontrado, mas sem mensagem específica.', 'info');
+            }
+
+        } catch (error) {
+            console.error("Erro completo:", error);
+            showNotification(`Erro na busca: ${error.message}`, 'error');
+        } finally {
+            // Restaurar botão
+            btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
+            btnBuscar.disabled = false;
+        }
     }
-}
 
-document.getElementById('btnBuscar').addEventListener('click', fetchData)
+    // Event listener para o botão
+    btnBuscar.addEventListener('click', fetchData);
+
+    // Permitir busca com Enter
+    document.querySelectorAll('.input-field').forEach(input => {
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                fetchData();
+            }
+        });
+    });
+});
