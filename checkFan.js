@@ -56,14 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Montar URL com parâmetros de busca
-            let url = 'https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/?';
-            const params = [];
+            const cpfInput = document.getElementById('cpf').value;
+            const cpf = cpfInput.replace(/\D/g, '');
+            let url = `https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/${cpf}`;
 
-            if (cpf) params.push(`cpf=${encodeURIComponent(cpf)}`);
-            else Error("Digite um CPF. Ainda não conseguimos coletar dados com as outras opções")
-
-            url += params.join('&');
-
+            console.log(url)
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
