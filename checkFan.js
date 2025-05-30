@@ -58,13 +58,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // Montar URL com parâmetros de busca
             const cpfInput = document.getElementById('cpf').value;
             const cpf = cpfInput.replace(/\D/g, '');
-            let url = `https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/${cpf}`;
 
             console.log(url)
+            const url = `https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/verify_fan/?cpf=${cpf}`;
+
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'ngrok-skip-browser-warning': 'true'
                 },
