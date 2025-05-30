@@ -42,19 +42,8 @@ window.addEventListener("message", eventListener);
 
 window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
 
-const twoMorrowError = document.getElementById('2morrow-error');
-const twoMorrowLoading = document.getElementById('2morrow-loading');
-const twoMorrowData = document.getElementById('2morrow-data');
-
 async function fetchData() {
-    twoMorrowLoading.style.display = 'block';
-    twoMorrowError.style.display = 'none';
-    twoMorrowData.style.display = 'none';
-    twoMorrowData.innerHTML = '';
-
     try {
-        console.log("Tentando fetch de:", 'https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/');
-
         const response = await fetch('https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/', {
             method: 'GET',
             headers: {
@@ -70,18 +59,11 @@ async function fetchData() {
             const text = await response.text();
             throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
         }
-
         const data = await response.json();
-
-        twoMorrowLoading.style.display = 'none';
-        twoMorrowData.style.display = 'block';
-        twoMorrowData.textContent = JSON.stringify(data, null, 2);
+        return data.message
 
     } catch (error) {
         console.error("Erro completo:", error);
-        twoMorrowLoading.style.display = 'none';
-        twoMorrowError.style.display = 'block';
-        twoMorrowError.textContent = `Erro: ${error.message}`;
     }
 }
 
