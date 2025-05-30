@@ -8,39 +8,39 @@ function isJSONValid(str) {
     return true;
 }
 
-const eventListener = (event) => {
-    if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('error').textContent = 'Erro: Dados inválidos recebidos. Verifique o formato JSON.';
-        document.getElementById('error').style.display = 'block';
-        return;
-    }
+// const eventListener = (event) => {
+//     if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
+//         document.getElementById('loading').style.display = 'none';
+//         document.getElementById('error').textContent = 'Erro: Dados inválidos recebidos. Verifique o formato JSON.';
+//         document.getElementById('error').style.display = 'block';
+//         return;
+//     }
 
-    const receivedData = JSON.parse(event.data);
+//     const receivedData = JSON.parse(event.data);
 
-    if (!receivedData || !receivedData.data || !receivedData.data.conversation || !receivedData.data.contact || !receivedData.data.currentAgent) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('error').textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando conversation, contact ou currentAgent).';
-        document.getElementById('error').style.display = 'block';
-        return;
-    }
+//     if (!receivedData || !receivedData.data || !receivedData.data.conversation || !receivedData.data.contact || !receivedData.data.currentAgent) {
+//         document.getElementById('loading').style.display = 'none';
+//         document.getElementById('error').textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando conversation, contact ou currentAgent).';
+//         document.getElementById('error').style.display = 'block';
+//         return;
+//     }
 
-    const conversationData = receivedData.data.conversation;
-    const contactData = receivedData.data.contact;
-    const currentAgentData = receivedData.data.currentAgent;
+//     const conversationData = receivedData.data.conversation;
+//     const contactData = receivedData.data.contact;
+//     const currentAgentData = receivedData.data.currentAgent;
 
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('profile-display').style.display = 'block';
-    document.getElementById('raw-json').textContent = JSON.stringify(receivedData, null, 2);
-    document.getElementById('conversation-data').textContent = JSON.stringify(conversationData, null, 2);
-    document.getElementById('contact-data').textContent = JSON.stringify(contactData, null, 2);
-    document.getElementById('current-agent-data').textContent = JSON.stringify(currentAgentData, null, 2);
-};
+//     document.getElementById('loading').style.display = 'none';
+//     document.getElementById('profile-display').style.display = 'block';
+//     document.getElementById('raw-json').textContent = JSON.stringify(receivedData, null, 2);
+//     document.getElementById('conversation-data').textContent = JSON.stringify(conversationData, null, 2);
+//     document.getElementById('contact-data').textContent = JSON.stringify(contactData, null, 2);
+//     document.getElementById('current-agent-data').textContent = JSON.stringify(currentAgentData, null, 2);
+// };
 
 
-window.addEventListener("message", eventListener);
+// window.addEventListener("message", eventListener);
 
-window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
+// window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
 
 async function fetchData() {
     try {
