@@ -164,22 +164,32 @@
             twoMorrowData.innerHTML = '';
 
             try {
-                console.log("Tentando fetch de:", 'https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/'); // Log da URL da requisição
-                const response = await fetch('https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/');
-                console.log("Resposta do fetch recebida:", response.status, response.statusText); // Log da resposta HTTP
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                console.log("Tentando fetch de:", 'https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/');
+
+                const response = await fetch('https://e5f8-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/list_fan/', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                console.log("Resposta do fetch recebida:", response.status);
+
+                // Verifica se o content-type é JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
                 }
+
                 const data = await response.json();
-                console.log("Dados da 2morrow recebidos e parsados:", data); // Log dos dados recebidos
 
                 twoMorrowLoading.style.display = 'none';
                 twoMorrowData.style.display = 'block';
                 twoMorrowData.textContent = JSON.stringify(data, null, 2);
-                console.log("Dados da 2morrow exibidos com sucesso.");
 
             } catch (error) {
-                console.error("Erro ao buscar dados da 2morrow:", error); // Log detalhado do erro
+                console.error("Erro completo:", error);
                 twoMorrowLoading.style.display = 'none';
                 twoMorrowError.style.display = 'block';
                 twoMorrowError.textContent = `Erro: ${error.message}`;
