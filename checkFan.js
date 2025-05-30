@@ -50,17 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Mostrar loading (opcional - você pode implementar)
+        // Mostrar loading
         btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
         btnBuscar.disabled = true;
 
         try {
-            // Montar URL com parâmetros de busca
             const cpf = cpfInput.replace(/\D/g, '');
-
-
             const url = `https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/verify_fan/?cpf=${cpf}`;
-            console.log(url)
+
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -74,13 +71,22 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) {
                 throw new Error(`Erro HTTP: ${response.status}`);
             }
-            console.log(response)
+
             const data = await response.json();
-            console.log(data.message)
-            if (data.message) {
-                showNotification(data.message, 'success');
+
+            // Lógica de notificação aprimorada
+            if (data.success) {
+                if (data.message) {
+                    showNotification(data.message, 'success');
+                } else if (data.resultObject && data.resultObject.guid) {
+                    showNotification('Usuário encontrado!', 'success');
+                    // Você pode acessar todos os dados do torcedor em data.resultObject
+                    console.log('Dados completos:', data.resultObject);
+                } else {
+                    showNotification('Operação bem-sucedida, mas sem dados adicionais', 'info');
+                }
             } else {
-                showNotification('Torcedor encontrado, mas sem mensagem específica.', 'info');
+                showNotification(data.errorMessage || 'Erro na consulta', 'error');
             }
 
         } catch (error) {
