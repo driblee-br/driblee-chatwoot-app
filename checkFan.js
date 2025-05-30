@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Função principal de busca
     async function fetchData() {
-        const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+        const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
         const email = document.getElementById('email').value.trim();
         const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
         const nome = document.getElementById('nome').value.trim();
 
         // Validação - pelo menos um campo preenchido
-        if (!cpf && !email && !telefone && !nome) {
-            showNotification('Por favor, preencha pelo menos um campo para busca.', 'error');
+        if (!cpfInput && !email && !telefone && !nome) {
+            showNotification('Por favor, preencha pelo menos um campo para busca. Somente cpf por enquanto', 'error');
             return;
         }
 
@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Montar URL com parâmetros de busca
-            const cpfInput = document.getElementById('cpf').value;
             const cpf = cpfInput.replace(/\D/g, '');
 
 
@@ -75,9 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) {
                 throw new Error(`Erro HTTP: ${response.status}`);
             }
-
+            console.log(response)
             const data = await response.json();
-
+            console.log(data.message)
             if (data.message) {
                 showNotification(data.message, 'success');
             } else {
