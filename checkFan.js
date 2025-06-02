@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const cpf = cpfInput.replace(/\D/g, '');
-            const url = `https://df44-2804-14d-5c5b-82f8-9256-1668-c2de-7882.ngrok-free.app/verify_fan/?cpf=${cpf}`;
+            const url = `https://2644-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?cpf=${cpf}`;
 
             const response = await fetch(url, {
                 method: 'GET',
