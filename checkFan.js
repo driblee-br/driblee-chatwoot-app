@@ -21,14 +21,36 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-async function fetchData() {
+async function searchTwomorrow(type_parameter, parameter) {
+    const url = `https://2644-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${type_parameter}=${parameter}`;
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        mode: 'cors',
+        credentials: 'omit'
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data
+}
+
+function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
     const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('email').value.trim();
     const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
     const nomeInput = document.getElementById('nome').value.trim();
 
-    // Validate the CPF
+    // Validate there is input
     if (!cpfInput && !emailInput && !telefoneInput && !nomeInput) {
         showNotification('Por favor, preencha pelo menos um campo para busca. Somente cpf por enquanto', 'error');
         return;
@@ -39,32 +61,19 @@ async function fetchData() {
     btnBuscar.disabled = true;
 
     try {
-        const cpf = cpfInput.replace(/\D/g, '');
-        const url = `https://2644-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?cpf=${cpf}`;
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
-            mode: 'cors',
-            credentials: 'omit'
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+        if (telefoneInput) {
+            data = searchTwomorrow('telefone', telefoneInput);
+        } else if (cpfInput) {
+            data = searchTwomorrow('telefone', telefoneInput);
+        } else if (emailInput) {
+            data = searchTwomorrow('email', emailInput);
         }
-
-        const data = await response.json();
-
         // Notifiction
         if (data.success) {
             if (data.message) {
                 showNotification(data.message, 'success');
             } else if (data.resultObject && data.resultObject.guid) {
-                showNotification('Usuário encontrado!', 'success');
+                showNotification('Dados do usuário encontrados na 2morrow!', 'success');
             } else {
                 showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
             }
