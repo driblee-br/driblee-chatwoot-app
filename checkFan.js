@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const notificationMessage = document.getElementById('notification-message');
     const closeNotification = document.getElementById('close-notification');
 
+    function isJSONValid(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
     // Show notification
     function showNotification(message, type = 'info') {
         notificationMessage.textContent = message;
