@@ -105,6 +105,7 @@ async function fetchData() {
 
         } else {
             console.error("Where is the parameters?")
+            return
         }
         console.log(data);
         // Notifiction
