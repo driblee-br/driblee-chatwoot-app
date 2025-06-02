@@ -112,7 +112,7 @@ const searchUserByPhoneNumer = (event) => {
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) errorElement.style.display = 'none';
 
-        const userData = receivedData.contact;
+        const userData = receivedData.data.contact;
 
         if (nomeInput && userData.name) {
             nomeInput.value = userData.name;
