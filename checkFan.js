@@ -87,12 +87,6 @@ async function fetchData() {
     const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
     const nomeInput = document.getElementById('nome').value.trim();
 
-    // Validate there is input
-    if (!cpfInput && !emailInput && !telefoneInput && !nomeInput) {
-        showNotification('Por favor, preencha pelo menos um campo para busca. Somente cpf por enquanto', 'error');
-        return;
-    }
-
     // Show loading in button
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
@@ -107,7 +101,10 @@ async function fetchData() {
         } else if (emailInput) {
             const data = await searchTwomorrow('email', emailInput);
 
+        } else {
+            console.error("Where is the parameters?")
         }
+        console.log(data);
         // Notifiction
         if (data.success) {
             if (data.message) {
