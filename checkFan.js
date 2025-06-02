@@ -91,6 +91,8 @@ async function fetchData() {
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
 
+    let data;
+
     try {
         if (telefoneInput) {
             const data = await searchTwomorrow('telefone', telefoneInput);
