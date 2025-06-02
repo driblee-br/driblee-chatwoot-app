@@ -9,37 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
     const nomeInput = document.getElementById('nome').value.trim();
 
-    // Recieving data from chatwoot
-    window.addEventListener("message", searchUserByPhoneNumer);
-    window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
-    console.log("Automathic feeling done!")
-
-    // Processing cpf data
-    document.getElementById('cpf').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
-        e.target.value = value;
-    });
-
-    // Processing telephone data
-    document.getElementById('telefone').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-        value = value.replace(/(\d{5})(\d)/, '$1-$2');
-        e.target.value = value;
-    });
-
-    // Close notification
-    closeNotification.addEventListener('click', function () {
-        notification.classList.remove('show');
-    });
-
-    // Event listener to search user in 2morrow 
-    btnBuscar.addEventListener('click', fetchData);
-
-
     // Show notification
     function showNotification(message, type = 'info') {
         notificationMessage.textContent = message;
@@ -143,6 +112,37 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     };
+
+    // Recieving data from chatwoot
+    window.addEventListener("message", searchUserByPhoneNumer);
+    window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
+    console.log("Automathic feeling done!")
+
+    // Processing cpf data
+    document.getElementById('cpf').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+        e.target.value = value;
+    });
+
+    // Processing telephone data
+    document.getElementById('telefone').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        e.target.value = value;
+    });
+
+    // Close notification
+    closeNotification.addEventListener('click', function () {
+        notification.classList.remove('show');
+    });
+
+    // Event listener to search user in 2morrow 
+    btnBuscar.addEventListener('click', fetchData);
+
 
 
 });
