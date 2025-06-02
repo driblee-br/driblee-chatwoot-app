@@ -16,6 +16,28 @@ function formatCPF(cpf) {
         .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
 }
 
+function setFormattedValue(element, value, formatter) {
+    // Remove temporariamente o listener
+    const clone = element.cloneNode(true);
+    element.parentNode.replaceChild(clone, element);
+
+    // Define o valor formatado
+    clone.value = formatter(value);
+
+    // Reanexa o listener
+    clone.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (clone.id === 'cpf') {
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+        } else if (clone.id === 'telefone') {
+            value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        }
+        e.target.value = value;
+    });
+}
+
 function showNotification(message, type = 'info') {
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notification-message');
@@ -148,12 +170,11 @@ const searchUserByPhoneNumer = (event) => {
         }
 
         if (telefoneInput && userData.phone_number) {
-            telefoneInput.value = formatPhone(userData.phone_number);
-
+            setFormattedValue(telefoneInput, userData.phone_number, formatPhone);
         }
 
         if (cpfInput && userData.identifier) {
-            cpfInput.value = formatCPF(userData.identifier);
+            setFormattedValue(cpfInput, userData.identifier, formatCPF);
         }
     }
 };
