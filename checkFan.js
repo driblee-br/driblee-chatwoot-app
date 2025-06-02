@@ -8,9 +8,15 @@ function isJSONValid(str) {
 }
 
 function formatPhone(phone) {
-    return phone.replace(/\D/g, '')
-        .replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+    let cleaned = phone.replace(/\D/g, '');
+
+    if (cleaned.startsWith('55') && cleaned.length > 11) {
+        cleaned = cleaned.slice(2);
+    }
+
+    return cleaned.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
 }
+
 function formatCPF(cpf) {
     return cpf.replace(/\D/g, '')
         .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
@@ -140,7 +146,7 @@ const searchUserByPhoneNumer = (event) => {
     }
 
     const receivedData = JSON.parse(event.data);
-    console.log("Recieved data!", receivedData);
+    console.log("Recieved data!");
 
     if (
         !receivedData ||
