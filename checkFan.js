@@ -98,7 +98,7 @@ const searchUserByPhoneNumer = (event) => {
 
     const receivedData = JSON.parse(event.data);
 
-    if (!receivedData || !receivedData.meta || !receivedData.meta.sender) {
+    if (!receivedData || !receivedData.contact) {
         console.error("Estrutura de dados inesperada:", receivedData);
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) {
@@ -111,7 +111,7 @@ const searchUserByPhoneNumer = (event) => {
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) errorElement.style.display = 'none';
 
-        const userData = receivedData.meta.sender;
+        const userData = receivedData.contact;
 
         if (nomeInput && userData.name) {
             nomeInput.value = userData.name;
