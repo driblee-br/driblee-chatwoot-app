@@ -4,10 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notification-message');
     const closeNotification = document.getElementById('close-notification');
-    const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
-    const emailInput = document.getElementById('email').value.trim();
-    const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
-    const nomeInput = document.getElementById('nome').value.trim();
 
     // Show notification
     function showNotification(message, type = 'info') {
@@ -22,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to search an user by CPF
     async function fetchData() {
+        const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
+        const emailInput = document.getElementById('email').value.trim();
+        const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
+        const nomeInput = document.getElementById('nome').value.trim();
+
 
         // Validate the CPF
         if (!cpfInput && !emailInput && !telefoneInput && !nomeInput) {
@@ -78,6 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event to recieve user's data from chatwoot
     const searchUserByPhoneNumer = (event) => {
+        const cpfInput = document.getElementById('cpf');
+        const emailInput = document.getElementById('email');
+        const telefoneInput = document.getElementById('telefone');
+        const nomeInput = document.getElementById('nome');
+        const loadingElement = document.getElementById('loading');
+        const errorElement = document.getElementById('error');
+
         if (typeof event.data !== 'string' || !isJSONValid(event.data)) {
             console.warn("Data from chatwoot to autocomplete is not json:", event.data);
             return;
@@ -85,14 +93,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const receivedData = JSON.parse(event.data);
 
-        if (!receivedData || !receivedData.data || !receivedData.data.conversation || !receivedData.data.contact || !receivedData.data.currentAgent) {
+        if (!receivedData || !receivedData.meta || !receivedData.meta.sender) {
             console.error("Estrutura de dados inesperada:", receivedData);
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando conversation, contact ou currentAgent).';
-            document.getElementById('error').style.display = 'block';
+            if (loadingElement) loadingElement.style.display = 'none';
+            if (errorElement) {
+                errorElement.textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando meta ou meta.sender).';
+                errorElement.style.display = 'block';
+            }
             return;
         }
         else {
+            if (loadingElement) loadingElement.style.display = 'none';
+            if (errorElement) errorElement.style.display = 'none';
+
             const userData = receivedData.meta.sender;
 
             if (nomeInput && userData.sender) {
