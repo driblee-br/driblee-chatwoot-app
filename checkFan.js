@@ -7,6 +7,15 @@ function isJSONValid(str) {
     return true;
 }
 
+function formatPhone(phone) {
+    return phone.replace(/\D/g, '')
+        .replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+}
+function formatCPF(cpf) {
+    return cpf.replace(/\D/g, '')
+        .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
+}
+
 function showNotification(message, type = 'info') {
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notification-message');
@@ -43,7 +52,7 @@ async function searchTwomorrow(type_parameter, parameter) {
     return data
 }
 
-function fetchData() {
+async function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
     const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('email').value.trim();
@@ -62,11 +71,14 @@ function fetchData() {
 
     try {
         if (telefoneInput) {
-            data = searchTwomorrow('telefone', telefoneInput);
+            const data = await searchTwomorrow('telefone', telefoneInput);
+
         } else if (cpfInput) {
-            data = searchTwomorrow('telefone', telefoneInput);
+            const data = await searchTwomorrow('cpf', cpfInput);
+
         } else if (emailInput) {
-            data = searchTwomorrow('email', emailInput);
+            const data = await searchTwomorrow('email', emailInput);
+
         }
         // Notifiction
         if (data.success) {
@@ -136,11 +148,12 @@ const searchUserByPhoneNumer = (event) => {
         }
 
         if (telefoneInput && userData.phone_number) {
-            telefoneInput.value = userData.phone_number.replace(/\D/g, '');
+            telefoneInput.value = formatPhone(userData.phone_number);
+
         }
 
         if (cpfInput && userData.identifier) {
-            cpfInput.value = userData.identifier.replace(/\D/g, '');
+            cpfInput.value = formatCPF(userData.identifier);
         }
     }
 };
@@ -181,3 +194,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener to search user in 2morrow 
     btnBuscar.addEventListener('click', fetchData);
 });
+window.addEventListener('message', searchUserByPhoneNumer, false);
