@@ -98,7 +98,7 @@ const searchUserByPhoneNumer = (event) => {
 
     const receivedData = JSON.parse(event.data);
 
-    if (!receivedData || !receivedData.contact) {
+    if (!receivedData || !receivedData.data || !receivedData.data.contact) {
         console.error("Estrutura de dados inesperada:", receivedData);
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) {
