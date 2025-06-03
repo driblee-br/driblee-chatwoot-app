@@ -101,7 +101,7 @@ async function fetchData() {
                 showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
             }
         } else {
-            showNotification(data.errorMessage || 'Erro na consulta', 'error');
+            showNotification("Nenhum dado encontrado");
         }
 
     } catch (error) {
