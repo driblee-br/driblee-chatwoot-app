@@ -77,20 +77,23 @@ async function fetchData() {
     let data;
 
     try {
-        if (telefoneInput) {
+        if (!telefoneInput && !cpfInput && !emailInput) { console.log("Where is the input?") }
+        if (!data && telefoneInput) {
             data = await searchTwomorrow('telefone', telefoneInput);
 
-        } else if (cpfInput) {
+        }
+        if (!data && cpfInput) {
             data = await searchTwomorrow('cpf', cpfInput);
 
-        } else if (emailInput) {
+        }
+        if (!data && emailInput) {
             data = await searchTwomorrow('email', emailInput);
 
-        } else {
-            console.error("Where is the parameters?")
-            return
         }
-        if (data) {
+        if (!data) {
+            showNotification("Nenhum dado encontrado");
+            return
+        } else {
             console.log(data);
             // Notification
             if (data.message) {
@@ -100,8 +103,6 @@ async function fetchData() {
             } else {
                 showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
             }
-        } else {
-            showNotification("Nenhum dado encontrado");
         }
 
     } catch (error) {
@@ -130,7 +131,7 @@ const searchUser = (event) => {
     }
 
     const receivedData = JSON.parse(event.data);
-    console.log("Recieved data!");
+    console.log("Chatwoot passed data!");
 
     if (
         !receivedData ||
@@ -165,6 +166,7 @@ const searchUser = (event) => {
             cpfInput.value = formatCPF(userData.identifier);
             cpfInput.dispatchEvent(new Event('cpf'));
         }
+        console.log("Automatic feeling done!")
     }
 };
 
@@ -177,12 +179,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Recieving data from chatwoot
     window.addEventListener("message", searchUser);
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
-    console.log("Automathic feeling done!")
+
 
     // Processing cpf data while typing
     document.getElementById('cpf').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
         value = value.replace(/(\d{3})(\d)/, '$1.$2');
         value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
         e.target.value = value;
