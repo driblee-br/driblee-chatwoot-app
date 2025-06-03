@@ -46,7 +46,7 @@ function showNotification(message, type = 'info') {
 
 // Do request to the backend
 async function searchTwomorrow(type_parameter, parameter) {
-    const url = `https://2644-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${type_parameter}=${parameter}`;
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${type_parameter}=${parameter}`;
 
     const response = await fetch(url, {
         method: 'GET',
