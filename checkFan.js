@@ -1,3 +1,6 @@
+document.getElementById('btnCreate').style.display = 'none';
+
+
 // Function to validate JSON
 function isJSONValid(str) {
     try {
@@ -75,23 +78,20 @@ async function fetchData() {
     btnBuscar.disabled = true;
 
     let data;
-
     try {
         if (!telefoneInput && !cpfInput && !emailInput) { console.log("Where is the input?") }
         if (!data && telefoneInput) {
             data = await searchTwomorrow('telefone', telefoneInput);
-
         }
         if (!data && cpfInput) {
             data = await searchTwomorrow('cpf', cpfInput);
-
         }
         if (!data && emailInput) {
             data = await searchTwomorrow('email', emailInput);
-
         }
         if (!data) {
-            showNotification("Nenhum dado encontrado");
+            showNotification(`Nenhum usuário encontrado com estes dados.`);
+            document.getElementById('btnCreate').style.display = 'inline-block';
             return
         } else {
             console.log(data);
@@ -104,6 +104,7 @@ async function fetchData() {
                 showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
             }
         }
+
 
     } catch (error) {
         console.error("Erro completo:", error);
@@ -142,7 +143,7 @@ const searchUser = (event) => {
         console.error("Estrutura de dados inesperada:", receivedData);
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) {
-            errorElement.textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado (faltando meta ou meta.sender).';
+            errorElement.textContent = 'Erro: Estrutura de dados do Chatwoot não corresponde ao esperado';
             errorElement.style.display = 'block';
         }
         return;
@@ -203,6 +204,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Event listener to search user in 2morrow 
-    btnBuscar.addEventListener('click', fetchData);
+    btnBuscar.addEventListener('click', async () => {
+        const resultado = await fetchData();
+
+        //SHOW BOTTON CREATE USER
+
+    });
 });
 
