@@ -26,7 +26,7 @@ function formatCPF(cpf) {
         .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
 }
 
-
+//Function to show a notification in front
 function showNotification(message, type = 'info') {
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notification-message');
@@ -41,6 +41,7 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
+// Do request to the backend
 async function searchTwomorrow(type_parameter, parameter) {
     const url = `https://2644-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${type_parameter}=${parameter}`;
 
@@ -63,13 +64,12 @@ async function searchTwomorrow(type_parameter, parameter) {
     return data
 }
 
+// Search data inside 2morrow
 async function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
     const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('email').value.trim();
     const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
-    const nomeInput = document.getElementById('nome').value.trim();
-
     // Show loading in button
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
@@ -92,11 +92,11 @@ async function fetchData() {
         }
         if (data) {
             console.log(data);
-            // Notifiction
+            // Notification
             if (data.message) {
                 showNotification(data.message, 'success');
             } else if (data.resultObject && data.resultObject.guid) {
-                showNotification('Dados do usuário encontrados na 2morrow!', 'success');
+                showNotification('Este torcedor já está cadastrado!', 'success');
             } else {
                 showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
             }
@@ -111,6 +111,8 @@ async function fetchData() {
         // Reset button
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
+
+        return data
     }
 }
 
@@ -119,7 +121,6 @@ const searchUser = (event) => {
     const cpfInput = document.getElementById('cpf');
     const emailInput = document.getElementById('email');
     const telefoneInput = document.getElementById('telefone');
-    const nomeInput = document.getElementById('nome');
     const loadingElement = document.getElementById('loading');
     const errorElement = document.getElementById('error');
 
@@ -150,20 +151,19 @@ const searchUser = (event) => {
         if (errorElement) errorElement.style.display = 'none';
 
         const userData = receivedData.data.contact;
-        if (nomeInput && userData.name) {
-            nomeInput.value = userData.name;
-        }
-
         if (emailInput && userData.email) {
             emailInput.value = userData.email;
         }
 
         if (telefoneInput && userData.phone_number) {
             telefoneInput.value = formatPhone(userData.phone_number);
+            telefoneInput.dispatchEvent(new Event('input'));
+
         }
 
         if (cpfInput && userData.identifier) {
             cpfInput.value = formatCPF(userData.identifier);
+            cpfInput.dispatchEvent(new Event('cpf'));
         }
     }
 };
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
     console.log("Automathic feeling done!")
 
-    // Processing cpf data
+    // Processing cpf data while typing
     document.getElementById('cpf').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = value;
     });
 
-    // Processing telephone data
+    // Processing telephone data while typing
     document.getElementById('telefone').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
@@ -204,4 +204,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener to search user in 2morrow 
     btnBuscar.addEventListener('click', fetchData);
 });
-window.addEventListener('message', searchUser, false);
+
