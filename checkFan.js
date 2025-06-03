@@ -1,3 +1,4 @@
+// Function to validate JSON
 function isJSONValid(str) {
     try {
         JSON.parse(str);
@@ -7,6 +8,7 @@ function isJSONValid(str) {
     return true;
 }
 
+// Format phone number to Brazilian format (for front)
 function formatPhone(phone) {
     let cleaned = phone.replace(/\D/g, '');
 
@@ -17,32 +19,13 @@ function formatPhone(phone) {
     return cleaned.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
 }
 
+// Format CPF (for front)
 function formatCPF(cpf) {
+
     return cpf.replace(/\D/g, '')
         .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
 }
 
-function setFormattedValue(element, value, formatter) {
-    // Remove temporariamente o listener
-    const clone = element.cloneNode(true);
-    element.parentNode.replaceChild(clone, element);
-
-    // Define o valor formatado
-    clone.value = formatter(value);
-
-    // Reanexa o listener
-    clone.addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (clone.id === 'cpf') {
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
-        } else if (clone.id === 'telefone') {
-            value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-            value = value.replace(/(\d{5})(\d)/, '$1-$2');
-        }
-        e.target.value = value;
-    });
-}
 
 function showNotification(message, type = 'info') {
     const notification = document.getElementById('notification');
@@ -107,7 +90,9 @@ async function fetchData() {
             console.error("Where is the parameters?")
             return
         }
-        console.log(data);
+        if (data) {
+            console.log(data);
+        }
         // Notifiction
         if (data.success) {
             if (data.message) {
@@ -132,7 +117,7 @@ async function fetchData() {
 }
 
 // Event to recieve user's data from chatwoot
-const searchUserByPhoneNumer = (event) => {
+const searchUser = (event) => {
     const cpfInput = document.getElementById('cpf');
     const emailInput = document.getElementById('email');
     const telefoneInput = document.getElementById('telefone');
@@ -176,11 +161,11 @@ const searchUserByPhoneNumer = (event) => {
         }
 
         if (telefoneInput && userData.phone_number) {
-            setFormattedValue(telefoneInput, userData.phone_number, formatPhone);
+            telefoneInput.value = formatPhone(userData.phone_number);
         }
 
         if (cpfInput && userData.identifier) {
-            setFormattedValue(cpfInput, userData.identifier, formatCPF);
+            cpfInput.value = formatCPF(userData.identifier);
         }
     }
 };
@@ -192,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeNotification = document.getElementById('close-notification');
 
     // Recieving data from chatwoot
-    window.addEventListener("message", searchUserByPhoneNumer);
+    window.addEventListener("message", searchUser);
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
     console.log("Automathic feeling done!")
 
@@ -221,4 +206,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener to search user in 2morrow 
     btnBuscar.addEventListener('click', fetchData);
 });
-window.addEventListener('message', searchUserByPhoneNumer, false);
+window.addEventListener('message', searchUser, false);
