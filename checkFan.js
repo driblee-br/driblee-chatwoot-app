@@ -78,13 +78,13 @@ async function fetchData() {
 
     try {
         if (telefoneInput) {
-            const data = await searchTwomorrow('telefone', telefoneInput);
+            data = await searchTwomorrow('telefone', telefoneInput);
 
         } else if (cpfInput) {
-            const data = await searchTwomorrow('cpf', cpfInput);
+            data = await searchTwomorrow('cpf', cpfInput);
 
         } else if (emailInput) {
-            const data = await searchTwomorrow('email', emailInput);
+            data = await searchTwomorrow('email', emailInput);
 
         } else {
             console.error("Where is the parameters?")
