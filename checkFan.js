@@ -93,17 +93,15 @@ async function fetchData() {
         if (data) {
             console.log(data);
             // Notifiction
-            if (data.success) {
-                if (data.message) {
-                    showNotification(data.message, 'success');
-                } else if (data.resultObject && data.resultObject.guid) {
-                    showNotification('Dados do usuário encontrados na 2morrow!', 'success');
-                } else {
-                    showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
-                }
+            if (data.message) {
+                showNotification(data.message, 'success');
+            } else if (data.resultObject && data.resultObject.guid) {
+                showNotification('Dados do usuário encontrados na 2morrow!', 'success');
             } else {
-                showNotification(data.errorMessage || 'Erro na consulta', 'error');
+                showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
             }
+        } else {
+            showNotification(data.errorMessage || 'Erro na consulta', 'error');
         }
 
     } catch (error) {
