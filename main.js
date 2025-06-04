@@ -21,12 +21,6 @@ document.getElementById('btn-register-fan').addEventListener('click', () => {
     registerFan.registerFan();
 });
 
-document.getElementById('btn-confirm-template').addEventListener('click', () => {
-    registerFan.checkInformtions();
-});
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Elements from index page
     const btnBuscar = document.getElementById('btnBuscar');
@@ -95,5 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const finalData = checkFan.checkDataConsistency(results.results)
         console.log(finalData)
     });
+
+    document.getElementById('btn-confirm-template').addEventListener('click', () => {
+        registerFan.checkInformations();
+    });
+    console.log(checkFan.fullUserData);
 
 });

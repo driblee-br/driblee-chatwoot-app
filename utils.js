@@ -67,15 +67,23 @@ export function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-export async function sendMessage(message, contact) {
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/?contact=${encodeURIComponent(contact)}&message=${encodeURIComponent(message)}`;
+export async function sendMessage(account_id, conversation_id, message) {
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/`;
+
+    const payload = {
+        account_id,
+        conversation_id,
+        message
+    };
 
     const response = await fetch(url, {
         method: 'POST',
         headers: {
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'ngrok-skip-browser-warning': 'true'
         },
+        body: JSON.stringify(payload),
         mode: 'cors',
         credentials: 'omit'
     });
@@ -85,6 +93,5 @@ export async function sendMessage(message, contact) {
         throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 }

@@ -1,5 +1,6 @@
 //Function to register a fan
-import { reloadTela } from './utils.js';
+import { fullUserData } from './checkFan.js';
+import { reloadTela, sendMessage } from './utils.js';
 
 export function register() {
     reloadTela('CADASTRO');
@@ -10,7 +11,8 @@ export function registerFan() {
     return
 }
 
-export function checkInformtions() {
-    console.log("Sem funcionalidade de enviar template por enquanto")
+export function checkInformations(message) {
+    console.log("fullUserData: ", fullUserData)
+    sendMessage(fullUserData.contact.id, fullUserData.conversation.id, message)
     return
 }

@@ -1,5 +1,7 @@
 import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs } from './utils.js';
 
+export let fullUserData = null;
+
 
 // Function to clean all inputs in the search page
 export function cleanAllInputsSearch() {
@@ -116,9 +118,8 @@ export async function fetchData() {
         btnBuscar.disabled = false;
         return;
     }
-    let data;
     try {
-        data = await verifyFanBack(params);
+        let data = await verifyFanBack(params);
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
         toggleMessages('telefone', data.results.telefone && data.results.telefone.message == '');
@@ -127,7 +128,6 @@ export async function fetchData() {
         console.error("Erro completo:", error);
         showNotification(`Erro na busca: ${error.message}`, 'error');
     } finally {
-
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
 
@@ -149,6 +149,7 @@ export const searchUser = (event) => {
     }
 
     const receivedData = JSON.parse(event.data);
+    fullUserData = receivedData.data;
     console.log("Chatwoot passed data!", receivedData);
 
     if (
@@ -169,7 +170,7 @@ export const searchUser = (event) => {
         if (loadingElement) loadingElement.style.display = 'none';
         if (errorElement) errorElement.style.display = 'none';
 
-        const userData = receivedData.data.contact;
+        userData = receivedData.data.contact;
         if (emailInput && userData.email) {
             emailInput.value = userData.email;
         }
