@@ -1,6 +1,7 @@
 //Function to register a fan
-import { fullUserData } from './checkFan.js';
-import { reloadTela, sendMessage } from './utils.js';
+import * as checkFan from './checkFan.js';
+import * as utils from './utils.js';
+
 
 
 function createUser() {
