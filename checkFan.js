@@ -2,7 +2,6 @@ import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs }
 
 export let fullUserData = null;
 
-
 // Function to clean all inputs in the search page
 export function cleanAllInputsSearch() {
     function cleanResult(field) {
@@ -150,6 +149,7 @@ export const searchUser = (event) => {
 
     const receivedData = JSON.parse(event.data);
     fullUserData = receivedData.data;
+    let userData = receivedData.data;
     console.log("Chatwoot passed data!", receivedData);
 
     if (
