@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = value;
     });
 
-    // Processing cpf-registro data while typing
-    document.getElementById('cpf-registro').addEventListener('input', function (e) {
+    // Processing cpf-register data while typing
+    document.getElementById('cpf-register').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
 
         if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, '$1.$2');
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Processing telephone data while typing
-    document.getElementById('busca-telefone').addEventListener('input', function (e) {
+    document.getElementById('busca-telephone').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
 
         value = value.slice(0, 11);
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = value;
     });
 
-    // Processing telefone-registro data while typing
-    document.getElementById('telefone-registro').addEventListener('input', function (e) {
+    // Processing telephone-register data while typing
+    document.getElementById('telephone-register').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
 
         value = value.slice(0, 11);

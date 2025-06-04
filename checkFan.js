@@ -14,7 +14,7 @@ export function cleanAllInputsSearch() {
     }
     cleanResult('cpf');
     cleanResult('email');
-    cleanResult('telefone');
+    cleanResult('telephone');
 
 
 }
@@ -38,7 +38,7 @@ export function showUserPopup(data) {
     const html = `
         <strong>Nome:</strong> ${name}<br>
         <strong>Email:</strong> ${email}<br>
-        <strong>Telefone:</strong> ${mobile}<br>
+        <strong>telephone:</strong> ${mobile}<br>
         <strong>Status:</strong> ${fanStatus}<br>
         <strong>Tipo de Plano:</strong> ${planType}<br>
         <strong>Descrição do Plano:</strong> ${planDescription}
@@ -102,13 +102,13 @@ export async function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
     const cpfInput = document.getElementById('busca-cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('busca-email').value.trim();
-    const telefoneInput = document.getElementById('busca-telefone').value.replace(/\D/g, '');
+    const telephoneInput = document.getElementById('busca-telephone').value.replace(/\D/g, '');
 
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
 
     const params = {};
-    if (telefoneInput) params.telefone = telefoneInput;
+    if (telephoneInput) params.telephone = telephoneInput;
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
 
@@ -122,7 +122,7 @@ export async function fetchData() {
         let data = await verifyFanBack(params);
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
-        toggleMessages('telefone', data.results.telefone && data.results.telefone.message == '');
+        toggleMessages('telephone', data.results.telephone && data.results.telephone.message == '');
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
@@ -139,7 +139,7 @@ export async function fetchData() {
 export const searchUser = (event) => {
     const cpfInput = document.getElementById('busca-cpf');
     const emailInput = document.getElementById('busca-email');
-    const telefoneInput = document.getElementById('busca-telefone');
+    const telephoneInput = document.getElementById('busca-telephone');
     const loadingElement = document.getElementById('loading');
     const errorElement = document.getElementById('error');
 
@@ -175,9 +175,9 @@ export const searchUser = (event) => {
             emailInput.value = userData.email;
         }
 
-        if (telefoneInput && userData.phone_number) {
-            telefoneInput.value = formatPhone(userData.phone_number);
-            telefoneInput.dispatchEvent(new Event('input'));
+        if (telephoneInput && userData.phone_number) {
+            telephoneInput.value = formatPhone(userData.phone_number);
+            telephoneInput.dispatchEvent(new Event('input'));
 
         }
 
