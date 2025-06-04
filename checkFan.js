@@ -1,6 +1,10 @@
 import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs } from './utils.js';
 
-export let fullUserData = null;
+let fullUserData = {};
+
+export function getFullUserData() {
+    return fullUserData;
+}
 
 // Function to clean all inputs in the search page
 export function cleanAllInputsSearch() {
@@ -148,9 +152,6 @@ export const searchUser = (event) => {
     }
 
     const receivedData = JSON.parse(event.data);
-    fullUserData = receivedData.data;
-    let userData = receivedData.data;
-    console.log("Chatwoot passed data!", receivedData);
 
     if (
         !receivedData ||
@@ -166,27 +167,30 @@ export const searchUser = (event) => {
         }
         return;
     }
-    else {
-        if (loadingElement) loadingElement.style.display = 'none';
-        if (errorElement) errorElement.style.display = 'none';
 
-        userData = receivedData.data.contact;
-        if (emailInput && userData.email) {
-            emailInput.value = userData.email;
-        }
+    fullUserData = receivedData.data;
 
-        if (telephoneInput && userData.phone_number) {
-            telephoneInput.value = formatPhone(userData.phone_number);
-            telephoneInput.dispatchEvent(new Event('input'));
+    const userData = fullUserData.contact;
 
-        }
+    if (loadingElement) loadingElement.style.display = 'none';
+    if (errorElement) errorElement.style.display = 'none';
 
-        if (cpfInput && userData.identifier) {
-            cpfInput.value = formatCPF(userData.identifier);
-            cpfInput.dispatchEvent(new Event('cpf'));
-        }
-        console.log("Automatic feeling done!")
+    if (emailInput && userData.email) {
+        emailInput.value = userData.email;
     }
+
+    if (telephoneInput && userData.phone_number) {
+        telephoneInput.value = formatPhone(userData.phone_number);
+        telephoneInput.dispatchEvent(new Event('input'));
+    }
+
+    if (cpfInput && userData.identifier) {
+        cpfInput.value = formatCPF(userData.identifier);
+        cpfInput.dispatchEvent(new Event('cpf'));
+    }
+
+    console.log("Chatwoot passed data!", receivedData);
+    console.log("Automatic filling done!");
 };
 
 //Function to verify if the data found are consistent
