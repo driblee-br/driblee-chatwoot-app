@@ -1,3 +1,5 @@
+import * as checkFan from './checkFan.js';
+
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
     const allSteps = ['CONSULTA', 'CADASTRO', 'ATUALIZACAO'];

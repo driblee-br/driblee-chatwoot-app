@@ -25,7 +25,7 @@ export function register() {
 export function registerFan() {
     console.log("Sem funcionalidade de register por enquanto")
     const message = `Pode confirmar seus dados para efetuarmos o seu registro como torcedor?\n
-    Nome: ${contact.name}\nCPF: ${contact.identifier}\nEmail: ${contact.email}\nTelefone: ${contact.phone_number}`;
+    Nome: ${nomeInput.value}\nCPF: ${cpfInput.value}\nEmail: ${emailInput.value}\nTelefone: ${telephoneInput.value}`;
     checkInformations(message);
     createUser();
     return
