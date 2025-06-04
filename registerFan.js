@@ -2,13 +2,14 @@
 import * as checkFan from './checkFan.js';
 import * as utils from './utils.js';
 
-const fullUserData = checkFan.getFullUserData();
+
 
 function createUser() {
     console.log("Teoricmente, usuŕio criado. Aguardando beckend")
 }
 
 export function register() {
+    const fullUserData = checkFan.getFullUserData();
     utils.reloadScreen('CADASTRO');
     const nomeInput = document.getElementById('complete-name-register');
     const cpfInput = document.getElementById('cpf-register');
@@ -31,6 +32,7 @@ export function registerFan() {
 }
 
 export function checkInformations(message) {
+    const fullUserData = checkFan.getFullUserData();
     console.log("fullUserData: ", fullUserData)
     sendMessage(fullUserData.data.contact.id, fullUserData.data.conversation.id, message)
     return
