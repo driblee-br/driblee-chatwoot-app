@@ -12,7 +12,6 @@ document.getElementById('btn-clear-register').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
     utils.cleanAllInputs();
 });
-fullUserData
 document.getElementById('btn-register').addEventListener('click', () => {
     registerFan.register();
 });
