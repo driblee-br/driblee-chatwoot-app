@@ -66,3 +66,25 @@ export function showNotification(message, type = 'info') {
         notification.classList.remove('show');
     }, 5000);
 }
+
+export async function sendMessage(message, contact) {
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/?contact=${encodeURIComponent(contact)}&message=${encodeURIComponent(message)}`;
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        mode: 'cors',
+        credentials: 'omit'
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+}

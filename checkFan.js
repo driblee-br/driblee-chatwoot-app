@@ -10,7 +10,6 @@ export function cleanAllInputsSearch() {
         foundMsg.style.display = 'none';
 
     }
-    cleanAllInputs();
     cleanResult('cpf');
     cleanResult('email');
     cleanResult('telefone');
@@ -150,7 +149,7 @@ export const searchUser = (event) => {
     }
 
     const receivedData = JSON.parse(event.data);
-    console.log("Chatwoot passed data!");
+    console.log("Chatwoot passed data!", receivedData);
 
     if (
         !receivedData ||
@@ -223,7 +222,7 @@ export function checkDataConsistency(results) {
         return emptyMessages
     }
 
-    const emptyMessages = OneResult();
+    const emptyMessages = OneResult(results.results);
     console.log("emptyMessages:", emptyMessages)
     if (values.length === 0) {
         showNotification("Nenhum usuário encontrado", 'info')
@@ -249,9 +248,8 @@ export function checkDataConsistency(results) {
             const [key, value] = entries[i];
             console.log("In key", key);
             if (value && value.resultObject !== null) {
-                const parsedData = JSON.parse(values[i]);
-                showUserPopup(parsedData);
-                return parsedData;
+                showUserPopup(value.resultObject);
+                return value.resultObject;
             }
         }
     } else {

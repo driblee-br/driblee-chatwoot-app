@@ -2,9 +2,30 @@ import * as checkFan from './checkFan.js';
 import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
 
-document.getElementById('btn-clear-inputs').addEventListener('click', () => {
+document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
+    utils.cleanAllInputs();
 });
+
+document.getElementById('btn-clear-register').addEventListener('click', () => {
+    event.preventDefault();
+    checkFan.cleanAllInputsSearch();
+    utils.cleanAllInputs();
+});
+
+document.getElementById('btn-register').addEventListener('click', () => {
+    registerFan.register();
+});
+
+document.getElementById('btn-register-fan').addEventListener('click', () => {
+    registerFan.registerFan();
+});
+
+document.getElementById('btn-confirm-template').addEventListener('click', () => {
+    registerFan.checkInformtions();
+});
+
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // Elements from index page
@@ -68,10 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener to search user in 2morrow 
     btnBuscar.addEventListener('click', async () => {
-
+        checkFan.cleanAllInputsSearch();
         const results = await checkFan.fetchData();
         console.log("results in main", results)
-        const finalData = checkFan.checkDataConsistency(results)
+        const finalData = checkFan.checkDataConsistency(results.results)
         console.log(finalData)
     });
 

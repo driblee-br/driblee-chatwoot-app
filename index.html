@@ -52,9 +52,8 @@
                     <div class="action-buttons">
                         <button id="btnBuscar" class="btn">Buscar</button>
                         <button id="btn-consult-payment" class="btn ">Consultar pagamento</button>
-                        <button id="btn-clear-inputs" class="btn">Limpar</button>
-                        <button id="btn-register" class="btn btn-register hidden" onclick=register()>Registrar
-                            Torcedor</button>
+                        <button id="btn-clear-check" class="btn">Limpar</button>
+                        <button id="btn-register" class="btn btn-register hidden">Registrar Torcedor</button>
                     </div>
 
                     <div id="resultado-consulta" class="result-box"></div>
@@ -109,9 +108,10 @@
                         </div>
 
                         <div class="action-buttons">
-                            <button type="button" class="btn btn-success" onclick="cadastrarSocio()">Cadastrar</button>
-                            <button type="button" class="btn btn-confirm-template">Confirmar Dados</button>
-                            <button type="button" class="btn btn-secondary" onclick="cleanAllInputs()">Limpar</button>
+                            <button id="btn-register-fan" type="button" class="btn btn-success">Cadastrar</button>
+                            <button type="button" id="btn-confirm-template" class="btn btn-confirm-template">Confirmar
+                                Dados</button>
+                            <button id="btn-clear-register" class="btn">Limpar</button>
                         </div>
                     </form>
 
@@ -177,7 +177,8 @@
                             <button type="button" class="btn btn-warning">Atualizar</button>
                             <button type="button" class="btn btn-secondary">Recuperar
                                 Senha</button>
-                            <button type="button" class="btn btn-secondary" onclick=>Limpar</button>
+                            <button type="button" id="btn-clear-update" class="btn btn-secondary"
+                                onclick=>Limpar</button>
                         </div>
                     </form>
 
