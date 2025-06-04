@@ -67,31 +67,34 @@ export function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-export async function sendMessage(account_id, conversation_id, message) {
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/`;
+// export async function sendMessage(account_id, conversation_id, message) {
+//     const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/`;
 
-    const payload = {
-        account_id,
-        conversation_id,
-        message
-    };
+//     const payload = {
+//         account_id,
+//         conversation_id,
+//         message
+//     };
 
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify(payload),
-        mode: 'cors',
-        credentials: 'omit'
-    });
+//     const response = await fetch(url, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json',
+//             'ngrok-skip-browser-warning': 'true'
+//         },
+//         body: JSON.stringify(payload),
+//         mode: 'cors',
+//         credentials: 'omit'
+//     });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
-    }
+//     if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+//     }
 
-    return await response.json();
+//     return await response.json();
+// }
+export async function sendMessage() {
+    console.log("Falta mensagem de template pra enviar")
 }

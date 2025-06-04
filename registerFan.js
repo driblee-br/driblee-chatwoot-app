@@ -34,6 +34,6 @@ export function registerFan() {
 export function checkInformations(message) {
     const fullUserData = checkFan.getFullUserData();
     console.log("fullUserData: ", fullUserData)
-    sendMessage(fullUserData.data.contact.id, fullUserData.data.conversation.id, message)
+    utils.sendMessage(fullUserData.contact.id, fullUserData.conversation.id, message)
     return
 }
