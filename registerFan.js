@@ -2,7 +2,7 @@
 import * as checkFan from './checkFan.js';
 import * as utils from './utils.js';
 
-
+const fullUserData = checkFan.getFullUserData();
 
 function createUser() {
     console.log("Teoricmente, usuŕio criado. Aguardando beckend")

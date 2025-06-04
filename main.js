@@ -2,6 +2,7 @@ import * as checkFan from './checkFan.js';
 import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
 
+
 document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
     utils.cleanAllInputs();
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('btn-confirm-template').addEventListener('click', () => {
+        let fullUserData = checkFan.getFullUserData();
         registerFan.checkInformations();
     });
     console.log(checkFan.fullUserData);
