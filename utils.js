@@ -1,5 +1,5 @@
 // Show just the screen relted as the atual status
-export function reloadTela(step_now) {
+export function reloadScreen(step_now) {
     const allSteps = ['CONSULTA', 'CADASTRO', 'ATUALIZACAO'];
 
     for (const step of allSteps) {

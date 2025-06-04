@@ -9,7 +9,7 @@ function createUser() {
 }
 
 export function register() {
-    utils.reloadTela('CADASTRO');
+    utils.reloadScreen('CADASTRO');
     const nomeInput = document.getElementById('complete-name-register');
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
