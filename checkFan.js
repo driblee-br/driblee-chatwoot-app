@@ -1,52 +1,81 @@
-document.getElementById('btnCreate').style.display = 'none';
+import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs } from './utils.js';
 
 
-// Function to validate JSON
-function isJSONValid(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
+// Function to clean all inputs in the search page
+export function cleanAllInputsSearch() {
+    function cleanResult(field) {
+        const foundMsg = document.getElementById(`msg-${field}-found`);
+        const notFoundMsg = document.getElementById(`msg-${field}-non-found`);
+        notFoundMsg.style.display = 'none';
+        foundMsg.style.display = 'none';
+
     }
-    return true;
+    cleanAllInputs();
+    cleanResult('cpf');
+    cleanResult('email');
+    cleanResult('telefone');
+
+
 }
 
-// Format phone number to Brazilian format (for front)
-function formatPhone(phone) {
-    let cleaned = phone.replace(/\D/g, '');
+//Function to show a popup with user's data found
+export function showUserPopup(data) {
+    const modal = document.getElementById('user-popup');
+    const info = document.getElementById('user-info');
+    const closeBtn = document.getElementById('close-user-popup');
 
-    if (cleaned.startsWith('55') && cleaned.length > 11) {
-        cleaned = cleaned.slice(2);
+    const name = data.name || '—';
+    const email = data.email || '—';
+    const mobile = data.mobile?.number || '—';
+    const fanStatus = data.fanStatusView || '—';
+
+    const latestPlan = data.affiliationPlans?.[data.affiliationPlans.length - 1];
+    const planType = latestPlan?.plan?.planTypeView || '—';
+    const planDescription = latestPlan?.plan?.description || '—';
+
+
+    const html = `
+        <strong>Nome:</strong> ${name}<br>
+        <strong>Email:</strong> ${email}<br>
+        <strong>Telefone:</strong> ${mobile}<br>
+        <strong>Status:</strong> ${fanStatus}<br>
+        <strong>Tipo de Plano:</strong> ${planType}<br>
+        <strong>Descrição do Plano:</strong> ${planDescription}
+    `;
+
+    info.innerHTML = html;
+    modal.classList.add('show');
+    closeBtn.onclick = () => {
+        modal.classList.remove('show');
+    };
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.classList.remove('show');
+        }
+    };
+}
+
+//Function to exhibit the status of the search for each parameter
+export function toggleMessages(field, found) {
+    const foundMsg = document.getElementById(`msg-${field}-found`);
+    const notFoundMsg = document.getElementById(`msg-${field}-non-found`);
+
+    if (foundMsg && notFoundMsg) {
+        if (found) {
+            foundMsg.style.display = 'inline';
+            notFoundMsg.style.display = 'none';
+        } else if (typeof found != 'undefined') {
+            foundMsg.style.display = 'none';
+            notFoundMsg.style.display = 'inline';
+        }
     }
-
-    return cleaned.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
 }
 
-// Format CPF (for front)
-function formatCPF(cpf) {
-
-    return cpf.replace(/\D/g, '')
-        .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
-}
-
-//Function to show a notification in front
-function showNotification(message, type = 'info') {
-    const notification = document.getElementById('notification');
-    const notificationMessage = document.getElementById('notification-message');
-
-    notificationMessage.textContent = message;
-    notification.className = 'notification';
-    notification.classList.add('show', type);
-
-    // Reset after 5 seconds
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 5000);
-}
-
-// Do request to the backend
-async function searchTwomorrow(type_parameter, parameter) {
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${type_parameter}=${parameter}`;
+// Do request to the backend to search a fan
+async function verifyFanBack(params) {
+    const queryString = new URLSearchParams(params).toString();
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${queryString}`;
 
     const response = await fetch(url, {
         method: 'GET',
@@ -64,65 +93,54 @@ async function searchTwomorrow(type_parameter, parameter) {
     }
 
     const data = await response.json();
-    return data
+    return data;
 }
 
-// Search data inside 2morrow
-async function fetchData() {
+// Function to preper data to search 
+export async function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
-    const cpfInput = document.getElementById('cpf').value.replace(/\D/g, '');
-    const emailInput = document.getElementById('email').value.trim();
-    const telefoneInput = document.getElementById('telefone').value.replace(/\D/g, '');
-    // Show loading in button
+    const cpfInput = document.getElementById('busca-cpf').value.replace(/\D/g, '');
+    const emailInput = document.getElementById('busca-email').value.trim();
+    const telefoneInput = document.getElementById('busca-telefone').value.replace(/\D/g, '');
+
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
 
+    const params = {};
+    if (telefoneInput) params.telefone = telefoneInput;
+    if (cpfInput) params.cpf = cpfInput;
+    if (emailInput) params.email = emailInput;
+
+    if (Object.keys(params).length === 0) {
+        showNotification('Informe ao menos um dado para buscar.', 'warning');
+        btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
+        btnBuscar.disabled = false;
+        return;
+    }
     let data;
     try {
-        if (!telefoneInput && !cpfInput && !emailInput) { console.log("Where is the input?") }
-        if (!data && telefoneInput) {
-            data = await searchTwomorrow('telefone', telefoneInput);
-        }
-        if (!data && cpfInput) {
-            data = await searchTwomorrow('cpf', cpfInput);
-        }
-        if (!data && emailInput) {
-            data = await searchTwomorrow('email', emailInput);
-        }
-        if (!data) {
-            showNotification(`Nenhum usuário encontrado com estes dados.`);
-            document.getElementById('btnCreate').style.display = 'inline-block';
-            return
-        } else {
-            console.log(data);
-            // Notification
-            if (data.message) {
-                showNotification(data.message, 'success');
-            } else if (data.resultObject && data.resultObject.guid) {
-                showNotification('Este torcedor já está cadastrado!', 'success');
-            } else {
-                showNotification('Operação bem-sucedida, nenhum dado adicional', 'info');
-            }
-        }
-
-
+        data = await verifyFanBack(params);
+        toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
+        toggleMessages('email', data.results.email && data.results.email.message == '');
+        toggleMessages('telefone', data.results.telefone && data.results.telefone.message == '');
+        return data;
     } catch (error) {
         console.error("Erro completo:", error);
         showNotification(`Erro na busca: ${error.message}`, 'error');
     } finally {
-        // Reset button
+
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
 
-        return data
     }
 }
 
+
 // Event to recieve user's data from chatwoot
-const searchUser = (event) => {
-    const cpfInput = document.getElementById('cpf');
-    const emailInput = document.getElementById('email');
-    const telefoneInput = document.getElementById('telefone');
+export const searchUser = (event) => {
+    const cpfInput = document.getElementById('busca-cpf');
+    const emailInput = document.getElementById('busca-email');
+    const telefoneInput = document.getElementById('busca-telefone');
     const loadingElement = document.getElementById('loading');
     const errorElement = document.getElementById('error');
 
@@ -171,44 +189,75 @@ const searchUser = (event) => {
     }
 };
 
+//Function to verify if the data found are consistent
+export function checkDataConsistency(results) {
+    const values = [];
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Elements from index page
-    const btnBuscar = document.getElementById('btnBuscar');
-    const closeNotification = document.getElementById('close-notification');
+    for (const key in results) {
+        const item = results[key];
+        if (item?.resultObject) {
+            values.push(JSON.stringify(item.resultObject));
+        }
+    }
 
-    // Recieving data from chatwoot
-    window.addEventListener("message", searchUser);
-    window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
+    let allEqual;
+
+    console.log("results", results)
+    function OneResult() {
+        let emptyMessages = 0;
+        if (values.every(value => value === values[0]) && values.length > 1) {
+            allEqual = true
+            emptyMessages = 1;
+
+        } else {
+            for (const key in results) {
+                if (results[key].message == "") {
+                    emptyMessages += 1
+                }
+            }
+            if (emptyMessages == 1) {
+                allEqual = true
+            } else allEqual = false
+
+        }
+        return emptyMessages
+    }
+
+    const emptyMessages = OneResult();
+    console.log("emptyMessages:", emptyMessages)
+    if (values.length === 0) {
+        showNotification("Nenhum usuário encontrado", 'info')
+        const btnRegister = document.getElementById("btn-register");
+        btnRegister.classList.remove("hidden");
 
 
-    // Processing cpf data while typing
-    document.getElementById('cpf').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
-        e.target.value = value;
-    });
+        return null;
+    }
+    console.log("allEqual:", allEqual)
+    console.log("Results:", results)
 
-    // Processing telephone data while typing
-    document.getElementById('telefone').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-        value = value.replace(/(\d{5})(\d)/, '$1-$2');
-        e.target.value = value;
-    });
+    let totalKeys = 0;
+    for (const key in results) {
+        if (results[key]?.resultObject != null) {
+            totalKeys += 1;
+        }
+    }
 
-    // Close notification
-    closeNotification.addEventListener('click', function () {
-        document.getElementById('notification').classList.remove('show');
-    });
+    if (allEqual) {
+        const entries = Object.entries(results);
+        for (let i = 0; i < entries.length; i++) {
+            const [key, value] = entries[i];
+            console.log("In key", key);
+            if (value && value.resultObject !== null) {
+                const parsedData = JSON.parse(values[i]);
+                showUserPopup(parsedData);
+                return parsedData;
+            }
+        }
+    } else {
+        showNotification("Os dados são de usuários diferentes", 'warning')
+        return 'Inconsistent data';
+    }
+}
 
-    // Event listener to search user in 2morrow 
-    btnBuscar.addEventListener('click', async () => {
-        const resultado = await fetchData();
-
-        //SHOW BOTTON CREATE USER
-
-    });
-});
 
