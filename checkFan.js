@@ -170,7 +170,7 @@ export const searchUser = (event) => {
 
     fullUserData = receivedData.data;
 
-    const userData = fullUserData.contact;
+    const userData = receivedData.data.contact;
 
     if (loadingElement) loadingElement.style.display = 'none';
     if (errorElement) errorElement.style.display = 'none';
