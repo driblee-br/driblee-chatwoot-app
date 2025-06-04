@@ -1,5 +1,5 @@
 //Function to register a fan
-import { fullUserData, fullUserData } from './checkFan.js';
+import { fullUserData } from './checkFan.js';
 import { reloadTela, sendMessage } from './utils.js';
 
 
