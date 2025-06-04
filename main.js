@@ -91,9 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('btn-confirm-template').addEventListener('click', () => {
-        let fullUserData = checkFan.getFullUserData();
         registerFan.checkInformations();
     });
-    console.log(checkFan.fullUserData);
 
 });

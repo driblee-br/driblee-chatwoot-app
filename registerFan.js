@@ -5,7 +5,7 @@ import * as utils from './utils.js';
 
 
 function createUser() {
-    console.log("Teoricmente, usuŕio criado. Aguardando beckend")
+    console.log("Teoricamente, usuŕio criado. Falta testar o backend")
 }
 
 export function register() {
@@ -34,6 +34,6 @@ export function registerFan() {
 export function checkInformations(message) {
     const fullUserData = checkFan.getFullUserData();
     console.log("fullUserData: ", fullUserData)
-    utils.sendMessage(fullUserData.contact.id, fullUserData.conversation.id, message)
+    utils.sendMessage(message)
     return
 }
