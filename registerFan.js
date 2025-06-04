@@ -15,11 +15,11 @@ export function register() {
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
     const telephoneInput = document.getElementById('telephone-register');
-
-    if (fullUserData.data.contact.name) nomeInput.value = fullUserData.data.contact.name;
-    if (fullUserData.data.contact.identifier) cpfInput.value = fullUserData.data.contact.identifier;
-    if (fullUserData.data.contact.email) emailInput.value = fullUserData.data.contact.email;
-    if (fullUserData.data.contact.phone_number) telephoneInput.value = fullUserData.data.contact.phone_number;
+    console.log("FUD:", fullUserData)
+    if (fullUserData.contact.name) nomeInput.value = fullUserData.contact.name;
+    if (fullUserData.contact.identifier) cpfInput.value = fullUserData.contact.identifier;
+    if (fullUserData.contact.email) emailInput.value = fullUserData.contact.email;
+    if (fullUserData.contact.phone_number) telephoneInput.value = fullUserData.contact.phone_number;
 }
 
 export function registerFan() {
