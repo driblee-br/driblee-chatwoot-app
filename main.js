@@ -4,6 +4,12 @@ import * as utils from './utils.js';
 import * as checkPayment from './checkPayment.js';
 import * as colectData from './colectData.js';
 
+let fullUserDataTwomorrow;
+
+export function getfullUserDataTwomorrow() {
+    console.log(fullUserDataTwomorrow)
+    return fullUserDataTwomorrow
+}
 document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
     utils.cleanAllInputs();
@@ -96,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
         checkFan.cleanAllInputsSearch();
         const results = await checkFan.fetchData();
         console.log("results in main", results)
-        const finalData = checkFan.checkDataConsistency(results.results)
+        fullUserDataTwomorrow = checkFan.checkDataConsistency(results.results)
     });
 
     document.getElementById('btn-confirm-template').addEventListener('click', () => {
