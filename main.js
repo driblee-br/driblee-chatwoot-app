@@ -87,10 +87,10 @@ document.getElementById('btn-confirm-info-update').addEventListener('click', () 
     colectData.checkInformations();
 });
 
-// Event listener para o campo de CEP
+// Event listener for the CEP field
 document.getElementById('edit-cep').addEventListener('blur', function () {
-    // Quando o usuário sair do campo de CEP, busca as informações
-    searchCep(this.value);
+
+    colectData.fillByCep(this.value);
 });
 
 
