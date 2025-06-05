@@ -24,6 +24,10 @@ document.getElementById('btn-see-status-payment').addEventListener('click', () =
     checkPayment.checkPayment()
 });
 
+document.getElementById('btn-effect-update').addEventListener('click', () => {
+    colectData.updateData()
+});
+
 document.getElementById('btn-update-data-user').addEventListener('click', () => {
     utils.reloadScreen('ATUALIZACAO');
     colectData.FielingFieldsUpdateData();
