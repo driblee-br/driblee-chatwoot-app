@@ -15,13 +15,13 @@ document.getElementById('btn-clear-check').addEventListener('click', () => {
     utils.cleanAllInputs();
 });
 document.getElementById('btn-see-status-payment').addEventListener('click', () => {
-
     checkPayment.checkPayment()
 });
 
 document.getElementById('btn-update-data-user').addEventListener('click', () => {
-    utils.reloadScreen('ATUALIZACAO')
-    colectData.updateData()
+    utils.reloadScreen('ATUALIZACAO');
+    utils.FielingFieldsUpdateData();
+    colectData.updateData();
 });
 
 document.getElementById('btn-clear-register').addEventListener('click', () => {
