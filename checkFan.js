@@ -123,7 +123,7 @@ export async function fetchData() {
     if (telephoneInput) params.telephone = telephoneInput;
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
-    console.log(params)
+    console.log("params", params)
     if (Object.keys(params).length === 0) {
         showNotification('Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
