@@ -126,6 +126,6 @@ export async function sendMessage(message) {
     }
 
     const data = await response.json();
-    console.log("retorno do envio da mensagem:", data)
+    console.log(`retorno do envio da mensagem: ${message}`, data)
     return data;
 }
