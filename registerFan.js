@@ -24,20 +24,17 @@ export function register() {
 
 export function registerFan() {
     console.log("Sem funcionalidade de register por enquanto")
+    createUser();
+    return
+}
+
+export function checkInformations() {
     const nomeInput = document.getElementById('complete-name-register');
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
     const telephoneInput = document.getElementById('telephone-register');
     const message = `Pode confirmar seus dados para efetuarmos o seu registro como torcedor?\n
     Nome: ${nomeInput.value}\nCPF: ${cpfInput.value}\nEmail: ${emailInput.value}\nTelefone: ${telephoneInput.value}`;
-    checkInformations(message);
-    createUser();
-    return
-}
-
-export function checkInformations(message) {
-    const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-    console.log("fullUserDataChatwoot: ", fullUserDataChatwoot)
     utils.sendMessage(message)
     return
 }

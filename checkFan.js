@@ -47,8 +47,7 @@ export function showUserPopup(data) {
         <strong>Status:</strong> ${fanStatus}<br>
         <strong>Tipo de Plano:</strong> ${planType}<br>
         <strong>Descrição do Plano:</strong> ${planDescription}
-
-        <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+ <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
             O que você quer fazer agora?
             <div style="margin-top: 8px;">
                 <button style="margin-right: 10px; padding: 6px 12px; font-size: 0.85em;" onclick=checkPayment()>Analisar status de pagamento</button>
