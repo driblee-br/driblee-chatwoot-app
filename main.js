@@ -53,7 +53,6 @@ document.getElementById('btn-see-status-payment').addEventListener('click', () =
 });
 
 //REGISTER//
-
 //Bottom to effect the update fan's data
 document.getElementById('btn-effect-update').addEventListener('click', () => {
     colectData.updateData()
@@ -72,7 +71,7 @@ document.getElementById('btn-confirm-info-register').addEventListener('click', (
 
 //UPDATE DATA//
 //Botton to clean the inputs in screen Update Fan's data
-document.getElementById('btn-clear-register').addEventListener('click', () => {
+document.getElementById('btn-clear-update').addEventListener('click', () => {
     utils.cleanAllInputs();
 });
 
