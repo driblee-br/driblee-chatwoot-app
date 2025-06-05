@@ -5,7 +5,7 @@ import * as utils from './utils.js';
 
 
 function createUser() {
-    console.log("Teoricamente, usuŕio criado. Falta testar o backend")
+    console.log("Nenhuma funcionalidade de cadastro até o momento")
 }
 
 export function register() {
@@ -15,7 +15,6 @@ export function register() {
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
     const telephoneInput = document.getElementById('telephone-register');
-    console.log("FUD:", fullUserDataChatwoot)
     if (fullUserDataChatwoot.contact.name) nomeInput.value = fullUserDataChatwoot.contact.name;
     if (fullUserDataChatwoot.contact.identifier) cpfInput.value = fullUserDataChatwoot.contact.identifier;
     if (fullUserDataChatwoot.contact.email) emailInput.value = fullUserDataChatwoot.contact.email;
@@ -23,7 +22,6 @@ export function register() {
 }
 
 export function registerFan() {
-    console.log("Sem funcionalidade de register por enquanto")
     createUser();
     return
 }

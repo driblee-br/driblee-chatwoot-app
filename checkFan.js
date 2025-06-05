@@ -43,17 +43,10 @@ export function showUserPopup(data) {
     const html = `
         <strong>Nome:</strong> ${name}<br>
         <strong>Email:</strong> ${email}<br>
-        <strong>telephone:</strong> ${mobile}<br>
+        <strong>Telefone:</strong> ${mobile}<br>
         <strong>Status:</strong> ${fanStatus}<br>
         <strong>Tipo de Plano:</strong> ${planType}<br>
         <strong>Descrição do Plano:</strong> ${planDescription}
- <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-            O que você quer fazer agora?
-            <div style="margin-top: 8px;">
-                <button class = "btn" style="margin-right: 10px; padding: 6px 12px; font-size: 0.85em;" onclick=checkPayment()>Analisar status de pagamento</button>
-                <button class = "btn" style="padding: 6px 12px; font-size: 0.85em;" onclick=updateData()>Atualizar dados cadastrais</button>
-            </div>
-        </div>
     `;
 
     info.innerHTML = html;
@@ -115,7 +108,6 @@ export async function fetchData() {
     const cpfInput = document.getElementById('busca-cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('busca-email').value.trim();
     const telephoneInput = document.getElementById('busca-telephone').value.replace(/\D/g, '');
-    console.log("telefone:", telephoneInput)
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
 
@@ -123,7 +115,6 @@ export async function fetchData() {
     if (telephoneInput) params.telephone = telephoneInput;
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
-    console.log("params", params)
     if (Object.keys(params).length === 0) {
         showNotification('Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
@@ -246,8 +237,6 @@ export function checkDataConsistency(results) {
 
         return null;
     }
-    console.log("allEqual:", allEqual)
-    console.log("Results:", results)
 
     let totalKeys = 0;
     for (const key in results) {
@@ -260,7 +249,6 @@ export function checkDataConsistency(results) {
         const entries = Object.entries(results);
         for (let i = 0; i < entries.length; i++) {
             const [key, value] = entries[i];
-            console.log("In key", key);
             if (value && value.resultObject !== null) {
                 showUserPopup(value.resultObject);
                 return value.resultObject;

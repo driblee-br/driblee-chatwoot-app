@@ -8,6 +8,13 @@ document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
     utils.cleanAllInputs();
 });
+document.getElementById('btn-see-status-payment').addEventListener('click', () => {
+    checkPayment.checkPayment()
+});
+
+document.getElementById('btn-update-data-user').addEventListener('click', () => {
+    colectData.updateData()
+});
 
 document.getElementById('btn-clear-register').addEventListener('click', () => {
     event.preventDefault();
@@ -88,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const results = await checkFan.fetchData();
         console.log("results in main", results)
         const finalData = checkFan.checkDataConsistency(results.results)
-        console.log(finalData)
     });
 
     document.getElementById('btn-confirm-template').addEventListener('click', () => {
