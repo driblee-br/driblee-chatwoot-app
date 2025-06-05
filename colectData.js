@@ -84,3 +84,55 @@ export function checkInformations() {
 
     utils.sendMessage(message);
 }
+
+export function fillByCep() {
+    const cepInput = document.getElementById('edit-cep');
+    const streetInput = document.getElementById('edit-street');
+    const neighborInput = document.getElementById('edit-neighbor');
+    const cityInput = document.getElementById('edit-city');
+    const stateInput = document.getElementById('edit-state');
+    const numberInput = document.getElementById('edit-number');
+
+    function clearAddressFields() {
+        streetInput.value = '';
+        neighborInput.value = '';
+        cityInput.value = '';
+        stateInput.value = '';
+    }
+
+    function fillAddressFields(data) {
+        streetInput.value = data.logradouro || '';
+        neighborInput.value = data.bairro || '';
+        cityInput.value = data.localidade || '';
+        stateInput.value = data.uf || '';
+        numberInput.focus();
+    }
+
+    // Function to search cep in API viacep
+    async function searchCep(cep) {
+        const cleanCep = cep.replace(/\D/g, '');
+
+        if (cleanCep.length !== 8) {
+            clearAddressFields();
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                alert('CEP não encontrado.');
+                clearAddressFields();
+            } else {
+                fillAddressFields(data);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            alert('Ocorreu um erro ao buscar o CEP. Tente novamente.');
+            clearAddressFields();
+        }
+    }
+
+    searchCep(cepInput.value)
+}

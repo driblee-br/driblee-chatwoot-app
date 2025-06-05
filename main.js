@@ -87,6 +87,12 @@ document.getElementById('btn-confirm-info-update').addEventListener('click', () 
     colectData.checkInformations();
 });
 
+// Event listener para o campo de CEP
+document.getElementById('edit-cep').addEventListener('blur', function () {
+    // Quando o usuário sair do campo de CEP, busca as informações
+    searchCep(this.value);
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // Elements from index page
@@ -140,6 +146,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (value.length > 7) value = value.replace(/(\d{5})(\d)/, '$1-$2');
 
         e.target.value = value;
+    });
+
+    // Event to format CEP in real-time
+    document.getElementById('edit-cep').addEventListener('input', function () {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 5) {
+            value = value.substring(0, 5) + '-' + value.substring(5, 8);
+        } else if (value.length > 8) {
+            value = value.substring(0, 8);
+        }
+        this.value = value;
     });
 
     // Close notification
