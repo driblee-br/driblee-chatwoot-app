@@ -20,7 +20,7 @@ document.getElementById('btn-see-status-payment').addEventListener('click', () =
 
 document.getElementById('btn-update-data-user').addEventListener('click', () => {
     utils.reloadScreen('ATUALIZACAO');
-    utils.FielingFieldsUpdateData();
+    colectData.FielingFieldsUpdateData();
     colectData.updateData();
 });
 
