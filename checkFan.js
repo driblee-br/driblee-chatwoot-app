@@ -50,8 +50,8 @@ export function showUserPopup(data) {
  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
             O que você quer fazer agora?
             <div style="margin-top: 8px;">
-                <button style="margin-right: 10px; padding: 6px 12px; font-size: 0.85em;" onclick=checkPayment()>Analisar status de pagamento</button>
-                <button style="padding: 6px 12px; font-size: 0.85em;" onclick=updateData()>Atualizar dados cadastrais</button>
+                <button class = "btn" style="margin-right: 10px; padding: 6px 12px; font-size: 0.85em;" onclick=checkPayment()>Analisar status de pagamento</button>
+                <button class = "btn" style="padding: 6px 12px; font-size: 0.85em;" onclick=updateData()>Atualizar dados cadastrais</button>
             </div>
         </div>
     `;
@@ -123,7 +123,7 @@ export async function fetchData() {
     if (telephoneInput) params.telephone = telephoneInput;
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
-
+    console.log(params)
     if (Object.keys(params).length === 0) {
         showNotification('Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
