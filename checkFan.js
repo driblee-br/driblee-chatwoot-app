@@ -1,9 +1,11 @@
 import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs } from './utils.js';
+import * as checkPayment from './checkPayment.js';
+import * as colectData from './colectData.js';
 
-let fullUserData = {};
+let fullUserDataChatwoot = {};
 
-export function getFullUserData() {
-    return fullUserData;
+export function getfullUserDataChatwoot() {
+    return fullUserDataChatwoot;
 }
 
 // Function to clean all inputs in the search page
@@ -45,6 +47,14 @@ export function showUserPopup(data) {
         <strong>Status:</strong> ${fanStatus}<br>
         <strong>Tipo de Plano:</strong> ${planType}<br>
         <strong>Descrição do Plano:</strong> ${planDescription}
+
+        <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+            O que você quer fazer agora?
+            <div style="margin-top: 8px;">
+                <button style="margin-right: 10px; padding: 6px 12px; font-size: 0.85em;" onclick=checkPayment()>Analisar status de pagamento</button>
+                <button style="padding: 6px 12px; font-size: 0.85em;" onclick=updateData()>Atualizar dados cadastrais</button>
+            </div>
+        </div>
     `;
 
     info.innerHTML = html;
@@ -168,7 +178,7 @@ export const searchUser = (event) => {
         return;
     }
 
-    fullUserData = receivedData.data;
+    fullUserDataChatwoot = receivedData.data;
 
     const userData = receivedData.data.contact;
 

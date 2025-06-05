@@ -1,7 +1,8 @@
 import * as checkFan from './checkFan.js';
 import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
-
+import * as checkPayment from './checkPayment.js';
+import * as colectData from './colectData.js';
 
 document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();

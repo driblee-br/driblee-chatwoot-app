@@ -98,12 +98,12 @@ export function showNotification(message, type = 'info') {
 //     return await response.json();
 // }
 export async function sendMessage(message) {
-    let fullUserData = checkFan.getFullUserData();
+    let fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
     const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage`;
 
     const payload = {
-        account_id: fullUserData.contact.id,
-        conversation_id: fullUserData.conversation.id,
+        account_id: fullUserDataChatwoot.contact.id,
+        conversation_id: fullUserDataChatwoot.conversation.id,
         message: message
     };
 

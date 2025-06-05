@@ -9,17 +9,17 @@ function createUser() {
 }
 
 export function register() {
-    const fullUserData = checkFan.getFullUserData();
+    const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
     utils.reloadScreen('CADASTRO');
     const nomeInput = document.getElementById('complete-name-register');
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
     const telephoneInput = document.getElementById('telephone-register');
-    console.log("FUD:", fullUserData)
-    if (fullUserData.contact.name) nomeInput.value = fullUserData.contact.name;
-    if (fullUserData.contact.identifier) cpfInput.value = fullUserData.contact.identifier;
-    if (fullUserData.contact.email) emailInput.value = fullUserData.contact.email;
-    if (fullUserData.contact.phone_number) telephoneInput.value = fullUserData.contact.phone_number;
+    console.log("FUD:", fullUserDataChatwoot)
+    if (fullUserDataChatwoot.contact.name) nomeInput.value = fullUserDataChatwoot.contact.name;
+    if (fullUserDataChatwoot.contact.identifier) cpfInput.value = fullUserDataChatwoot.contact.identifier;
+    if (fullUserDataChatwoot.contact.email) emailInput.value = fullUserDataChatwoot.contact.email;
+    if (fullUserDataChatwoot.contact.phone_number) telephoneInput.value = fullUserDataChatwoot.contact.phone_number;
 }
 
 export function registerFan() {
@@ -32,8 +32,8 @@ export function registerFan() {
 }
 
 export function checkInformations(message) {
-    const fullUserData = checkFan.getFullUserData();
-    console.log("fullUserData: ", fullUserData)
+    const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
+    console.log("fullUserDataChatwoot: ", fullUserDataChatwoot)
     utils.sendMessage(message)
     return
 }
