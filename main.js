@@ -3,6 +3,7 @@ import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
 import * as checkPayment from './checkPayment.js';
 import * as colectData from './colectData.js';
+import * as resetPassword from './resetPassword.js';
 
 let fullUserDataTwomorrow;
 
@@ -51,6 +52,12 @@ document.getElementById('btn-update-data-user').addEventListener('click', () => 
 document.getElementById('btn-see-status-payment').addEventListener('click', () => {
     checkPayment.checkPayment()
 });
+
+//Botton to reset the password
+document.getElementById('btn-reset-password').addEventListener('click', () => {
+    resetPassword.resetPassword();
+});
+
 
 //REGISTER//
 //Bottom to effect the update fan's data
