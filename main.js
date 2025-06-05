@@ -10,6 +10,12 @@ export function getfullUserDataTwomorrow() {
     console.log(fullUserDataTwomorrow)
     return fullUserDataTwomorrow
 }
+
+export function setfullUserDataTwomorrow(data) {
+    fullUserDataTwomorrow = data;
+}
+
+
 document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
     utils.cleanAllInputs();
@@ -102,7 +108,8 @@ document.addEventListener('DOMContentLoaded', function () {
         checkFan.cleanAllInputsSearch();
         const results = await checkFan.fetchData();
         console.log("results in main", results)
-        fullUserDataTwomorrow = checkFan.checkDataConsistency(results.results)
+        setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+
     });
 
     document.getElementById('btn-confirm-template').addEventListener('click', () => {

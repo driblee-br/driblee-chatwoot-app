@@ -1,8 +1,7 @@
 import * as main from './main.js';
-
-let fullUserDataTwomorrow = {};
 export function FielingFieldsUpdateData() {
-    fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
+    const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
+
 
     const EditName = document.getElementById("edit-nome");
     const EditCpf = document.getElementById("edit-cpf");
