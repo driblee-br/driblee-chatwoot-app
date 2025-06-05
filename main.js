@@ -87,13 +87,6 @@ document.getElementById('btn-confirm-info-update').addEventListener('click', () 
     colectData.checkInformations();
 });
 
-// Event listener for the CEP field
-document.getElementById('edit-cep').addEventListener('blur', function () {
-
-    colectData.fillByCep(this.value);
-});
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Elements from index page
     const closeNotification = document.getElementById('close-notification');
@@ -158,6 +151,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         this.value = value;
     });
+
+    // Event listener for the CEP field
+    document.getElementById('edit-cep').addEventListener('blur', function () {
+
+        colectData.fillByCep(this.value);
+    });
+
 
     // Close notification
     closeNotification.addEventListener('click', function () {
