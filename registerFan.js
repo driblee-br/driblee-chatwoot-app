@@ -3,11 +3,7 @@ import * as checkFan from './checkFan.js';
 import * as utils from './utils.js';
 
 
-
-function createUser() {
-    console.log("Nenhuma funcionalidade de cadastro até o momento")
-}
-
+// Update the screen to register screen, doing the automatic fieling
 export function register() {
     const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
     utils.reloadScreen('CADASTRO');
@@ -21,11 +17,13 @@ export function register() {
     if (fullUserDataChatwoot.contact.phone_number) telephoneInput.value = fullUserDataChatwoot.contact.phone_number;
 }
 
+// Do a request to register a fan
 export function registerFan() {
-    createUser();
+    console.log("Nenhuma funcionalidade de cadastro até o momento")
     return
 }
 
+// Send message to Fan
 export function checkInformations() {
     const nomeInput = document.getElementById('complete-name-register');
     const cpfInput = document.getElementById('cpf-register');

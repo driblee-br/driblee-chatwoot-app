@@ -1,8 +1,8 @@
 import * as main from './main.js';
+
+//Automatic fieling of fields in update user's data screen
 export function FielingFieldsUpdateData() {
     const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
-
-
     const EditName = document.getElementById("edit-nome");
     const EditCpf = document.getElementById("edit-cpf");
     const EditEmail = document.getElementById("edit-email");
@@ -59,6 +59,28 @@ export function FielingFieldsUpdateData() {
         EditCep.value = fullUserDataTwomorrow.address.cep;
     }
 }
+
+// Request to update user's data
 export function updateData() {
     console.log("Nenhuma funcionalidade de atualização de dados cadastrais até o momento")
+}
+
+// Confirm info with the Fan sanding a message
+export function checkInformations() {
+    const EditName = document.getElementById("edit-nome");
+    const EditCpf = document.getElementById("edit-cpf");
+    const EditEmail = document.getElementById("edit-email");
+    const EditTelephone = document.getElementById("edit-telephone");
+    const EditGender = document.getElementById("edit-gender");
+    const EditBirth = document.getElementById("edit-birth");
+    const EditCity = document.getElementById("edit-city");
+    const EditNeigbor = document.getElementById("edit-neigbor");
+    const EditStreet = document.getElementById("edit-street");
+    const EditNumber = document.getElementById("edit-number");
+    const EditCep = document.getElementById("edit-cep");
+
+    const message = `Você confirma os seguintes dados atualizados?\n
+    Nome: ${EditName?.value || '—'}\nCPF: ${EditCpf?.value || '—'}\nEmail: ${EditEmail?.value || '—'}\nTelefone: ${EditTelephone?.value || '—'}\nGênero: ${EditGender?.value || '—'}\nData de Nascimento: ${EditBirth?.value || '—'}\nCidade: ${EditCity?.value || '—'}\nBairro: ${EditNeigbor?.value || '—'}\nRua: ${EditStreet?.value || '—'}\nNúmero: ${EditNumber?.value || '—'}\nCEP: ${EditCep?.value || '—'}`;
+
+    utils.sendMessage(message);
 }

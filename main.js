@@ -15,41 +15,82 @@ export function setfullUserDataTwomorrow(data) {
     fullUserDataTwomorrow = data;
 }
 
+// SEARCH //
+// Botton to search user in 2morrow 
+document.getElementById('btnBuscar').addEventListener('click', async () => {
+    checkFan.cleanAllInputsSearch();
+    const results = await checkFan.fetchData();
+    console.log("results in main", results)
+    setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
 
+});
+
+//Botton to clean the inputs in screen Search Fan
 document.getElementById('btn-clear-check').addEventListener('click', () => {
     checkFan.cleanAllInputsSearch();
     utils.cleanAllInputs();
 });
-document.getElementById('btn-see-status-payment').addEventListener('click', () => {
-    checkPayment.checkPayment()
-});
 
-document.getElementById('btn-effect-update').addEventListener('click', () => {
-    colectData.updateData()
-});
-
-document.getElementById('btn-update-data-user').addEventListener('click', () => {
-    utils.reloadScreen('ATUALIZACAO');
-    colectData.FielingFieldsUpdateData();
-    colectData.updateData();
-});
-
-document.getElementById('btn-clear-register').addEventListener('click', () => {
-    event.preventDefault();
-    checkFan.cleanAllInputsSearch();
-    utils.cleanAllInputs();
-});
+//Botton to go to screen register fan
 document.getElementById('btn-register').addEventListener('click', () => {
     registerFan.register();
 });
 
+//Botton to effect the fan's register
 document.getElementById('btn-register-fan').addEventListener('click', () => {
     registerFan.registerFan();
 });
 
+//Botton to go to screen update user's data
+document.getElementById('btn-update-data-user').addEventListener('click', () => {
+    utils.reloadScreen('ATUALIZACAO');
+    colectData.FielingFieldsUpdateData();
+});
+
+// Botton to go to screen payment status
+document.getElementById('btn-see-status-payment').addEventListener('click', () => {
+    checkPayment.checkPayment()
+});
+
+//REGISTER//
+
+//Bottom to effect the update fan's data
+document.getElementById('btn-effect-update').addEventListener('click', () => {
+    colectData.updateData()
+});
+
+//Botton to clean the inputs in screen Register Fan
+document.getElementById('btn-clear-register').addEventListener('click', () => {
+    event.preventDefault();
+    utils.cleanAllInputs();
+});
+
+//Botton to confirm the collected informations to effect the register
+document.getElementById('btn-confirm-info-register').addEventListener('click', () => {
+    registerFan.checkInformations();
+});
+
+//UPDATE DATA//
+//Botton to clean the inputs in screen Update Fan's data
+document.getElementById('btn-clear-register').addEventListener('click', () => {
+    utils.cleanAllInputs();
+});
+
+//Botton to confirm the collected informations to effect the data's update
+document.getElementById('btn-confirm-info-update').addEventListener('click', () => {
+    colectData.checkInformations();
+});
+
+
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // Elements from index page
-    const btnBuscar = document.getElementById('btnBuscar');
     const closeNotification = document.getElementById('close-notification');
 
     // Recieving data from chatwoot
@@ -105,19 +146,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Close notification
     closeNotification.addEventListener('click', function () {
         document.getElementById('notification').classList.remove('show');
-    });
-
-    // Event listener to search user in 2morrow 
-    btnBuscar.addEventListener('click', async () => {
-        checkFan.cleanAllInputsSearch();
-        const results = await checkFan.fetchData();
-        console.log("results in main", results)
-        setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
-
-    });
-
-    document.getElementById('btn-confirm-template').addEventListener('click', () => {
-        registerFan.checkInformations();
     });
 
 });
