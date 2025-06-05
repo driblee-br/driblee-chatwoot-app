@@ -1,5 +1,5 @@
 import * as main from './main.js';
-import * as utils from './utils,js';
+import * as utils from './utils.js';
 //Automatic fieling of fields in update user's data screen
 export function FielingFieldsUpdateData() {
     const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
