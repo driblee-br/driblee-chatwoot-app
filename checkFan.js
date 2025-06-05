@@ -115,7 +115,7 @@ export async function fetchData() {
     const cpfInput = document.getElementById('busca-cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('busca-email').value.trim();
     const telephoneInput = document.getElementById('busca-telephone').value.replace(/\D/g, '');
-
+    console.log("telefone:", telephoneInput)
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
 
