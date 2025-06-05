@@ -99,10 +99,10 @@ export function showNotification(message, type = 'info') {
 // }
 export async function sendMessage(message) {
     let fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage`;
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/`;
 
     const payload = {
-        account_id: fullUserDataChatwoot.contact.id,
+        account_id: fullUserDataChatwoot.conversation.account_id,
         conversation_id: fullUserDataChatwoot.conversation.id,
         message: message
     };
@@ -126,6 +126,6 @@ export async function sendMessage(message) {
     }
 
     const data = await response.json();
-    console.log(`retorno do envio da mensagem: ${message}`, data)
+    console.log(`retorno do envio da mensagem:`, data)
     return data;
 }
