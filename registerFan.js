@@ -47,10 +47,16 @@ export async function registerFan() {
             body: JSON.stringify(payload)
         });
         const data = await response.json();
-        return data;
+
+        if (!data.status_code) {
+            utils.showNotification(data.status_code.message, 'error')
+            return
+        }
+        else { return data; }
     } catch (erro) {
-        console.log("Erro ao criar usuário:", erro)
         utils.showNotification("Falha ao criar usuário", 'error')
+        console.log("Erro ao criar usuário:", erro)
+
         return
     }
 
