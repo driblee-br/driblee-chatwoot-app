@@ -81,13 +81,6 @@ document.getElementById('btn-confirm-info-update').addEventListener('click', () 
 });
 
 
-
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Elements from index page
     const closeNotification = document.getElementById('close-notification');
