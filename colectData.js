@@ -78,9 +78,10 @@ export function checkInformations() {
     const EditStreet = document.getElementById("edit-street");
     const EditNumber = document.getElementById("edit-number");
     const EditCep = document.getElementById("edit-cep");
+    const EditComplement = document.getElementById("edit-complement");
 
     const message = `Você confirma os seguintes dados atualizados?\n
-    Nome: ${EditName?.value || '—'}\nCPF: ${EditCpf?.value || '—'}\nEmail: ${EditEmail?.value || '—'}\nTelefone: ${EditTelephone?.value || '—'}\nGênero: ${EditGender?.value || '—'}\nData de Nascimento: ${EditBirth?.value || '—'}\nCidade: ${EditCity?.value || '—'}\nBairro: ${EditNeigbor?.value || '—'}\nRua: ${EditStreet?.value || '—'}\nNúmero: ${EditNumber?.value || '—'}\nCEP: ${EditCep?.value || '—'}`;
+    Nome: ${EditName?.value || '—'}\nCPF: ${EditCpf?.value || '—'}\nEmail: ${EditEmail?.value || '—'}\nTelefone: ${EditTelephone?.value || '—'}\nGênero: ${EditGender?.value || '—'}\nData de Nascimento: ${EditBirth?.value || '—'}\nCidade: ${EditCity?.value || '—'}\nBairro: ${EditNeigbor?.value || '—'}\nRua: ${EditStreet?.value || '—'}\nNúmero: ${EditNumber?.value || '—'}\nCEP: ${EditCep?.value || '—'}\nComplemento: ${EditComplement?.value || '—'}`;
 
     utils.sendMessage(message);
 }

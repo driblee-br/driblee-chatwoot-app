@@ -18,9 +18,42 @@ export function register() {
 }
 
 // Do a request to register a fan
-export function registerFan() {
-    console.log("Nenhuma funcionalidade de cadastro até o momento")
-    return
+export async function registerFan() {
+    const nomeInput = document.getElementById('complete-name-register').value;
+    const cpfInput = document.getElementById('cpf-register').value;
+    const emailInput = document.getElementById('email-register').value;
+    const telephoneInput = document.getElementById('telephone-register').value;
+
+
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/createuser/`;
+
+    const payload = {
+        name: nomeInput,
+        email: cpfInput,
+        cpf: emailInput,
+        telephone: telephoneInput,
+        password: '0000'
+    };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
+            mode: 'cors',
+            credentials: 'omit',
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        return data;
+    } catch (erro) {
+        console.log("Erro ao criar usuário:", erro)
+        utils.showNotification("Falha ao criar usuário", 'error')
+        return
+    }
+
 }
 
 // Send message to Fan
@@ -31,6 +64,5 @@ export function checkInformations() {
     const telephoneInput = document.getElementById('telephone-register');
     const message = `Pode confirmar seus dados para efetuarmos o seu registro como torcedor?\n
     Nome: ${nomeInput.value}\nCPF: ${cpfInput.value}\nEmail: ${emailInput.value}\nTelefone: ${telephoneInput.value}`;
-    utils.sendMessage(message)
     return
 }
