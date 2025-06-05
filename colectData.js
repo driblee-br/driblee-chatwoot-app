@@ -85,8 +85,7 @@ export function checkInformations() {
     utils.sendMessage(message);
 }
 
-export function fillByCep() {
-    const cepInput = document.getElementById('edit-cep');
+export function fillByCep(cep) {
     const streetInput = document.getElementById('edit-street');
     const neighborInput = document.getElementById('edit-neighbor');
     const cityInput = document.getElementById('edit-city');
@@ -109,7 +108,7 @@ export function fillByCep() {
     }
 
     // Function to search cep in API viacep
-    async function searchCep(cep) {
+    async function searchCep() {
         const cleanCep = cep.replace(/\D/g, '');
 
         if (cleanCep.length !== 8) {
@@ -134,5 +133,5 @@ export function fillByCep() {
         }
     }
 
-    searchCep(cepInput.value)
+    searchCep()
 }
