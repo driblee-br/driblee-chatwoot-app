@@ -1,5 +1,7 @@
+import * as main from './main.js';
+
 export async function checkPayment() {
-    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/checkpayment/`;
+    const url = `${main.getHost()}/checkpayment/`;
 
     const payload = {
         guid: "generico"

@@ -82,9 +82,9 @@ export function checkInformations() {
     const response = utils.sendMessage(message);
 
     if (!response.errors) {
-        utils.showNotification('cadastro', 'Erro ao enviar a mensagem', 'error')
+        utils.showNotification('registration', 'Erro ao enviar a mensagem', 'error')
     } else {
-        utils.showNotification('cadastro', 'Mensagem enviada com sucesso', 'success')
+        utils.showNotification('registration', 'Mensagem enviada com sucesso', 'success')
     }
 }
 
@@ -152,7 +152,7 @@ export async function updateData() {
     const EditCep = document.getElementById("edit-cep").value;
     const EditComplement = document.getElementById("edit-complement").value;
 
-    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/updatedata/`;
+    const url = `${main.getHost()}/updatedata/`;
 
     const payload = {
         "name": EditName,
@@ -188,12 +188,12 @@ export async function updateData() {
             const errorData = await response.json();
             throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
         }
-        utils.showNotification("atualizacao", data.message, 'success')
+        utils.showNotification("update", data.message, 'success')
         setTimeout(() => {
-            utils.showNotification("atualizacao", "Voltando à tela inicial", 'info')
+            utils.showNotification("update", "Voltando à tela inicial", 'info')
         }, 2000);
         setTimeout(() => {
-            utils.reloadScreen('CONSULTA');
+            utils.reloadScreen('CONSULTATION');
         }, 3000);
         checkFan.cleanAllInputsSearch();
         checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)

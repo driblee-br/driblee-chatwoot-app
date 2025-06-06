@@ -8,6 +8,12 @@ import * as meta from './meta.js';
 
 let fullUserDataTwomorrow;
 
+
+export function getHost() {
+    return "https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app"
+}
+
+
 export function getfullUserDataTwomorrow() {
     console.log(fullUserDataTwomorrow)
     return fullUserDataTwomorrow
@@ -45,7 +51,7 @@ document.getElementById('btn-register-fan').addEventListener('click', () => {
 
 //Botton to go to screen update user's data
 document.getElementById('btn-update-data-user').addEventListener('click', () => {
-    utils.reloadScreen('ATUALIZACAO');
+    utils.reloadScreen('UPDATE');
     colectData.FielingFieldsUpdateData();
 });
 

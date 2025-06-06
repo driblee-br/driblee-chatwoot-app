@@ -1,12 +1,12 @@
 //Function to register a fan
 import * as checkFan from './checkFan.js';
 import * as utils from './utils.js';
-
+import * as main from './main.js';
 
 // Update the screen to register screen, doing the automatic fieling
 export function register() {
     const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-    utils.reloadScreen('CADASTRO');
+    utils.reloadScreen('REGISTRATION');
     const nomeInput = document.getElementById('complete-name-register');
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
@@ -26,7 +26,7 @@ export async function registerFan() {
     const telephoneInput = '+55' + document.getElementById('telephone-register').value.replace(/\D/g, '');
     const cpfInput = document.getElementById('cpf-register').value.replace(/\D/g, '');
 
-    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/createuser/`;
+    const url = `${main.getHost()}/createuser/`;
 
     const payload = {
         name: nomeInput,
@@ -51,13 +51,13 @@ export async function registerFan() {
         const data = await response.json();
         //console.log("Data:", data)
         if (data.status_code === false) {
-            utils.showNotification("cadastro", data.response.errorMessage, 'error')
+            utils.showNotification("registration", data.response.errorMessage, 'error')
             return
         }
         else {
-            utils.showNotification("cadastro", "Usuário criado! Voltando para a tela inicial.", 'success')
+            utils.showNotification("registration", "Usuário criado! Voltando para a tela inicial.", 'success')
             setTimeout(() => {
-                utils.reloadScreen('CONSULTA');
+                utils.reloadScreen('CONSULTATION');
             }, 5000);
             checkFan.cleanAllInputsSearch();
             checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
@@ -67,7 +67,7 @@ export async function registerFan() {
             return data;
         }
     } catch (erro) {
-        utils.showNotification("cadastro", "Falha ao criar usuário", 'error')
+        utils.showNotification("registration", "Falha ao criar usuário", 'error')
         //console.log("Erro ao criar usuário:", erro)
 
         return

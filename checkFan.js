@@ -1,6 +1,5 @@
 import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs } from './utils.js';
-import * as checkPayment from './checkPayment.js';
-import * as colectData from './colectData.js';
+import * as main from './main.js';
 
 let fullUserDataChatwoot = {};
 
@@ -26,6 +25,7 @@ export function cleanAllInputsSearch() {
 
 //Function to show a popup with user's data found
 export function showUserPopup(data) {
+    console.log("Data rieved for minipage:", data)
     const plansInfo = document.getElementById('user-plans-payment');
     const modal = document.getElementById('user-popup');
     const info = document.getElementById('user-info');
@@ -35,6 +35,7 @@ export function showUserPopup(data) {
     const email = data.email || '—';
     const mobile = data.mobile?.fullNumber || '—';
     const fanStatus = data.fanStatusView || '—';
+    const cpf = data.identifier || '—';
 
     const latestPlan = data.affiliationPlans?.[data.affiliationPlans.length - 1];
     const planType = latestPlan?.plan?.planTypeView || '—';
@@ -43,6 +44,7 @@ export function showUserPopup(data) {
 
     const html = `
         <strong>Nome:</strong> ${name}<br>
+        <strong>CPF:</strong> ${cpf}<br>
         <strong>Email:</strong> ${email}<br>
         <strong>Telefone:</strong> ${mobile}<br>
         <strong>Status:</strong> ${fanStatus}<br>
@@ -87,7 +89,7 @@ export function toggleMessages(field, found) {
 // Do request to the backend to search a fan
 async function verifyFanBack(params) {
     const queryString = new URLSearchParams(params).toString();
-    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/verify_fan/?${queryString}`;
+    const url = `${main.getHost()}/verify_fan/?${queryString}`;
 
     const response = await fetch(url, {
         method: 'GET',
@@ -122,7 +124,7 @@ export async function fetchData() {
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
-        showNotification("consulta", 'Informe ao menos um dado para buscar.', 'warning');
+        showNotification("consultation", 'Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
         return;
@@ -135,7 +137,7 @@ export async function fetchData() {
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
-        showNotification("consulta", `Erro na busca: ${error.message}`, 'error');
+        showNotification("consultation", `Erro na busca: ${error.message}`, 'error');
     } finally {
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
@@ -239,7 +241,7 @@ export function checkDataConsistency(results) {
     const emptyMessages = OneResult(results.results);
     //console.log("emptyMessages:", emptyMessages)
     if (values.length === 0) {
-        showNotification("consulta", "Nenhum usuário encontrado", 'info')
+        showNotification("consultation", "Nenhum usuário encontrado", 'info')
         const btnRegister = document.getElementById("btn-register");
         btnRegister.classList.remove("hidden");
 
@@ -264,7 +266,7 @@ export function checkDataConsistency(results) {
             }
         }
     } else {
-        showNotification("consulta", "Os dados são de usuários diferentes", 'warning')
+        showNotification("consultation", "Os dados são de usuários diferentes", 'warning')
         return 'Inconsistent data';
     }
 }

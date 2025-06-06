@@ -1,8 +1,9 @@
 import * as checkFan from './checkFan.js';
+import * as main from './main.js';
 
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
-    const allSteps = ['CONSULTA', 'CADASTRO', 'ATUALIZACAO'];
+    const allSteps = ['CONSULTATION', 'REGISTRATION', 'UPDATE'];
 
     for (const step of allSteps) {
         const element = document.getElementById(step);
@@ -56,7 +57,7 @@ export function formatCPF(cpf) {
 /**
  * Function to show a notification in front
  *
- * @param {'consulta' | 'cadastro' | 'atualizacao'} screen - A tela onde a notificação será exibida.
+ * @param {'consultation' | 'registration' | 'update'} screen - A tela onde a notificação será exibida.
  * @param {string} message - A mensagem a ser exibida.
  * @param {'info' | 'warn' | 'error' | 'success'} [type='info'] - O tipo da notificação (opcional, padrão: 'info').
  */
@@ -77,7 +78,7 @@ export function showNotification(screen, message, type = 'info') {
 export async function sendMessage(message) {
     try {
         let fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-        const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/sendmessage/`;
+        const url = `${main.getHost()}/sendmessage/`;
 
         const payload = {
             account_id: fullUserDataChatwoot.conversation.account_id,

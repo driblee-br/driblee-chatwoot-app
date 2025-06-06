@@ -1,5 +1,7 @@
+import * as main from './main.js';
+
 export async function meta() {
-    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/templatemeta/`;
+    const url = `${main.getHost()}/templatemeta/`;
 
     const response = await fetch(url, {
         method: 'POST',
@@ -17,6 +19,6 @@ export async function meta() {
     }
 
     const data = await response.json();
-    console.log("Rsponse from backend (meta):", data.response)
+    console.log("Response from backend (meta):", data)
     return data;
 }
