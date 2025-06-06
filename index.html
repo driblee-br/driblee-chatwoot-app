@@ -43,9 +43,9 @@
                         <span class="finded-message" id="msg-telephone-found">Item encontrado</span>
                         <span class="non-finded-message" id="msg-telephone-non-found">Não encontrado</span>
                     </div>
-                    <div id="notification" class="notification hidden">
-                        <span id="notification-message"></span>
-                        <button id="close-notification" class="close-btn">
+                    <div id="notification-consulta" class="notification hidden">
+                        <span id="notification-message-consulta"></span>
+                        <button id="close-notification-consulta" class="close-btn">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -63,6 +63,7 @@
                     <span id="close-user-popup" class="close-btn">&times;</span>
                     <h3>Informações do Torcedor</h3>
                     <div id="user-info"></div>
+                    <div id="user-plans-payment"></div>
                     <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
                         O que você quer fazer agora?
                         <div style="margin-top: 8px;">
@@ -113,7 +114,12 @@
                                     required="">
                             </div>
                         </div>
-
+                        <div id="notification-cadastro" class="notification hidden">
+                            <span id="notification-message-cadastro"></span>
+                            <button id="close-notification-cadastro" class="close-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                         <div class="action-buttons">
                             <button id="btn-register-fan" type="button" class="btn btn-success">Cadastrar</button>
                             <button type="button" id="btn-confirm-info-register"
@@ -193,7 +199,7 @@
                         </div>
                         <div class="form-group">
                             <label for="edit-neighbor">Bairro</label>
-                            <input type="text" id="edit-neighbor" placeholder="Bairro" readonly>
+                            <input type="text" id="edit-neigbor" placeholder="Bairro" readonly>
                         </div>
                         <div class="form-group">
                             <label for="edit-street">Rua</label>
@@ -207,7 +213,12 @@
                             <label for="edit-complement">Complemento</label>
                             <input type="text" id="edit-complement" placeholder="Complemento">
                         </div>
-
+                        <div id="notification-atualizacao" class="notification hidden">
+                            <span id="notification-message-atualizacao"></span>
+                            <button id="close-notification-atualizacao" class="close-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
 
                         <div class="action-buttons">
                             <button type="button" id="btn-confirm-info-update" class="btn btn-warning">Enviar

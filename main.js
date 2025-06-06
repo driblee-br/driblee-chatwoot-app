@@ -21,7 +21,7 @@ export function setfullUserDataTwomorrow(data) {
 document.getElementById('btnBuscar').addEventListener('click', async () => {
     checkFan.cleanAllInputsSearch();
     const results = await checkFan.fetchData();
-    console.log("results in main", results)
+    //console.log("results in main", results)
     setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
 
 });

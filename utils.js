@@ -53,16 +53,20 @@ export function formatCPF(cpf) {
         .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
 }
 
-
-//Function to show a notification in front
-export function showNotification(message, type = 'info') {
-    const notification = document.getElementById('notification');
-    const notificationMessage = document.getElementById('notification-message');
+/**
+ * Function to show a notification in front
+ *
+ * @param {'consulta' | 'cadastro' | 'atualizacao'} screen - A tela onde a notificação será exibida.
+ * @param {string} message - A mensagem a ser exibida.
+ * @param {'info' | 'warn' | 'error' | 'success'} [type='info'] - O tipo da notificação (opcional, padrão: 'info').
+ */
+export function showNotification(screen, message, type = 'info') {
+    const notification = document.getElementById(`notification-${screen}`);
+    const notificationMessage = document.getElementById(`notification-message-${screen}`);
 
     notificationMessage.textContent = message;
     notification.className = 'notification';
     notification.classList.add('show', type);
-
     // Reset after 5 seconds
     setTimeout(() => {
         notification.classList.remove('show');
@@ -71,34 +75,37 @@ export function showNotification(message, type = 'info') {
 
 // Send message to Fan
 export async function sendMessage(message) {
-    let fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/`;
+    try {
+        let fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
+        const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/sendmessage/`;
 
-    const payload = {
-        account_id: fullUserDataChatwoot.conversation.account_id,
-        conversation_id: fullUserDataChatwoot.conversation.id,
-        message: message
-    };
+        const payload = {
+            account_id: fullUserDataChatwoot.conversation.account_id,
+            conversation_id: fullUserDataChatwoot.conversation.id,
+            message: message
+        };
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
+            mode: 'cors',
+            credentials: 'omit',
+            body: JSON.stringify(payload)
+        });
 
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-        },
-        mode: 'cors',
-        credentials: 'omit',
-        body: JSON.stringify(payload)
-    });
 
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+        }
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+        const data = await response.json();
+
+        return data;
+    } catch {
+        console.log("Dados do chatwoot indisponíveis para testes locais")
     }
-
-    const data = await response.json();
-    console.log("Nenhuma funcionalidade de envio de mensagem por enquanto")
-    return data;
 }

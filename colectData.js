@@ -60,10 +60,6 @@ export function FielingFieldsUpdateData() {
     }
 }
 
-// Request to update user's data
-export function updateData() {
-    console.log("Nenhuma funcionalidade de atualização de dados cadastrais até o momento")
-}
 
 // Confirm info with the Fan sanding a message
 export function checkInformations() {
@@ -83,12 +79,18 @@ export function checkInformations() {
     const message = `Você confirma os seguintes dados atualizados?\n
     Nome: ${EditName?.value || '—'}\nCPF: ${EditCpf?.value || '—'}\nEmail: ${EditEmail?.value || '—'}\nTelefone: ${EditTelephone?.value || '—'}\nGênero: ${EditGender?.value || '—'}\nData de Nascimento: ${EditBirth?.value || '—'}\nCidade: ${EditCity?.value || '—'}\nBairro: ${EditNeigbor?.value || '—'}\nRua: ${EditStreet?.value || '—'}\nNúmero: ${EditNumber?.value || '—'}\nCEP: ${EditCep?.value || '—'}\nComplemento: ${EditComplement?.value || '—'}`;
 
-    utils.sendMessage(message);
+    const response = utils.sendMessage(message);
+
+    if (!response.errors) {
+        utils.showNotification('cadastro', 'Erro ao enviar a mensagem', 'error')
+    } else {
+        utils.showNotification('cadastro', 'Mensagem enviada com sucesso', 'success')
+    }
 }
 
 export function fillByCep(cep) {
     const streetInput = document.getElementById('edit-street');
-    const neighborInput = document.getElementById('edit-neighbor');
+    const neighborInput = document.getElementById('edit-neigbor');
     const cityInput = document.getElementById('edit-city');
     const stateInput = document.getElementById('edit-state');
     const numberInput = document.getElementById('edit-number');
@@ -135,4 +137,67 @@ export function fillByCep(cep) {
     }
 
     searchCep()
+}
+
+export async function updateData() {
+
+    const EditName = document.getElementById("edit-nome").value;
+    const EditCpf = document.getElementById("edit-cpf").value;
+    const EditGender = document.getElementById("edit-gender").value;
+    const EditBirth = document.getElementById("edit-birth").value;
+    const EditCity = document.getElementById("edit-city").value;
+    const EditNeigbor = document.getElementById("edit-neigbor").value;
+    const EditStreet = document.getElementById("edit-street").value;
+    const EditNumber = document.getElementById("edit-number").value;
+    const EditCep = document.getElementById("edit-cep").value;
+    const EditComplement = document.getElementById("edit-complement").value;
+
+    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/updatedata/`;
+
+    const payload = {
+        "name": EditName,
+        "alias": "",
+        "mainDocument": EditCpf,
+        "personGenderValue": EditGender,
+        "birthDate": EditBirth,
+        "postalCode": EditCep,
+        "address": EditCity + EditStreet,
+        "number": EditNumber,
+        "complement": EditComplement,
+        "district": EditNeigbor,
+        "cityId": 0,
+        "description": "",
+        "stateId": 0
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
+            mode: 'cors',
+            credentials: 'omit',
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+        }
+        utils.showNotification("atualizacao", data.message + " Voltando à tela inicial", 'info')
+        setTimeout(() => {
+            utils.reloadScreen('CONSULTA');
+        }, 5000);
+        checkFan.cleanAllInputsSearch();
+        checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
+        const results = await checkFan.fetchData();
+        //console.log("results in main", results)
+        setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+
+        return data;
+    } catch { return }
 }

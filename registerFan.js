@@ -11,29 +11,31 @@ export function register() {
     const cpfInput = document.getElementById('cpf-register');
     const emailInput = document.getElementById('email-register');
     const telephoneInput = document.getElementById('telephone-register');
-    if (fullUserDataChatwoot.contact.name) nomeInput.value = fullUserDataChatwoot.contact.name;
-    if (fullUserDataChatwoot.contact.identifier) cpfInput.value = fullUserDataChatwoot.contact.identifier;
-    if (fullUserDataChatwoot.contact.email) emailInput.value = fullUserDataChatwoot.contact.email;
-    if (fullUserDataChatwoot.contact.phone_number) telephoneInput.value = fullUserDataChatwoot.contact.phone_number;
+    if (fullUserDataChatwoot?.contact) {
+        if (contact.name) nomeInput.value = contact.name;
+        if (contact.identifier) cpfInput.value = contact.identifier;
+        if (contact.email) emailInput.value = contact.email;
+        if (contact.phone_number) telephoneInput.value = contact.phone_number;
+    }
 }
 
 // Do a request to register a fan
 export async function registerFan() {
     const nomeInput = document.getElementById('complete-name-register').value;
-    const cpfInput = document.getElementById('cpf-register').value;
     const emailInput = document.getElementById('email-register').value;
-    const telephoneInput = document.getElementById('telephone-register').value;
-
+    const telephoneInput = '+55' + document.getElementById('telephone-register').value.replace(/\D/g, '');
+    const cpfInput = document.getElementById('cpf-register').value.replace(/\D/g, '');
 
     const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/createuser/`;
 
     const payload = {
         name: nomeInput,
-        email: cpfInput,
-        cpf: emailInput,
+        email: emailInput,
+        cpf: cpfInput,
         telephone: telephoneInput,
         password: '0000'
     };
+    //console.log(payload)
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -47,15 +49,26 @@ export async function registerFan() {
             body: JSON.stringify(payload)
         });
         const data = await response.json();
-
-        if (!data.status_code) {
-            utils.showNotification(data.status_code.message, 'error')
+        //console.log("Data:", data)
+        if (data.status_code === false) {
+            utils.showNotification("cadastro", data.response.errorMessage, 'error')
             return
         }
-        else { return data; }
+        else {
+            utils.showNotification("cadastro", "Usuário criado! Voltando para a tela inicial.", 'success')
+            setTimeout(() => {
+                utils.reloadScreen('CONSULTA');
+            }, 5000);
+            checkFan.cleanAllInputsSearch();
+            checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
+            const results = await checkFan.fetchData();
+            setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+
+            return data;
+        }
     } catch (erro) {
-        utils.showNotification("Falha ao criar usuário", 'error')
-        console.log("Erro ao criar usuário:", erro)
+        utils.showNotification("cadastro", "Falha ao criar usuário", 'error')
+        //console.log("Erro ao criar usuário:", erro)
 
         return
     }

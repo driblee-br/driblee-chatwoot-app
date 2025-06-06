@@ -26,6 +26,7 @@ export function cleanAllInputsSearch() {
 
 //Function to show a popup with user's data found
 export function showUserPopup(data) {
+    const plansInfo = document.getElementById('user-plans-payment');
     const modal = document.getElementById('user-popup');
     const info = document.getElementById('user-info');
     const closeBtn = document.getElementById('close-user-popup');
@@ -51,13 +52,18 @@ export function showUserPopup(data) {
 
     info.innerHTML = html;
     modal.classList.add('show');
-    closeBtn.onclick = () => {
+
+    const clearPopup = () => {
         modal.classList.remove('show');
+        info.innerHTML = '';
+        plansInfo.innerHTML = '';
     };
+
+    closeBtn.onclick = clearPopup;
 
     window.onclick = (event) => {
         if (event.target === modal) {
-            modal.classList.remove('show');
+            clearPopup();
         }
     };
 }
@@ -116,7 +122,7 @@ export async function fetchData() {
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
-        showNotification('Informe ao menos um dado para buscar.', 'warning');
+        showNotification("consulta", 'Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
         return;
@@ -129,7 +135,7 @@ export async function fetchData() {
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
-        showNotification(`Erro na busca: ${error.message}`, 'error');
+        showNotification("consulta", `Erro na busca: ${error.message}`, 'error');
     } finally {
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
@@ -137,12 +143,27 @@ export async function fetchData() {
     }
 }
 
-
-// Event to recieve user's data from chatwoot
-export const searchUser = (event) => {
+export function refilSearch(cpf = "", email = "", phone_number = "") {
     const cpfInput = document.getElementById('busca-cpf');
     const emailInput = document.getElementById('busca-email');
     const telephoneInput = document.getElementById('busca-telephone');
+    if (emailInput && email) {
+        emailInput.value = email;
+    }
+
+    if (telephoneInput && phone_number) {
+        telephoneInput.value = formatPhone(phone_number);
+        telephoneInput.dispatchEvent(new Event('input'));
+    }
+
+    if (cpfInput && identifier) {
+        cpfInput.value = formatCPF(identifier);
+        cpfInput.dispatchEvent(new Event('cpf'));
+    }
+}
+
+// Event to recieve user's data from chatwoot
+export const searchUser = (event) => {
     const loadingElement = document.getElementById('loading');
     const errorElement = document.getElementById('error');
 
@@ -175,22 +196,10 @@ export const searchUser = (event) => {
     if (loadingElement) loadingElement.style.display = 'none';
     if (errorElement) errorElement.style.display = 'none';
 
-    if (emailInput && userData.email) {
-        emailInput.value = userData.email;
-    }
+    refilSearch(cpf = userData.identifier, email = userData.email, phone_number = userData.phone_number)
 
-    if (telephoneInput && userData.phone_number) {
-        telephoneInput.value = formatPhone(userData.phone_number);
-        telephoneInput.dispatchEvent(new Event('input'));
-    }
-
-    if (cpfInput && userData.identifier) {
-        cpfInput.value = formatCPF(userData.identifier);
-        cpfInput.dispatchEvent(new Event('cpf'));
-    }
-
-    console.log("Chatwoot passed data!", receivedData);
-    console.log("Automatic filling done!");
+    //console.log("Chatwoot passed data!", receivedData);
+    //console.log("Automatic filling done!");
 };
 
 //Function to verify if the data found are consistent
@@ -206,7 +215,7 @@ export function checkDataConsistency(results) {
 
     let allEqual;
 
-    console.log("results", results)
+    //console.log("results", results)
     function OneResult() {
         let emptyMessages = 0;
         if (values.every(value => value === values[0]) && values.length > 1) {
@@ -228,9 +237,9 @@ export function checkDataConsistency(results) {
     }
 
     const emptyMessages = OneResult(results.results);
-    console.log("emptyMessages:", emptyMessages)
+    //console.log("emptyMessages:", emptyMessages)
     if (values.length === 0) {
-        showNotification("Nenhum usuário encontrado", 'info')
+        showNotification("consulta", "Nenhum usuário encontrado", 'info')
         const btnRegister = document.getElementById("btn-register");
         btnRegister.classList.remove("hidden");
 
@@ -255,7 +264,7 @@ export function checkDataConsistency(results) {
             }
         }
     } else {
-        showNotification("Os dados são de usuários diferentes", 'warning')
+        showNotification("consulta", "Os dados são de usuários diferentes", 'warning')
         return 'Inconsistent data';
     }
 }
