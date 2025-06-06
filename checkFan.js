@@ -25,7 +25,7 @@ export function cleanAllInputsSearch() {
 
 //Function to show a popup with user's data found
 export function showUserPopup(data) {
-    console.log("Data rieved for minipage:", data)
+    console.log("Data recieved for minipage:", data)
     const plansInfo = document.getElementById('user-plans-payment');
     const modal = document.getElementById('user-popup');
     const info = document.getElementById('user-info');

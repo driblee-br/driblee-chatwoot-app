@@ -2,7 +2,7 @@ import * as checkFan from './checkFan.js';
 import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
 import * as checkPayment from './checkPayment.js';
-import * as colectData from './colectData.js';
+import * as collectData from './collectData.js';
 import * as resetPassword from './resetPassword.js';
 import * as meta from './meta.js';
 
@@ -52,7 +52,7 @@ document.getElementById('btn-register-fan').addEventListener('click', () => {
 //Botton to go to screen update user's data
 document.getElementById('btn-update-data-user').addEventListener('click', () => {
     utils.reloadScreen('UPDATE');
-    colectData.FielingFieldsUpdateData();
+    collectData.FielingFieldsUpdateData();
 });
 
 // Botton to go to screen payment status
@@ -73,7 +73,7 @@ document.getElementById('btn-meta').addEventListener('click', () => {
 //REGISTER//
 //Bottom to effect the update fan's data
 document.getElementById('btn-effect-update').addEventListener('click', () => {
-    colectData.updateData()
+    collectData.updateData()
 });
 
 //Botton to clean the inputs in screen Register Fan
@@ -95,7 +95,7 @@ document.getElementById('btn-clear-update').addEventListener('click', () => {
 
 //Botton to confirm the collected informations to effect the data's update
 document.getElementById('btn-confirm-info-update').addEventListener('click', () => {
-    colectData.checkInformations();
+    collectData.checkInformations();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for the CEP field
     document.getElementById('edit-cep').addEventListener('blur', function () {
 
-        colectData.fillByCep(this.value);
+        collectData.fillByCep(this.value);
     });
 
 

@@ -127,22 +127,23 @@
             background: #2563eb;
         }
 
-        .btn-success {
+        .btn-confirm {
             background: #10b981;
         }
 
-        .btn-success:hover {
+        .btn-confirm:hover {
             background: #059669;
         }
 
-        .btn-warning {
+        .btn-attention {
             background: #f59e0b;
         }
 
-        .btn-warning:hover {
+        .btn-attention:hover {
             background: #d97706;
         }
 
+        /* 
         .btn-consult-payment,
         .btn-clear-inputs {
             background: #6b7280;
@@ -161,7 +162,7 @@
         .btn.btn-register:hover {
             background-color: #be2121 !important;
         }
-
+ */
         .result-box {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
