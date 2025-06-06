@@ -26,7 +26,7 @@ export async function registerFan() {
     const telephoneInput = '+55' + document.getElementById('telephone-register').value.replace(/\D/g, '');
     const cpfInput = document.getElementById('cpf-register').value.replace(/\D/g, '');
 
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/createuser/`;
+    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/createuser/`;
 
     const payload = {
         name: nomeInput,

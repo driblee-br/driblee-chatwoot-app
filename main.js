@@ -4,6 +4,7 @@ import * as utils from './utils.js';
 import * as checkPayment from './checkPayment.js';
 import * as colectData from './colectData.js';
 import * as resetPassword from './resetPassword.js';
+import * as meta from './meta.js';
 
 let fullUserDataTwomorrow;
 
@@ -58,6 +59,10 @@ document.getElementById('btn-reset-password').addEventListener('click', () => {
     resetPassword.resetPassword();
 });
 
+//Botton to send template to META
+document.getElementById('btn-meta').addEventListener('click', () => {
+    meta.meta();
+});
 
 //REGISTER//
 //Bottom to effect the update fan's data

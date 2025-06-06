@@ -296,27 +296,25 @@
             right: 20px;
             background-color: var(--primary-color);
             color: white;
-            padding: 15px 20px;
+            padding: 15px 45px 15px 20px;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            justify-content: space-between;
             max-width: 400px;
             transform: translateX(150%);
             transition: transform 0.3s ease;
             z-index: 1000;
         }
 
+
         .notification.show {
             transform: translateX(0);
         }
 
         #notification-message {
-            flex: 1;
-            margin-right: 20px;
+            word-break: break-word;
         }
-
 
 
 
@@ -384,14 +382,17 @@
             display: block;
         }
 
+
         .close-btn {
             background: none;
             border: none;
-            margin-left: 15px;
             position: absolute;
-            top: 10px;
-            right: 20px;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
             font-size: 20px;
             cursor: pointer;
-            color: rgb(46, 0, 0)
+            color: white;
+            line-height: 1;
+            padding: 0;
         }

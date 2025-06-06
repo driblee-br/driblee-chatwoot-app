@@ -33,7 +33,7 @@ export function showUserPopup(data) {
 
     const name = data.name || '—';
     const email = data.email || '—';
-    const mobile = data.mobile?.number || '—';
+    const mobile = data.mobile?.fullNumber || '—';
     const fanStatus = data.fanStatusView || '—';
 
     const latestPlan = data.affiliationPlans?.[data.affiliationPlans.length - 1];
@@ -87,7 +87,7 @@ export function toggleMessages(field, found) {
 // Do request to the backend to search a fan
 async function verifyFanBack(params) {
     const queryString = new URLSearchParams(params).toString();
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/verify_fan/?${queryString}`;
+    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/verify_fan/?${queryString}`;
 
     const response = await fetch(url, {
         method: 'GET',

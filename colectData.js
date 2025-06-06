@@ -152,7 +152,7 @@ export async function updateData() {
     const EditCep = document.getElementById("edit-cep").value;
     const EditComplement = document.getElementById("edit-complement").value;
 
-    const url = `https://e694-2804-14d-5c5b-82f8-4b6-985e-3fe3-f71d.ngrok-free.app/updatedata/`;
+    const url = `https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app/updatedata/`;
 
     const payload = {
         "name": EditName,
@@ -188,10 +188,13 @@ export async function updateData() {
             const errorData = await response.json();
             throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
         }
-        utils.showNotification("atualizacao", data.message + " Voltando à tela inicial", 'info')
+        utils.showNotification("atualizacao", data.message, 'success')
+        setTimeout(() => {
+            utils.showNotification("atualizacao", "Voltando à tela inicial", 'info')
+        }, 2000);
         setTimeout(() => {
             utils.reloadScreen('CONSULTA');
-        }, 5000);
+        }, 3000);
         checkFan.cleanAllInputsSearch();
         checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
         const results = await checkFan.fetchData();
