@@ -69,42 +69,22 @@ export async function updateData(type_data) {
     const EditComplement = document.getElementById("edit-complement").value;
     let url;
     let payload;
-    if (type_data == 'complement') {
-        url = `${main.getHost()}/updatedata/`;
+    url = `${main.getHost()}/updatedata/`;
 
-        payload = {
-            "name": EditName,
-            "alias": "",
-            "mainDocument": EditCpf,
-            "personGenderValue": EditGender,
-            "birthDate": EditBirth,
-            "postalCode": EditCep,
-            "address": EditCity + EditStreet,
-            "number": EditNumber,
-            "complement": EditComplement,
-            "district": EditNeigbor,
-            "cityId": 0,
-            "description": "",
-            "stateId": 0
-        }
-    } else if (type_data == 'address') {
-        url = `${main.getHost()}/updateaddress/`;
-
-        payload = {
-            "name": EditName,
-            "alias": "",
-            "mainDocument": EditCpf,
-            "personGenderValue": EditGender,
-            "birthDate": EditBirth,
-            "postalCode": EditCep,
-            "address": EditCity + EditStreet,
-            "number": EditNumber,
-            "complement": EditComplement,
-            "district": EditNeigbor,
-            "cityId": 0,
-            "description": "",
-            "stateId": 0
-        }
+    payload = {
+        "name": EditName,
+        "alias": "",
+        "mainDocument": EditCpf,
+        "personGenderValue": EditGender,
+        "birthDate": EditBirth,
+        "postalCode": EditCep,
+        "address": EditCity + EditStreet,
+        "number": EditNumber,
+        "complement": EditComplement,
+        "district": EditNeigbor,
+        "cityId": 0,
+        "description": "",
+        "stateId": 0
     }
 
     try {
