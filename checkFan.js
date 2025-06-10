@@ -1,6 +1,7 @@
 import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs } from './utils.js';
 import * as main from './main.js';
-
+import * as utils from './utils.js';
+import * as registerFan from './registerFan.js';
 let fullUserDataChatwoot = {};
 
 export function getfullUserDataChatwoot() {
@@ -24,50 +25,56 @@ export function cleanAllInputsSearch() {
 }
 
 //Function to show a popup with user's data found
-export function showUserPopup(data) {
-    console.log("Data recieved for minipage:", data)
-    const plansInfo = document.getElementById('user-plans-payment');
-    const modal = document.getElementById('user-popup');
-    const info = document.getElementById('user-info');
-    const closeBtn = document.getElementById('close-user-popup');
+export function showUserPopup(data, classe = null) {
+    console.log("Data received to show:", data);
+    const cardsContainer = document.getElementById('user-popup');
+    const card = document.createElement('div');
+    card.classList.add('card');
 
-    const name = data.name || '—';
-    const email = data.email || '—';
-    const mobile = data.mobile?.fullNumber || '—';
-    const fanStatus = data.fanStatusView || '—';
-    const cpf = data.identifier || '—';
+    // Adiciona classe apenas se fornecida
+    if (classe) {
+        card.classList.add(`user-founded-by-${classe}`);
+    }
 
-    const latestPlan = data.affiliationPlans?.[data.affiliationPlans.length - 1];
-    const planType = latestPlan?.plan?.planTypeView || '—';
-    const planDescription = latestPlan?.plan?.description || '—';
+    // Cria elementos de forma segura usando DOM API
+    const content = document.createElement('div');
 
+    const h3 = document.createElement('h3');
+    // Define o título baseado no tipo de busca
+    if (classe === 'telephone') {
+        h3.textContent = 'Usuário encontrado por Telefone';
+    } else if (classe === 'cpf') {
+        h3.textContent = 'Usuário encontrado por CPF';
+    } else {
+        h3.textContent = 'Informações do Usuário';
+    }
 
-    const html = `
-        <strong>Nome:</strong> ${name}<br>
-        <strong>CPF:</strong> ${cpf}<br>
-        <strong>Email:</strong> ${email}<br>
-        <strong>Telefone:</strong> ${mobile}<br>
-        <strong>Status:</strong> ${fanStatus}<br>
-        <strong>Tipo de Plano:</strong> ${planType}<br>
-        <strong>Descrição do Plano:</strong> ${planDescription}
-    `;
-
-    info.innerHTML = html;
-    modal.classList.add('show');
-
-    const clearPopup = () => {
-        modal.classList.remove('show');
-        info.innerHTML = '';
-        plansInfo.innerHTML = '';
+    const createInfoParagraph = (label, value) => {
+        const p = document.createElement('p');
+        const strong = document.createElement('strong');
+        strong.textContent = `${label}: `;
+        p.appendChild(strong);
+        p.appendChild(document.createTextNode(value));
+        return p;
     };
 
-    closeBtn.onclick = clearPopup;
+    content.appendChild(h3);
+    content.appendChild(createInfoParagraph('Nome', data.name || '_'));
+    content.appendChild(createInfoParagraph('CPF', data.mainDocument || '_'));
+    content.appendChild(createInfoParagraph('Email', data.email || '_'));
+    content.appendChild(createInfoParagraph('Telefone', data.mobile?.fullNumber || '_'));
+    content.appendChild(createInfoParagraph('Status', data.fanStatusView || '_'));
 
-    window.onclick = (event) => {
-        if (event.target === modal) {
-            clearPopup();
-        }
-    };
+    card.appendChild(content);
+
+    card.addEventListener('click', () => {
+        main.setfullUserDataTwomorrow(data);
+        utils.reloadScreen('UPDATE');
+        card.classList.add('card-clicked');
+        setTimeout(() => card.classList.remove('card-clicked'), 200);
+    });
+
+    cardsContainer.appendChild(card);
 }
 
 //Function to exhibit the status of the search for each parameter
@@ -107,6 +114,7 @@ async function verifyFanBack(params) {
     }
 
     const data = await response.json();
+    console.log("Data: ", data);
     return data;
 }
 
@@ -131,6 +139,7 @@ export async function fetchData() {
     }
     try {
         let data = await verifyFanBack(params);
+        console.log("Fetch data: ", data)
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
         toggleMessages('telephone', data.results.telephone && data.results.telephone.message == '');
@@ -207,7 +216,7 @@ export const searchUser = (event) => {
 //Function to verify if the data found are consistent
 export function checkDataConsistency(results) {
     const values = [];
-
+    console.log("Results in checkDataConsistency", results)
     for (const key in results) {
         const item = results[key];
         if (item?.resultObject) {
@@ -241,11 +250,17 @@ export function checkDataConsistency(results) {
     const emptyMessages = OneResult(results.results);
     //console.log("emptyMessages:", emptyMessages)
     if (values.length === 0) {
-        showNotification("consultation", "Nenhum usuário encontrado", 'info')
         const btnRegister = document.getElementById("btn-register");
         btnRegister.classList.remove("hidden");
-
-
+        const cpf = document.getElementById('busca-cpf').value;
+        const email = document.getElementById('busca-email').value;
+        const phone = document.getElementById('busca-telephone').value;
+        console.log("Informações passadas")
+        btnRegister.addEventListener('click', () => {
+            registerFan.register()
+            console.log("Aguardando preenchimento com: ", cpf, email, phone)
+            registerFan.fillRegister(null, cpf, phone, email);
+        });
         return null;
     }
 
@@ -258,17 +273,27 @@ export function checkDataConsistency(results) {
 
     if (allEqual) {
         const entries = Object.entries(results);
-        for (let i = 0; i < entries.length; i++) {
-            const [key, value] = entries[i];
-            if (value && value.resultObject !== null) {
-                showUserPopup(value.resultObject);
-                return value.resultObject;
+        for (const key in results) {
+            const item = results[key];
+            if (item.message == "") {
+                console.log("resultObject", item.resultObject);
+                utils.reloadScreen('UPDATE');
+                return item.resultObject
             }
+
         }
     } else {
-        showNotification("consultation", "Os dados são de usuários diferentes", 'warning')
-        return 'Inconsistent data';
+        const cardsContainer = document.getElementById('user-popup');
+        cardsContainer.innerHTML = '';
+        for (const key in results) {
+            const item = results[key];
+            console.log("Item for show popup:", item)
+            if (item.message == "") {
+                console.log("resultObject", item.resultObject)
+                showUserPopup(item.resultObject, key);
+            }
+
+        } utils.reloadScreen('CHOOSE');
     }
 }
-
 

@@ -10,7 +10,7 @@ let fullUserDataTwomorrow;
 
 
 export function getHost() {
-    return "https://9334-2804-14d-5c5b-82f8-aa47-b887-8c1d-b8aa.ngrok-free.app"
+    return "http://127.0.0.1:8086"
 }
 
 
@@ -39,15 +39,6 @@ document.getElementById('btn-clear-check').addEventListener('click', () => {
     utils.cleanAllInputs();
 });
 
-//Botton to go to screen register fan
-document.getElementById('btn-register').addEventListener('click', () => {
-    registerFan.register();
-});
-
-//Botton to effect the fan's register
-document.getElementById('btn-register-fan').addEventListener('click', () => {
-    registerFan.registerFan();
-});
 
 //Botton to go to screen update user's data
 document.getElementById('btn-update-data-user').addEventListener('click', () => {
@@ -106,69 +97,41 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener("message", checkFan.searchUser);
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
 
-    // Processing cpf data while typing
     document.getElementById('busca-cpf').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = '';
 
-        if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, '$1.$2');
-        if (value.length > 6) value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-        if (value.length > 9) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+        if (value.length > 0) {
+            formattedValue = value.substring(0, 3);
+        }
+        if (value.length > 3) {
+            formattedValue += '.' + value.substring(3, 6);
+        }
+        if (value.length > 6) {
+            formattedValue += '.' + value.substring(6, 9);
+        }
+        if (value.length > 9) {
+            formattedValue += '-' + value.substring(9, 11);
+        }
 
-        e.target.value = value;
+        e.target.value = formattedValue;
     });
-
-    // Processing cpf-register data while typing
-    document.getElementById('cpf-register').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-
-        if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, '$1.$2');
-        if (value.length > 6) value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-        if (value.length > 9) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-
-        e.target.value = value;
-    });
-
-    // Processing telephone data while typing
     document.getElementById('busca-telephone').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = '';
 
-        value = value.slice(0, 11);
-
-        if (value.length > 2) value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-        if (value.length > 7) value = value.replace(/(\d{5})(\d)/, '$1-$2');
-
-        e.target.value = value;
-    });
-
-    // Processing telephone-register data while typing
-    document.getElementById('telephone-register').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-
-        value = value.slice(0, 11);
-
-        if (value.length > 2) value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-        if (value.length > 7) value = value.replace(/(\d{5})(\d)/, '$1-$2');
-
-        e.target.value = value;
-    });
-
-    // Event to format CEP in real-time
-    document.getElementById('edit-cep').addEventListener('input', function () {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 5) {
-            value = value.substring(0, 5) + '-' + value.substring(5, 8);
-        } else if (value.length > 8) {
-            value = value.substring(0, 8);
+        if (value.length > 0) {
+            formattedValue = '(' + value.substring(0, 2);
         }
-        this.value = value;
+        if (value.length > 2) {
+            formattedValue += ') ' + value.substring(2, 7);
+        }
+        if (value.length > 7) {
+            formattedValue += '-' + value.substring(7, 11);
+        }
+
+        e.target.value = formattedValue;
     });
-
-    // Event listener for the CEP field
-    document.getElementById('edit-cep').addEventListener('blur', function () {
-
-        collectData.fillByCep(this.value);
-    });
-
 
     // Close notification
     closeNotification.addEventListener('click', function () {

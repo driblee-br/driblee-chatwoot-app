@@ -5,20 +5,58 @@ import * as main from './main.js';
 
 // Update the screen to register screen, doing the automatic fieling
 export function register() {
-    const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-    utils.reloadScreen('REGISTRATION');
-    const nomeInput = document.getElementById('complete-name-register');
-    const cpfInput = document.getElementById('cpf-register');
-    const emailInput = document.getElementById('email-register');
-    const telephoneInput = document.getElementById('telephone-register');
-    if (fullUserDataChatwoot?.contact) {
-        if (contact.name) nomeInput.value = contact.name;
-        if (contact.identifier) cpfInput.value = contact.identifier;
-        if (contact.email) emailInput.value = contact.email;
-        if (contact.phone_number) telephoneInput.value = contact.phone_number;
-    }
+    // Goes to the screen 'UPDATE'
+    utils.reloadScreen('UPDATE');
+
+    //Block the input in the non basic informations
+    const panels = document.querySelectorAll('.panel');
+    panels.forEach(panel => {
+        if (panel.id !== 'basic-data') {
+            panel.classList.add('no-edit');
+
+            const inputs = panel.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.disabled = true;
+                input.classList.add('disabled-field');
+            });
+        }
+    });
+
+    //Disaneble the botton "atualizar"
+    document.getElementById("btn-effect-update").classList.add('hidden')
+
+    //Enable botton update data
+    document.getElementById("btn-register-fan").classList.remove('hidden')
+    //Botton to effect the fan's register
+    document.getElementById('btn-register-fan').addEventListener('click', () => {
+        registerFan();
+    });
+
+
 }
 
+export function fillRegister(name = null, cpf = null, phone_number = null, email = null) {
+    // Do the automatic feeling
+    const fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
+    const nomeInput = document.getElementById('edit-name');
+    const cpfInput = document.getElementById('edit-cpf');
+    const emailInput = document.getElementById('edit-email');
+    const telephoneInput = document.getElementById('edit-telephone');
+
+    if (fullUserDataChatwoot && fullUserDataChatwoot.contact) {
+        const contact = fullUserDataChatwoot.contact;
+        if (nomeInput && contact.name) nomeInput.value = contact.name;
+        if (cpfInput && contact.identifier) cpfInput.value = contact.identifier;
+        if (emailInput && contact.email) emailInput.value = contact.email;
+        if (telephoneInput && contact.phone_number) telephoneInput.value = contact.phone_number;
+    }
+
+    if (nomeInput && name !== null) nomeInput.value = name;
+    if (cpfInput && cpf !== null) cpfInput.value = cpf;
+    if (emailInput && email !== null) emailInput.value = email;
+    if (telephoneInput && phone_number !== null) telephoneInput.value = phone_number;
+
+}
 // Do a request to register a fan
 export async function registerFan() {
     const nomeInput = document.getElementById('complete-name-register').value;
@@ -55,20 +93,14 @@ export async function registerFan() {
             return
         }
         else {
-            utils.showNotification("registration", "Usuário criado! Voltando para a tela inicial.", 'success')
-            setTimeout(() => {
-                utils.reloadScreen('CONSULTATION');
-            }, 5000);
-            checkFan.cleanAllInputsSearch();
-            checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
+            utils.showNotification("registration", "Usuário criado!", 'success')
             const results = await checkFan.fetchData();
             setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
-
             return data;
+
         }
     } catch (erro) {
         utils.showNotification("registration", "Falha ao criar usuário", 'error')
-        //console.log("Erro ao criar usuário:", erro)
 
         return
     }

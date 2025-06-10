@@ -3,7 +3,7 @@ import * as main from './main.js';
 
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
-    const allSteps = ['CONSULTATION', 'REGISTRATION', 'UPDATE'];
+    const allSteps = ['CONSULTATION', 'REGISTRATION', 'UPDATE', 'CHOOSE'];
 
     for (const step of allSteps) {
         const element = document.getElementById(step);
@@ -16,6 +16,13 @@ export function reloadScreen(step_now) {
     if (currentElement) {
         currentElement.classList.remove("hidden");
     }
+
+    //Botton to go to the search screen
+    document.getElementById('btn-new-search').addEventListener('click', () => {
+        reloadScreen('CONSULTATION');
+    });
+    addEventListeners();
+
 }
 
 // Function to clean all inputs in the register page
@@ -110,3 +117,57 @@ export async function sendMessage(message) {
         console.log("Dados do chatwoot indisponíveis para testes locais")
     }
 }
+
+function addEventListeners() {
+    // Processing cpf-register data while typing
+    document.getElementById('cpf-register').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+
+        if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, '$1.$2');
+        if (value.length > 6) value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+        if (value.length > 9) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+
+        e.target.value = value;
+    });
+
+    // Processing telephone data while typing
+    document.getElementById('busca-telephone').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+
+        value = value.slice(0, 11);
+
+        if (value.length > 2) value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+        if (value.length > 7) value = value.replace(/(\d{5})(\d)/, '$1-$2');
+
+        e.target.value = value;
+    });
+
+    // Processing telephone-register data while typing
+    document.getElementById('telephone-register').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+
+        value = value.slice(0, 11);
+
+        if (value.length > 2) value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+        if (value.length > 7) value = value.replace(/(\d{5})(\d)/, '$1-$2');
+
+        e.target.value = value;
+    });
+
+    // Event to format CEP in real-time
+    document.getElementById('edit-cep').addEventListener('input', function () {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 5) {
+            value = value.substring(0, 5) + '-' + value.substring(5, 8);
+        } else if (value.length > 8) {
+            value = value.substring(0, 8);
+        }
+        this.value = value;
+    });
+
+    // Event listener for the CEP field
+    document.getElementById('edit-cep').addEventListener('blur', function () {
+        collectData.fillByCep(this.value);
+    });
+}
+
