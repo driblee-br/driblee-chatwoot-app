@@ -33,9 +33,6 @@ export function setfullUserDataChatwoot(data) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Elements from index page
-    const closeNotification = document.getElementById('close-notification');
-
     // Recieving data from chatwoot
     window.addEventListener("message", checkFan.searchUser);
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');

@@ -194,7 +194,7 @@ export const searchUser = (event) => {
 
     if (loadingElement) loadingElement.style.display = 'none';
     if (errorElement) errorElement.style.display = 'none';
-    refilSearch(cpf = userData.identifier, email = userData.email, phone_number = userData.phone_number)
+    refilSearch(userData.identifier, userData.email, userData.phone_number)
 };
 
 //Function to verify if the data found are consistent
