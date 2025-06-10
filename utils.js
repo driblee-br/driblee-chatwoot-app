@@ -19,7 +19,8 @@ export function reloadScreen(step_now) {
 
     if (step_now == 'CONSULTATION') {
         document.getElementById("btn-register").classList.add("hidden");
-        document.getElementById("btn-register-fan").classList.add('hidden')
+        document.getElementById("btn-register-fan").classList.add('hidden');
+        document.getElementById('finances').inner = '';
     }
 
 }
