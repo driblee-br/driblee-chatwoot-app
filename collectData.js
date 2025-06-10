@@ -55,7 +55,7 @@ export function fillByCep(cep) {
     searchCep()
 }
 
-export async function updateData(type_data) {
+export async function updateData() {
 
     const EditName = document.getElementById("edit-nome").value;
     const EditCpf = document.getElementById("edit-cpf").value;
