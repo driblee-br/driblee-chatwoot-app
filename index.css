@@ -24,6 +24,15 @@
             display: none;
         }
 
+        .logo-button {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+
         .panel {
             background: white;
             border-radius: 12px;
@@ -43,6 +52,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+
         }
 
         .panel-content {
@@ -489,4 +499,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        h4 {
+            margin-bottom: 10px;
         }

@@ -29,8 +29,7 @@ export async function checkPayment() {
     } catch { return }
 }
 function showPaymentAtributes(data) {
-    const modal = document.getElementById('user-popup');
-    const info = document.getElementById('user-plans-payment');
+    const info = document.getElementById('finances');
     const user = data.resultObject;
 
     const formatDate = (date) => date ? new Date(date).toLocaleDateString() : 'Não informado';
@@ -68,13 +67,14 @@ function showPaymentAtributes(data) {
 
     const html = `
         ${divider}
+        <div id="panel-content">
         <h4>Planos e Pagamentos</h4>
         ${plansHtml}
         <h4>Histórico de Pagamento</h4>
         <p>(Inserir detalhes do histórico aqui futuramente)</p>
+        </div>
         ${divider}
     `;
 
     info.innerHTML = html;
-    modal.classList.add('show');
 }

@@ -1,92 +1,8 @@
 import * as main from './main.js';
 import * as utils from './utils.js';
+import * as checkFan from './checkFan.js';
 //Automatic fieling of fields in update user's data screen
-export function FielingFieldsUpdateData() {
-    const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
-    const EditName = document.getElementById("edit-nome");
-    const EditCpf = document.getElementById("edit-cpf");
-    const EditEmail = document.getElementById("edit-email");
-    const EditTelephone = document.getElementById("edit-telephone");
-    const EditGender = document.getElementById("edit-gender");
-    const EditBirth = document.getElementById("edit-birth");
-    const EditCity = document.getElementById("edit-city");
-    const EditNeigbor = document.getElementById("edit-neigbor");
-    const EditStreet = document.getElementById("edit-street");
-    const EditNumber = document.getElementById("edit-number");
-    const EditCep = document.getElementById("edit-cep");
 
-    if (EditName && fullUserDataTwomorrow.name) {
-        EditName.value = fullUserDataTwomorrow.name;
-    }
-
-    if (EditCpf && fullUserDataTwomorrow.cpf) {
-        EditCpf.value = fullUserDataTwomorrow.cpf;
-    }
-
-    if (EditEmail && fullUserDataTwomorrow.email) {
-        EditEmail.value = fullUserDataTwomorrow.email;
-    }
-
-    if (EditTelephone && fullUserDataTwomorrow.mobile?.number) {
-        EditTelephone.value = fullUserDataTwomorrow.mobile.number;
-    }
-
-    if (EditGender && fullUserDataTwomorrow.gender) {
-        EditGender.value = fullUserDataTwomorrow.gender;
-    }
-
-    if (EditBirth && fullUserDataTwomorrow.birthDate) {
-        EditBirth.value = fullUserDataTwomorrow.birthDate;
-    }
-
-    if (EditCity && fullUserDataTwomorrow.address?.city) {
-        EditCity.value = fullUserDataTwomorrow.address.city;
-    }
-
-    if (EditNeigbor && fullUserDataTwomorrow.address?.neighborhood) {
-        EditNeigbor.value = fullUserDataTwomorrow.address.neighborhood;
-    }
-
-    if (EditStreet && fullUserDataTwomorrow.address?.street) {
-        EditStreet.value = fullUserDataTwomorrow.address.street;
-    }
-
-    if (EditNumber && fullUserDataTwomorrow.address?.number) {
-        EditNumber.value = fullUserDataTwomorrow.address.number;
-    }
-
-    if (EditCep && fullUserDataTwomorrow.address?.cep) {
-        EditCep.value = fullUserDataTwomorrow.address.cep;
-    }
-}
-
-
-// Confirm info with the Fan sanding a message
-export function checkInformations() {
-    const EditName = document.getElementById("edit-nome");
-    const EditCpf = document.getElementById("edit-cpf");
-    const EditEmail = document.getElementById("edit-email");
-    const EditTelephone = document.getElementById("edit-telephone");
-    const EditGender = document.getElementById("edit-gender");
-    const EditBirth = document.getElementById("edit-birth");
-    const EditCity = document.getElementById("edit-city");
-    const EditNeigbor = document.getElementById("edit-neigbor");
-    const EditStreet = document.getElementById("edit-street");
-    const EditNumber = document.getElementById("edit-number");
-    const EditCep = document.getElementById("edit-cep");
-    const EditComplement = document.getElementById("edit-complement");
-
-    const message = `Você confirma os seguintes dados atualizados?\n
-    Nome: ${EditName?.value || '—'}\nCPF: ${EditCpf?.value || '—'}\nEmail: ${EditEmail?.value || '—'}\nTelefone: ${EditTelephone?.value || '—'}\nGênero: ${EditGender?.value || '—'}\nData de Nascimento: ${EditBirth?.value || '—'}\nCidade: ${EditCity?.value || '—'}\nBairro: ${EditNeigbor?.value || '—'}\nRua: ${EditStreet?.value || '—'}\nNúmero: ${EditNumber?.value || '—'}\nCEP: ${EditCep?.value || '—'}\nComplemento: ${EditComplement?.value || '—'}`;
-
-    const response = utils.sendMessage(message);
-
-    if (!response.errors) {
-        //utils.showNotification('registration', 'Erro ao enviar a mensagem', 'error')
-    } else {
-        //utils.showNotification('registration', 'Mensagem enviada com sucesso', 'success')
-    }
-}
 
 export function fillByCep(cep) {
     const streetInput = document.getElementById('edit-street');
@@ -139,7 +55,7 @@ export function fillByCep(cep) {
     searchCep()
 }
 
-export async function updateData() {
+export async function updateData(type_data) {
 
     const EditName = document.getElementById("edit-nome").value;
     const EditCpf = document.getElementById("edit-cpf").value;
@@ -151,23 +67,44 @@ export async function updateData() {
     const EditNumber = document.getElementById("edit-number").value;
     const EditCep = document.getElementById("edit-cep").value;
     const EditComplement = document.getElementById("edit-complement").value;
+    let url;
+    let payload;
+    if (type_data == 'complement') {
+        url = `${main.getHost()}/updatedata/`;
 
-    const url = `${main.getHost()}/updatedata/`;
+        payload = {
+            "name": EditName,
+            "alias": "",
+            "mainDocument": EditCpf,
+            "personGenderValue": EditGender,
+            "birthDate": EditBirth,
+            "postalCode": EditCep,
+            "address": EditCity + EditStreet,
+            "number": EditNumber,
+            "complement": EditComplement,
+            "district": EditNeigbor,
+            "cityId": 0,
+            "description": "",
+            "stateId": 0
+        }
+    } else if (type_data == 'address') {
+        url = `${main.getHost()}/updateaddress/`;
 
-    const payload = {
-        "name": EditName,
-        "alias": "",
-        "mainDocument": EditCpf,
-        "personGenderValue": EditGender,
-        "birthDate": EditBirth,
-        "postalCode": EditCep,
-        "address": EditCity + EditStreet,
-        "number": EditNumber,
-        "complement": EditComplement,
-        "district": EditNeigbor,
-        "cityId": 0,
-        "description": "",
-        "stateId": 0
+        payload = {
+            "name": EditName,
+            "alias": "",
+            "mainDocument": EditCpf,
+            "personGenderValue": EditGender,
+            "birthDate": EditBirth,
+            "postalCode": EditCep,
+            "address": EditCity + EditStreet,
+            "number": EditNumber,
+            "complement": EditComplement,
+            "district": EditNeigbor,
+            "cityId": 0,
+            "description": "",
+            "stateId": 0
+        }
     }
 
     try {
@@ -188,12 +125,95 @@ export async function updateData() {
             const errorData = await response.json();
             throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
         }
-        checkFan.cleanAllInputsSearch();
-        checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
         const results = await checkFan.fetchData();
-        //console.log("results in main", results)
-        setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+        main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+        utils.showNotification("Dados atualizados com sucesso.", 'success')
 
         return data;
-    } catch { return }
+    } catch (e) {
+        utils.showNotification(`Não foi possível concluir o update dos dados.`, 'error');
+        console.log(e);
+        return
+    }
+}
+
+export function copyInformations(typeInformations) {
+    const fullName = document.getElementById('edit-nome')?.value || '';
+    const cpf = document.getElementById('edit-cpf')?.value || '';
+    const phone = document.getElementById('edit-telephone')?.value || '';
+    const email = document.getElementById('edit-email')?.value || '';
+    const gender = document.getElementById('edit-gender')?.value || '';
+    const birthDate = document.getElementById('edit-birth')?.value || '';
+    const zipCode = document.getElementById('edit-cep')?.value || '';
+    const state = document.getElementById('edit-state')?.value || '';
+    const city = document.getElementById('edit-city')?.value || '';
+    const neighborhood = document.getElementById('edit-neigbor')?.value || '';
+    const street = document.getElementById('edit-street')?.value || '';
+    const number = document.getElementById('edit-number')?.value || '';
+    const complement = document.getElementById('edit-complement')?.value || '';
+
+
+    if (typeInformations == 'initial') {
+        const message =
+            "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+            "CPF: " + cpf + "\n" +
+            "Nome Completo: " + fullName + "\n" +
+            "Telefone: " + phone + "\n" +
+            "Email: " + email
+
+        navigator.clipboard.writeText(message.trim())
+            .then(() => {
+                utils.showNotification('Texto copiado para a área de transferência!', 'info');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+    }
+    else if (typeInformations == 'personal') {
+        const message =
+            "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+            "Gênero: " + gender + "\n" +
+            "Data de Nascimento: " + birthDate
+
+
+        navigator.clipboard.writeText(message.trim())
+            .then(() => {
+                utils.showNotification('Texto copiado para a área de transferência!', 'info');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+    }
+
+    else if (typeInformations == 'address') {
+        const message =
+            "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+            "Endereço:\n" +
+            "CEP: " + zipCode + "\n" +
+            "Estado: " + state + "\n" +
+            "Cidade: " + city + "\n" +
+            "Bairro: " + neighborhood + "\n" +
+            "Rua: " + street + "\n" +
+            "Número: " + number + "\n" +
+            "Complemento: " + complement;
+
+        navigator.clipboard.writeText(message.trim())
+            .then(() => {
+                utils.showNotification('Texto copiado para a área de transferência!', 'info');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+    }
+    else if (typeInformations == 'key') {
+        const message = "Enviamos um e-mail com instruções de redefinição de senha"
+        navigator.clipboard.writeText(message.trim())
+            .then(() => {
+                utils.showNotification('Texto copiado para a área de transferência!', 'info');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+
+    }
 }

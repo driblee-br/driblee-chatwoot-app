@@ -58,13 +58,12 @@ export function formatCPF(cpf) {
 /**
  * Function to show a notification in front
  *
- * @param {'consultation' | 'registration' | 'update'} screen - A tela onde a notificação será exibida.
  * @param {string} message - A mensagem a ser exibida.
  * @param {'info' | 'warn' | 'error' | 'success'} [type='info'] - O tipo da notificação (opcional, padrão: 'info').
  */
-export function showNotification(screen, message, type = 'info') {
-    const notification = document.getElementById(`notification-${screen}`);
-    const notificationMessage = document.getElementById(`notification-message-${screen}`);
+export function showNotification(message, type = 'info') {
+    const notification = document.getElementById(`notification`);
+    const notificationMessage = document.getElementById(`notification-message`);
 
     notificationMessage.textContent = message;
     notification.className = 'notification';
@@ -142,3 +141,153 @@ export function editPanels(boolean) {
     }
 }
 
+export function fillFullInformations(from, name = null, cpf = null, phone_number = null, email = null) {
+    const EditName = document.getElementById("edit-nome");
+    const EditCpf = document.getElementById("edit-cpf");
+    const EditEmail = document.getElementById("edit-email");
+    const EditTelephone = document.getElementById("edit-telephone");
+    const EditGender = document.getElementById("edit-gender");
+    const EditBirth = document.getElementById("edit-birth");
+    const EditCity = document.getElementById("edit-city");
+    const EditNeigbor = document.getElementById("edit-neigbor");
+    const EditStreet = document.getElementById("edit-street");
+    const EditNumber = document.getElementById("edit-number");
+    const EditCep = document.getElementById("edit-cep");
+    const EditState = document.getElementById("edit-state");
+    const EditComplement = document.getElementById("edit-complement");
+    const EditSituation = document.getElementById("edit-situation");
+
+    if (from == 'chatwoot') {
+        const fullUserDataChatwoot = main.getfullUserDataChatwoot();
+
+        if (EditName && fullUserDataChatwoot.name) {
+            EditName.value = fullUserDataChatwoot.name;
+        } else if (EditName && name) {
+            EditName.value = name;
+        }
+
+        if (EditCpf && fullUserDataChatwoot.cpf) {
+            EditCpf.value = fullUserDataChatwoot.cpf;
+        } else if (EditCpf && cpf) {
+            EditCpf.value = formatCPF(cpf);
+            EditCpf.dispatchEvent(new Event('cpf'));
+        }
+
+        if (EditEmail && fullUserDataChatwoot.email) {
+            EditEmail.value = fullUserDataChatwoot.email;
+        } else if (EditEmail && email) {
+            emailInput.value = email;
+        }
+
+        if (EditTelephone && fullUserDataChatwoot.mobile?.number) {
+            EditTelephone.value = fullUserDataChatwoot.mobile.number;
+        } else if (EditTelephone && phone_number) {
+            telephoneInput.value = formatPhone(phone_number);
+            telephoneInput.dispatchEvent(new Event('input'));
+        }
+
+        if (EditGender && fullUserDataChatwoot.gender) {
+            EditGender.value = fullUserDataChatwoot.gender;
+        }
+
+        if (EditBirth && fullUserDataChatwoot.birthDate) {
+            EditBirth.value = fullUserDataChatwoot.birthDate;
+        }
+
+        if (EditCity && fullUserDataChatwoot.address?.city) {
+            EditCity.value = fullUserDataChatwoot.address.city;
+        }
+
+        if (EditNeigbor && fullUserDataChatwoot.address?.neighborhood) {
+            EditNeigbor.value = fullUserDataChatwoot.address.neighborhood;
+        }
+
+        if (EditStreet && fullUserDataChatwoot.address?.street) {
+            EditStreet.value = fullUserDataChatwoot.address.street;
+        }
+
+        if (EditNumber && fullUserDataChatwoot.address?.number) {
+            EditNumber.value = fullUserDataChatwoot.address.number;
+        }
+
+        if (EditCep && fullUserDataChatwoot.address?.cep) {
+            EditCep.value = fullUserDataChatwoot.address.cep;
+        }
+    } else if (from == 'twomorrow') {
+        const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
+        if (EditSituation && fullUserDataTwomorrow.fanStatusView) {
+            EditSituation.textContent = fullUserDataTwomorrow.fanStatusView;
+
+        }
+
+        if (EditName && fullUserDataTwomorrow.name) {
+            EditName.value = fullUserDataTwomorrow.name;
+        }
+
+        if (EditCpf && fullUserDataTwomorrow.mainDocument) {
+            EditCpf.value = fullUserDataTwomorrow.mainDocument;
+        }
+
+        if (EditEmail && fullUserDataTwomorrow.email) {
+            EditEmail.value = fullUserDataTwomorrow.email;
+        }
+
+        if (EditTelephone && fullUserDataTwomorrow.mobile?.fullNumber) {
+            EditTelephone.value = fullUserDataTwomorrow.mobile.fullNumber;
+        }
+
+        if (EditGender && fullUserDataTwomorrow.personGenderView) {
+            const genderValueFromTwomorrow = fullUserDataTwomorrow.personGenderView.toLowerCase();
+
+            let foundMatch = false;
+            for (let i = 0; i < EditGender.options.length; i++) {
+                if (EditGender.options[i].value === genderValueFromTwomorrow) {
+                    EditGender.value = genderValueFromTwomorrow;
+                    foundMatch = true;
+                    break;
+                }
+            }
+        }
+
+        if (EditBirth && fullUserDataTwomorrow.birthDate) {
+            try {
+                const date = new Date(fullUserDataTwomorrow.birthDate);
+                if (!isNaN(date.getTime())) { // Verifica se a data é válida
+                    const year = date.getFullYear();
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mês é base 0, por isso +1
+                    const day = date.getDate().toString().padStart(2, '0');
+                    EditBirth.value = `${year}-${month}-${day}`;
+                }
+            } catch (error) {
+            }
+        }
+
+        if (EditCity && fullUserDataTwomorrow.address?.city) {
+            EditCity.value = fullUserDataTwomorrow.address.city;
+        }
+
+        if (EditNeigbor && fullUserDataTwomorrow.address?.district) {
+            EditNeigbor.value = fullUserDataTwomorrow.address.district;
+        }
+
+        if (EditStreet && fullUserDataTwomorrow.address?.address) {
+            EditStreet.value = fullUserDataTwomorrow.address.address;
+        }
+
+        if (EditNumber && fullUserDataTwomorrow.address?.number) {
+            EditNumber.value = fullUserDataTwomorrow.address.number;
+        }
+
+        if (EditCep && fullUserDataTwomorrow.address?.postalCode) {
+            EditCep.value = fullUserDataTwomorrow.address.postalCode;
+        }
+
+        if (EditState && fullUserDataTwomorrow.address?.state) {
+            EditState.value = fullUserDataTwomorrow.address.state;
+        }
+
+        if (EditComplement && fullUserDataTwomorrow.address?.complement) {
+            EditComplement.value = fullUserDataTwomorrow.address.complement;
+        }
+    }
+}

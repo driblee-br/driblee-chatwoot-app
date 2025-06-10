@@ -2,11 +2,8 @@ import { showNotification, formatPhone, formatCPF, isJSONValid, cleanAllInputs }
 import * as main from './main.js';
 import * as utils from './utils.js';
 import * as registerFan from './registerFan.js';
-let fullUserDataChatwoot = {};
+import * as collectData from './collectData.js';
 
-export function getfullUserDataChatwoot() {
-    return fullUserDataChatwoot;
-}
 
 // Function to clean all inputs in the search page
 export function cleanAllInputsSearch() {
@@ -15,7 +12,6 @@ export function cleanAllInputsSearch() {
         const notFoundMsg = document.getElementById(`msg-${field}-non-found`);
         notFoundMsg.style.display = 'none';
         foundMsg.style.display = 'none';
-
     }
     cleanResult('cpf');
     cleanResult('email');
@@ -24,23 +20,18 @@ export function cleanAllInputsSearch() {
 
 }
 
-//Function to show a popup with user's data found
+//Function to show a popup with user's datas found
 export function showUserPopup(data, classe = null) {
-    console.log("Data received to show:", data);
     const cardsContainer = document.getElementById('user-popup');
     const card = document.createElement('div');
     card.classList.add('card');
 
-    // Adiciona classe apenas se fornecida
     if (classe) {
         card.classList.add(`user-founded-by-${classe}`);
     }
-
-    // Cria elementos de forma segura usando DOM API
     const content = document.createElement('div');
 
     const h3 = document.createElement('h3');
-    // Define o título baseado no tipo de busca
     if (classe === 'telephone') {
         h3.textContent = 'Usuário encontrado por Telefone';
     } else if (classe === 'cpf') {
@@ -48,7 +39,6 @@ export function showUserPopup(data, classe = null) {
     } else {
         h3.textContent = 'Informações do Usuário';
     }
-
     const createInfoParagraph = (label, value) => {
         const p = document.createElement('p');
         const strong = document.createElement('strong');
@@ -57,7 +47,6 @@ export function showUserPopup(data, classe = null) {
         p.appendChild(document.createTextNode(value));
         return p;
     };
-
     content.appendChild(h3);
     content.appendChild(createInfoParagraph('Nome', data.name || '_'));
     content.appendChild(createInfoParagraph('CPF', data.mainDocument || '_'));
@@ -69,6 +58,7 @@ export function showUserPopup(data, classe = null) {
 
     card.addEventListener('click', () => {
         main.setfullUserDataTwomorrow(data);
+        utils.fillFullInformations();
         utils.reloadScreen('UPDATE');
         card.classList.add('card-clicked');
         setTimeout(() => card.classList.remove('card-clicked'), 200);
@@ -114,7 +104,6 @@ async function verifyFanBack(params) {
     }
 
     const data = await response.json();
-    console.log("Data: ", data);
     return data;
 }
 
@@ -132,21 +121,20 @@ export async function fetchData() {
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
-        //showNotification("consultation", 'Informe ao menos um dado para buscar.', 'warning');
+        showNotification('Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
         return;
     }
     try {
         let data = await verifyFanBack(params);
-        console.log("Fetch data: ", data)
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
         toggleMessages('telephone', data.results.telephone && data.results.telephone.message == '');
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
-        // showNotification("consultation", `Erro na busca: ${error.message}`, 'error');
+        showNotification(`Erro na busca: ${error.message}`, 'error');
     } finally {
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
@@ -154,7 +142,8 @@ export async function fetchData() {
     }
 }
 
-export function refilSearch(cpf = "", email = "", phone_number = "") {
+//Function to automatic fill the input
+export function refilSearch(cpf = null, email = null, phone_number = null) {
     const cpfInput = document.getElementById('busca-cpf');
     const emailInput = document.getElementById('busca-email');
     const telephoneInput = document.getElementById('busca-telephone');
@@ -167,8 +156,8 @@ export function refilSearch(cpf = "", email = "", phone_number = "") {
         telephoneInput.dispatchEvent(new Event('input'));
     }
 
-    if (cpfInput && identifier) {
-        cpfInput.value = formatCPF(identifier);
+    if (cpfInput && cpf) {
+        cpfInput.value = formatCPF(cpf);
         cpfInput.dispatchEvent(new Event('cpf'));
     }
 }
@@ -199,24 +188,18 @@ export const searchUser = (event) => {
         }
         return;
     }
-
-    fullUserDataChatwoot = receivedData.data;
+    main.setfullUserDataChatwoot(receivedData.data)
 
     const userData = receivedData.data.contact;
 
     if (loadingElement) loadingElement.style.display = 'none';
     if (errorElement) errorElement.style.display = 'none';
-
     refilSearch(cpf = userData.identifier, email = userData.email, phone_number = userData.phone_number)
-
-    //console.log("Chatwoot passed data!", receivedData);
-    //console.log("Automatic filling done!");
 };
 
 //Function to verify if the data found are consistent
 export function checkDataConsistency(results) {
     const values = [];
-    console.log("Results in checkDataConsistency", results)
     for (const key in results) {
         const item = results[key];
         if (item?.resultObject) {
@@ -226,7 +209,6 @@ export function checkDataConsistency(results) {
 
     let allEqual;
 
-    //console.log("results", results)
     function OneResult() {
         let emptyMessages = 0;
         if (values.every(value => value === values[0]) && values.length > 1) {
@@ -248,18 +230,15 @@ export function checkDataConsistency(results) {
     }
 
     const emptyMessages = OneResult(results.results);
-    //console.log("emptyMessages:", emptyMessages)
     if (values.length === 0) {
         const btnRegister = document.getElementById("btn-register");
         btnRegister.classList.remove("hidden");
         const cpf = document.getElementById('busca-cpf').value;
         const email = document.getElementById('busca-email').value;
         const phone = document.getElementById('busca-telephone').value;
-        console.log("Informações passadas")
         btnRegister.addEventListener('click', () => {
             registerFan.register()
-            console.log("Aguardando preenchimento com: ", cpf, email, phone)
-            registerFan.fillRegister(null, cpf, phone, email);
+            utils.fillFullInformations('chatwoot', null, cpf, phone, email);
         });
         return null;
     }
@@ -278,6 +257,8 @@ export function checkDataConsistency(results) {
             if (item.message == "") {
                 console.log("resultObject", item.resultObject);
                 utils.reloadScreen('UPDATE');
+                main.setfullUserDataTwomorrow(item.resultObject);
+                utils.fillFullInformations('twomorrow', null, null, null, null);
                 return item.resultObject
             }
 
@@ -287,13 +268,13 @@ export function checkDataConsistency(results) {
         cardsContainer.innerHTML = '';
         for (const key in results) {
             const item = results[key];
-            console.log("Item for show popup:", item)
             if (item.message == "") {
                 console.log("resultObject", item.resultObject)
                 showUserPopup(item.resultObject, key);
             }
 
-        } utils.reloadScreen('CHOOSE');
+        }
+        utils.reloadScreen('CHOOSE');
     }
 }
 

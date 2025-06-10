@@ -5,20 +5,29 @@ import * as checkPayment from './checkPayment.js';
 import * as collectData from './collectData.js';
 import * as resetPassword from './resetPassword.js';
 import * as meta from './meta.js';
-console.log('main.js loaded');
 let fullUserDataTwomorrow;
+let fullUserDataChatwoot;
 
 export function getHost() {
     return "http://127.0.0.1:8086"
 }
 
 export function getfullUserDataTwomorrow() {
-    console.log(fullUserDataTwomorrow)
+    console.log("fullTwomorrow:", fullUserDataTwomorrow)
     return fullUserDataTwomorrow
 }
 
 export function setfullUserDataTwomorrow(data) {
     fullUserDataTwomorrow = data;
+}
+
+export function getfullUserDataChatwoot() {
+    console.log("fullChatwoot:", fullUserDataChatwoot)
+    return fullUserDataChatwoot
+}
+
+export function setfullUserDataChatwoot(data) {
+    fullUserDataChatwoot = data;
 }
 
 
@@ -88,6 +97,43 @@ document.addEventListener('DOMContentLoaded', function () {
         utils.reloadScreen('CONSULTATION');
     });
 
+    document.getElementById('btn-copy-informations').addEventListener('click', () => {
+        collectData.copyInformations('address');
+    });
+
+    document.getElementById('btn-copy-personal-informations').addEventListener('click', () => {
+        collectData.copyInformations('personal');
+    });
+
+    document.getElementById('btn-check-payment').addEventListener('click', () => {
+        checkPayment.checkPayment();
+    });
+
+    document.getElementById('btn-copy-reset-key').addEventListener('click', () => {
+        collectData.copyInformations('key');
+    });
+
+    //Bottom to effect the update fan's data
+    document.getElementById('btn-effect-update').addEventListener('click', () => {
+        collectData.updateData('address')
+    });
+
+    document.getElementById('btn-effect-update-personal-informations').addEventListener('click', () => {
+        collectData.updateData('complement')
+    });
+
+    document.getElementById('btn-logo-basicos').addEventListener('click', function () {
+        window.open(`https://ecb.2morrow.com.br/Fan/Details?Id=${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
+    });
+
+    document.getElementById('btn-logo-financeiro').addEventListener('click', function () {
+        window.open(`https://ecb.2morrow.com.br/AffiliationPlan/Details/${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
+    });
+
+    document.getElementById('btn-send-email').addEventListener('click', function () {
+        resetPassword.resetPassword();
+    });
+
     document.getElementById('edit-cpf').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         let formattedValue = '';
@@ -149,6 +195,8 @@ document.addEventListener('DOMContentLoaded', function () {
         collectData.fillByCep(this.value);
     });
 
+
+
     /*     //Botton to reset the password
         document.getElementById('btn-reset-password').addEventListener('click', () => {
             resetPassword.resetPassword();
@@ -160,15 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }); */
 
     //REGISTER//
-    //Bottom to effect the update fan's data
-    document.getElementById('btn-effect-update').addEventListener('click', () => {
-        collectData.updateData()
-    });
 
-    //Botton to confirm the collected informations to effect the data's update
-    document.getElementById('btn-confirm-info-update').addEventListener('click', () => {
-        collectData.checkInformations();
-    });
 
 
 

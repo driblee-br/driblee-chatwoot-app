@@ -43,18 +43,10 @@
                         <span class="finded-message" id="msg-email-found">Item encontrado</span>
                         <span class="non-finded-message" id="msg-email-non-found">Não encontrado</span>
                     </div>
-
-
-                    <div id="notification-consultation" class="notification hidden">
-                        <span id="notification-message-consultation"></span>
-                        <button id="close-notification-consultation" class="close-btn">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
                     <div class="action-buttons">
                         <button id="btnBuscar" class="btn">Buscar</button>
                         <!--<button id="btn-clear-check" class="btn">Limpar</button>-->
-                        <!--<button id="btn-meta" class="btn">META</button>-->
+                        <button id="btn-meta" class="btn">META</button>
                         <button id="btn-register" class="btn btn-attention hidden">Registrar Torcedor</button>
                     </div>
 
@@ -84,18 +76,15 @@
                 <div class="panel-header">
                     <svg class="icon" viewBox="0 0 24 24">
                     </svg>
-                    Dados Básicos
+                    Dados do Torcedor
+                    <img src="logo_bahia.png" id="btn-logo-basicos" class="logo-button" alt="Logo Bahia" />
+
                     <button id="btn-new-search" class="btn btn-limitted">Nova consulta</button>
-                    <button id="copy-basic-data" class="btn-copy" title="Copiar dados">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                        </svg>
-                    </button>
                 </div>
                 <div class="panel-content">
                     <form id="form-update">
                         <div id="card">
+                            <h4>Informações Básicas</h4>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="edit-nome">Nome Completo <span class="required">*</span></label>
@@ -122,28 +111,19 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="situation">Situação</label>
+                                    <div id="edit-situation"></div>
                                 </div>
                             </div>
-                            <button id="btn-register-fan" type="button" class="btn btn-confirm hidden">Salvar Cadastro
-                                Básico</button>
-
                         </div>
+                        <button id="btn-register-fan" type="button" class="btn btn-confirm hidden">Salvar Cadastro
+                            Básico</button>
+
                 </div>
-            </div>
-            <div class="panel">
-                <div class="panel-header">
-                    <svg class="icon" viewBox="0 0 24 24">
-                    </svg>
-                    Informações pessoais
-                    <button id="copy-personal-info" class="btn-copy" title="Copiar dados">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                        </svg>
-                </div>
+                <hr>
                 <div class="panel-content">
                     <form id="form-update">
                         <div id="card">
+                            <h4>Informações Complementares</h4>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="edit-gender">Gênero</label>
@@ -160,108 +140,115 @@
                                     <input type="date" id="edit-birth">
                                 </div>
                             </div>
+                            <button type="button" id="btn-copy-personal-informations" class="btn">Copiar texto</button>
+
+                            <button type="button" id="btn-effect-update-personal-informations" class="btn">Atualizar
+                                dados</button>
                         </div>
                 </div>
-            </div>
-            <div class="panel">
-                <div class="panel-header">
-                    <svg class="icon" viewBox="0 0 24 24">
-                    </svg>
-                    Endereço
-                    <button id="copy-address" class="btn-copy" title="Copiar dados">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                        </svg>
-                </div>
+                <hr>
                 <div class="panel-content">
                     <form id="form-update">
                         <div id="card">
-                            <div class="form-group">
-                                <label for="edit-cep">CEP</label>
-                                <input type="text" id="edit-cep" placeholder="CEP" maxlength="9">
+                            <h4>Endereço</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+
+                                    <label for="edit-cep">CEP</label>
+                                    <input type="text" id="edit-cep" placeholder="CEP" maxlength="9">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-state">Estado</label>
+                                    <input type="text" id="edit-state" placeholder="Estado" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-number">Número</label>
+                                    <input type="text" id="edit-number" placeholder="Número">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="edit-state">Estado</label>
-                                <input type="text" id="edit-state" placeholder="Estado" readonly>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-city">Cidade</label>
+                                    <input type="text" id="edit-city" placeholder="Cidade" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-neighbor">Bairro</label>
+                                    <input type="text" id="edit-neigbor" placeholder="Bairro" readonly>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="edit-city">Cidade</label>
-                                <input type="text" id="edit-city" placeholder="Cidade" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-neighbor">Bairro</label>
-                                <input type="text" id="edit-neigbor" placeholder="Bairro" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-street">Rua</label>
-                                <input type="text" id="edit-street" placeholder="Rua" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-number">Número</label>
-                                <input type="text" id="edit-number" placeholder="Número">
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-complement">Complemento</label>
-                                <input type="text" id="edit-complement" placeholder="Complemento">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-street">Rua</label>
+                                    <input type="text" id="edit-street" placeholder="Rua" readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit-complement">Complemento</label>
+                                    <input type="text" id="edit-complement" placeholder="Complemento">
+                                </div>
                             </div>
                         </div>
+                        <button type="button" id="btn-copy-informations" class="btn">Copiar texto</button>
+
+                        <button type="button" id="btn-effect-update" class="btn">Atualizar
+                            dados</button>
                 </div>
             </div>
-            <!--  -->
+
             <div class="panel">
                 <div class="panel-header">
                     <svg class="icon" viewBox="0 0 24 24">
                     </svg>
                     Informaçoes Financeiras
-                    <button id="copy-financial-info" class="btn-copy" title="Copiar dados">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                        </svg>
-                    </button>
+                    <img src="logo_bahia.png" id="btn-logo-financeiro" class="logo-button" alt="Logo Bahia" />
+
+                </div>
+                <div id="finances">
+                </div>
+                <div id="panel-content">
+                    <form id="form-update">
+                        <div id="card">
+                            <div class="form-group">
+                                <button type="button" id="btn-check-payment" class="btn">Consultar pagamentos</button>
+                                <button type="button" id="btn-twomorrow-payments" class="btn">Ir para twomorrow</button>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <svg class="icon" viewBox="0 0 24 24">
+                    </svg>
+                    Reset de Senha
                 </div>
                 <div class="panel-content">
                     <form id="form-update">
                         <div id="card">
                             <div class="form-group">
+                                <button type="button" id="btn-copy-reset-key" class="btn">Copiar
+                                    texto</button>
+
+                                <button type="button" id="btn-send-email" class="btn">Enviar email</button>
                             </div>
 
                         </div>
+                    </form>
                 </div>
-                <div class="panel">
-                    <div class="panel-header">
-                        <svg class="icon" viewBox="0 0 24 24">
-                        </svg>
-                        Reset de Senha
-                        <button id="copy-financial-info" class="btn-copy" title="Copiar dados">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="panel-content">
-                        <form id="form-update">
-                            <div id="card">
-                                <div class="form-group">
-                                </div>
-
-                            </div>
-                    </div>
-                </div>
-                <div class="action-buttons">
-                    <!--                 <button type="button" id="btn-confirm-info-update" class="btn btn-attention">Enviar
-                    mensagem de confirmação</button> -->
-                    <button type="button" id="btn-effect-update" class="btn btn-confirm">Atualizar
-                        dados</button>
-                    <!--   <button type="button" id="btn-clear-update" class="btn">Limpar</button> -->
-                </div>
-                </form>
-
-                <div id="resultado-update" class="result-box"></div>
             </div>
+
+
+            <div id="resultado-update" class="result-box"></div>
         </div>
+    </div>
+    <div id="notification" class="notification hidden">
+        <span id="notification-message"></span>
+        <button id="close-notification" class="close-btn">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
     </div>
     </div>
     <script type="module" src="main.js"></script>
