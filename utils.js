@@ -3,7 +3,7 @@ import * as main from './main.js';
 
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
-    const allSteps = ['CONSULTATION', 'REGISTRATION', 'UPDATE', 'CHOOSE'];
+    const allSteps = ['CONSULTATION', 'UPDATE', 'CHOOSE'];
     editPanels(true)
     for (const step of allSteps) {
         const element = document.getElementById(step);
@@ -15,6 +15,11 @@ export function reloadScreen(step_now) {
     const currentElement = document.getElementById(step_now);
     if (currentElement) {
         currentElement.classList.remove("hidden");
+    }
+
+    if (step_now == 'CONSULTATION') {
+        document.getElementById("btn-register").classList.add("hidden");
+        document.getElementById("btn-register-fan").classList.add('hidden')
     }
 
 }
@@ -156,7 +161,6 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
     const EditState = document.getElementById("edit-state");
     const EditComplement = document.getElementById("edit-complement");
     const EditSituation = document.getElementById("edit-situation");
-    cont
     if (from == 'chatwoot') {
         const fullUserDataChatwoot = main.getfullUserDataChatwoot();
 
