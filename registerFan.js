@@ -3,25 +3,13 @@ import * as checkFan from './checkFan.js';
 import * as utils from './utils.js';
 import * as main from './main.js';
 
+
+
 // Update the screen to register screen, doing the automatic fieling
 export function register() {
     // Goes to the screen 'UPDATE'
     utils.reloadScreen('UPDATE');
-
-    //Block the input in the non basic informations
-    const panels = document.querySelectorAll('.panel');
-    panels.forEach(panel => {
-        if (panel.id !== 'basic-data') {
-            panel.classList.add('no-edit');
-
-            const inputs = panel.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                input.disabled = true;
-                input.classList.add('disabled-field');
-            });
-        }
-    });
-
+    utils.editPanels(false);
     //Disaneble the botton "atualizar"
     document.getElementById("btn-effect-update").classList.add('hidden')
 
@@ -59,11 +47,15 @@ export function fillRegister(name = null, cpf = null, phone_number = null, email
 }
 // Do a request to register a fan
 export async function registerFan() {
-    const nomeInput = document.getElementById('complete-name-register').value;
-    const emailInput = document.getElementById('email-register').value;
-    const telephoneInput = '+55' + document.getElementById('telephone-register').value.replace(/\D/g, '');
-    const cpfInput = document.getElementById('cpf-register').value.replace(/\D/g, '');
+    const nomeInput = document.getElementById('edit-nome').value;
+    const emailInput = document.getElementById('edit-email').value;
+    const telephoneInput = '+55' + document.getElementById('edit-telephone').value.replace(/\D/g, '');
+    const cpfInput = document.getElementById('edit-cpf').value.replace(/\D/g, '');
 
+    if (!nomeInput || !emailInput || !telephoneInput || !cpfInput) {
+        console.log("Dados não preenchidos");
+        return
+    }
     const url = `${main.getHost()}/createuser/`;
 
     const payload = {
@@ -89,18 +81,22 @@ export async function registerFan() {
         const data = await response.json();
         //console.log("Data:", data)
         if (data.status_code === false) {
-            utils.showNotification("registration", data.response.errorMessage, 'error')
+            //utils.showNotification("registration", data.response.errorMessage, 'error')
             return
+
         }
         else {
-            utils.showNotification("registration", "Usuário criado!", 'success')
+            //utils.showNotification("registration", "Usuário criado!", 'success')
             const results = await checkFan.fetchData();
-            setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+            main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+            console.log("Fan registered, waiting to reload page")
+            document.getElementById("btn-register-fan").classList.add('hidden')
+            utils.reloadScreen('UPDATE')
             return data;
 
         }
     } catch (erro) {
-        utils.showNotification("registration", "Falha ao criar usuário", 'error')
+        //utils.showNotification("registration", "Falha ao criar usuário", 'error')
 
         return
     }

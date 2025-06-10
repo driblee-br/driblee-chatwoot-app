@@ -132,7 +132,7 @@ export async function fetchData() {
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
-        showNotification("consultation", 'Informe ao menos um dado para buscar.', 'warning');
+        //showNotification("consultation", 'Informe ao menos um dado para buscar.', 'warning');
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;
         return;
@@ -146,7 +146,7 @@ export async function fetchData() {
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
-        showNotification("consultation", `Erro na busca: ${error.message}`, 'error');
+        // showNotification("consultation", `Erro na busca: ${error.message}`, 'error');
     } finally {
         btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
         btnBuscar.disabled = false;

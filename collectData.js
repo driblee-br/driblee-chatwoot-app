@@ -82,9 +82,9 @@ export function checkInformations() {
     const response = utils.sendMessage(message);
 
     if (!response.errors) {
-        utils.showNotification('registration', 'Erro ao enviar a mensagem', 'error')
+        //utils.showNotification('registration', 'Erro ao enviar a mensagem', 'error')
     } else {
-        utils.showNotification('registration', 'Mensagem enviada com sucesso', 'success')
+        //utils.showNotification('registration', 'Mensagem enviada com sucesso', 'success')
     }
 }
 
@@ -188,13 +188,6 @@ export async function updateData() {
             const errorData = await response.json();
             throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
         }
-        utils.showNotification("update", data.message, 'success')
-        setTimeout(() => {
-            utils.showNotification("update", "Voltando à tela inicial", 'info')
-        }, 2000);
-        setTimeout(() => {
-            utils.reloadScreen('CONSULTATION');
-        }, 3000);
         checkFan.cleanAllInputsSearch();
         checkFan.refilSearch(cpf = cpfInput, email = emailInput, phone_number = telefoneInput)
         const results = await checkFan.fetchData();
