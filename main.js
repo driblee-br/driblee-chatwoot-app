@@ -168,17 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = formattedValue;
     });
 
-    // Processing telephone-register data while typing
-    document.getElementById('telephone-register').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-
-        value = value.slice(0, 11);
-
-        if (value.length > 2) value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-        if (value.length > 7) value = value.replace(/(\d{5})(\d)/, '$1-$2');
-
-        e.target.value = value;
-    });
 
     // Event to format CEP in real-time
     document.getElementById('edit-cep').addEventListener('input', function () {

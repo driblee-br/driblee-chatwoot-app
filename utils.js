@@ -156,7 +156,7 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
     const EditState = document.getElementById("edit-state");
     const EditComplement = document.getElementById("edit-complement");
     const EditSituation = document.getElementById("edit-situation");
-
+    cont
     if (from == 'chatwoot') {
         const fullUserDataChatwoot = main.getfullUserDataChatwoot();
 
@@ -182,8 +182,8 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
         if (EditTelephone && fullUserDataChatwoot.mobile?.number) {
             EditTelephone.value = fullUserDataChatwoot.mobile.number;
         } else if (EditTelephone && phone_number) {
-            telephoneInput.value = formatPhone(phone_number);
-            telephoneInput.dispatchEvent(new Event('input'));
+            EditTelephone.value = formatPhone(phone_number);
+            EditTelephone.dispatchEvent(new Event('input'));
         }
 
         if (EditGender && fullUserDataChatwoot.gender) {

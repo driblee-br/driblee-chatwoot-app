@@ -10,14 +10,13 @@ export function register() {
     // Goes to the screen 'UPDATE'
     utils.reloadScreen('UPDATE');
     utils.editPanels(false);
-    //Disaneble the botton "atualizar"
-    document.getElementById("btn-effect-update").classList.add('hidden')
 
     //Enable botton update data
     document.getElementById("btn-register-fan").classList.remove('hidden')
     //Botton to effect the fan's register
     document.getElementById('btn-register-fan').addEventListener('click', () => {
         registerFan();
+
     });
 
 
