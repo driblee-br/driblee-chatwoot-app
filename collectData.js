@@ -169,25 +169,15 @@ export function copyInformations(typeInformations) {
                 console.error('Erro ao copiar texto: ', err);
             });
     }
-    else if (typeInformations == 'personal') {
+    else if (typeInformations == 'full') {
         const message =
             "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+            "CPF: " + cpf + "\n" +
+            "Nome Completo: " + fullName + "\n" +
+            "Telefone: " + phone + "\n" +
+            "Email: " + email +
             "Gênero: " + gender + "\n" +
-            "Data de Nascimento: " + birthDate
-
-
-        navigator.clipboard.writeText(message.trim())
-            .then(() => {
-                utils.showNotification('Texto copiado para a área de transferência!', 'info');
-            })
-            .catch(err => {
-                console.error('Erro ao copiar texto: ', err);
-            });
-    }
-
-    else if (typeInformations == 'address') {
-        const message =
-            "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+            "Data de Nascimento: " + birthDate +
             "Endereço:\n" +
             "CEP: " + zipCode + "\n" +
             "Estado: " + state + "\n" +
@@ -197,6 +187,7 @@ export function copyInformations(typeInformations) {
             "Número: " + number + "\n" +
             "Complemento: " + complement;
 
+
         navigator.clipboard.writeText(message.trim())
             .then(() => {
                 utils.showNotification('Texto copiado para a área de transferência!', 'info');
@@ -205,6 +196,7 @@ export function copyInformations(typeInformations) {
                 console.error('Erro ao copiar texto: ', err);
             });
     }
+
     else if (typeInformations == 'key') {
         const message = "Enviamos um e-mail com instruções de redefinição de senha"
         navigator.clipboard.writeText(message.trim())
