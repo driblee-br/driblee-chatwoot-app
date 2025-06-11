@@ -9,7 +9,7 @@ let fullUserDataTwomorrow;
 let fullUserDataChatwoot;
 
 export function getHost() {
-    return "http://127.0.0.1:8086"
+    return "https://d77f-2804-14c-5b8c-8153-e90d-6b62-4dc0-fdcc.ngrok-free.app"
 }
 
 export function getfullUserDataTwomorrow() {
