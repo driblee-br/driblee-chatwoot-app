@@ -182,9 +182,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }); */
 
     //Botton to send template to META
-    /*     document.getElementById('btn-meta').addEventListener('click', () => {
-            meta.meta();
-        }); */
+    document.getElementById('btn-meta').addEventListener('click', () => {
+        meta.meta();
+    });
 
     //REGISTER//
 
