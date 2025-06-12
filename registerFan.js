@@ -11,13 +11,7 @@ export function register() {
     utils.reloadScreen('UPDATE');
     utils.editPanels(false);
 
-    //Enable botton update data
-    document.getElementById("btn-register-fan").classList.remove('hidden')
-    //Botton to effect the fan's register
-    document.getElementById('btn-register-fan').addEventListener('click', () => {
-        registerFan();
-
-    });
+    ;
 
 
 }
@@ -55,12 +49,22 @@ export async function registerFan() {
             body: JSON.stringify(payload)
         });
         const data = await response.json();
-        if (data.status_code === false) {
-            utils.showNotification(data.response.errorMessage, 'error')
-            return
+        if (data.response?.success === false) {
+            if (data.response?.errorMessage) {
+                utils.showNotification(data.response.errorMessage, 'error')
 
+            } else if (data.response?.message) {
+                utils.showNotification(data.response.message, 'error')
+            } else {
+                utils.showNotification("Erro inesperado", 'error')
+            }
+            return
         }
-        else {
+        else if (data.response?.success === true) {
+            if (data.response?.message) {
+                utils.showNotification(data.response.message, 'error')
+                return
+            }
             utils.showNotification("Torcedor cadastrado com sucesso!", 'success')
             const results = await checkFan.fetchData();
             main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
@@ -68,6 +72,9 @@ export async function registerFan() {
             utils.reloadScreen('UPDATE')
             return data;
 
+        } else {
+            utils.showNotification(`Erro inesperado: ${data.response}`, 'error')
+            return
         }
     } catch (erro) {
         utils.showNotification("Falha ao criar usuário", 'error')

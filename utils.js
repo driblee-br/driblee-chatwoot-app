@@ -1,5 +1,6 @@
 import * as checkFan from './checkFan.js';
 import * as main from './main.js';
+import *  as registerFan from './registerFan.js';
 
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
@@ -27,11 +28,18 @@ export function reloadScreen(step_now) {
 
 // Function to clean all inputs in the register page
 export function cleanAllInputs() {
-
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.value = '';
+    const allFormFields = document.querySelectorAll('input, textarea, select');
+    const consultationPanel = document.getElementById('CONSULTATION');
+    const editSituationDiv = document.getElementById('edit-situation');
+    allFormFields.forEach(field => {
+        if (consultationPanel && !consultationPanel.contains(field)) {
+            field.value = '';
+        }
     });
+
+    if (editSituationDiv) {
+        editSituationDiv.innerText = '';
+    }
 }
 
 // Function to validate JSON
@@ -131,6 +139,12 @@ export function editPanels(boolean) {
                 });
             }
         });
+        document.getElementById('btn-register-fan').classList.remove('hidden');
+        //Botton to effect the fan's register
+        document.getElementById('btn-register-fan').addEventListener('click', () => {
+            registerFan.registerFan();
+
+        })
     }
     else {
         panels.forEach(panel => {
@@ -144,14 +158,17 @@ export function editPanels(boolean) {
                 });
             }
         });
+        document.getElementById('btn-register-fan').classList.add('hidden');
+
     }
 }
 
 export function fillFullInformations(from, name = null, cpf = null, phone_number = null, email = null) {
+    cleanAllInputs()
     const EditName = document.getElementById("edit-nome");
     const EditCpf = document.getElementById("edit-cpf");
     const EditEmail = document.getElementById("edit-email");
-    const EditPhone = document.getElementById("edit-phone");
+    const EditTelephone = document.getElementById("edit-telephone");
     const EditGender = document.getElementById("edit-gender");
     const EditBirth = document.getElementById("edit-birth");
     const EditCity = document.getElementById("edit-city");
@@ -165,87 +182,87 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
     if (from == 'chatwoot') {
         const fullUserDataChatwoot = main.getfullUserDataChatwoot();
 
-        if (EditName && fullUserDataChatwoot.name) {
-            EditName.value = fullUserDataChatwoot.name;
+        if (EditName && fullUserDataChatwoot?.name) {
+            EditName.value = fullUserDataChatwoot?.name;
         } else if (EditName && name) {
             EditName.value = name;
         }
 
-        if (EditCpf && fullUserDataChatwoot.cpf) {
-            EditCpf.value = fullUserDataChatwoot.cpf;
+        if (EditCpf && fullUserDataChatwoot?.cpf) {
+            EditCpf.value = fullUserDataChatwoot?.cpf;
         } else if (EditCpf && cpf) {
             EditCpf.value = formatCPF(cpf);
             EditCpf.dispatchEvent(new Event('cpf'));
         }
 
-        if (EditEmail && fullUserDataChatwoot.email) {
-            EditEmail.value = fullUserDataChatwoot.email;
+        if (EditEmail && fullUserDataChatwoot?.email) {
+            EditEmail.value = fullUserDataChatwoot?.email;
         } else if (EditEmail && email) {
             emailInput.value = email;
         }
 
-        if (EditPhone && fullUserDataChatwoot.mobile?.number) {
-            EditPhone.value = fullUserDataChatwoot.mobile.number;
-        } else if (EditPhone && phone_number) {
-            EditPhone.value = formatPhone(phone_number);
-            EditPhone.dispatchEvent(new Event('input'));
+        if (EditTelephone && fullUserDataChatwoot?.mobile?.number) {
+            EditTelephone.value = fullUserDataChatwoot?.mobile.number;
+        } else if (EditTelephone && phone_number) {
+            EditTelephone.value = formatPhone(phone_number);
+            EditTelephone.dispatchEvent(new Event('input'));
         }
 
-        if (EditGender && fullUserDataChatwoot.gender) {
-            EditGender.value = fullUserDataChatwoot.gender;
+        if (EditGender && fullUserDataChatwoot?.gender) {
+            EditGender.value = fullUserDataChatwoot?.gender;
         }
 
-        if (EditBirth && fullUserDataChatwoot.birthDate) {
-            EditBirth.value = fullUserDataChatwoot.birthDate;
+        if (EditBirth && fullUserDataChatwoot?.birthDate) {
+            EditBirth.value = fullUserDataChatwoot?.birthDate;
         }
 
-        if (EditCity && fullUserDataChatwoot.address?.city) {
-            EditCity.value = fullUserDataChatwoot.address.city;
+        if (EditCity && fullUserDataChatwoot?.address?.city) {
+            EditCity.value = fullUserDataChatwoot?.address.city;
         }
 
-        if (EditNeigbor && fullUserDataChatwoot.address?.neighborhood) {
-            EditNeigbor.value = fullUserDataChatwoot.address.neighborhood;
+        if (EditNeigbor && fullUserDataChatwoot?.address?.neighborhood) {
+            EditNeigbor.value = fullUserDataChatwoot?.address.neighborhood;
         }
 
-        if (EditStreet && fullUserDataChatwoot.address?.street) {
-            EditStreet.value = fullUserDataChatwoot.address.street;
+        if (EditStreet && fullUserDataChatwoot?.address?.street) {
+            EditStreet.value = fullUserDataChatwoot?.address.street;
         }
 
-        if (EditNumber && fullUserDataChatwoot.address?.number) {
-            EditNumber.value = fullUserDataChatwoot.address.number;
+        if (EditNumber && fullUserDataChatwoot?.address?.number) {
+            EditNumber.value = fullUserDataChatwoot?.address.number;
         }
 
-        if (EditCep && fullUserDataChatwoot.address?.cep) {
-            EditCep.value = fullUserDataChatwoot.address.cep;
+        if (EditCep && fullUserDataChatwoot?.address?.cep) {
+            EditCep.value = fullUserDataChatwoot?.address.cep;
         }
     } else if (from == 'twomorrow') {
         const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
-        if (EditSituation && fullUserDataTwomorrow.fanStatusView) {
-            EditSituation.textContent = fullUserDataTwomorrow.fanStatusView;
+        if (EditSituation && fullUserDataTwomorrow?.fanStatusView) {
+            EditSituation.textContent = fullUserDataTwomorrow?.fanStatusView;
 
         }
 
-        if (EditName && fullUserDataTwomorrow.name) {
-            EditName.value = fullUserDataTwomorrow.name;
+        if (EditName && fullUserDataTwomorrow?.name) {
+            EditName.value = fullUserDataTwomorrow?.name;
         }
 
-        if (EditCpf && fullUserDataTwomorrow.mainDocument) {
-            EditCpf.value = formatCPF(fullUserDataTwomorrow.mainDocument);
+        if (EditCpf && fullUserDataTwomorrow?.mainDocument) {
+            EditCpf.value = formatCPF(fullUserDataTwomorrow?.mainDocument);
             EditCpf.dispatchEvent(new Event('cpf'));
         }
 
-        if (EditEmail && fullUserDataTwomorrow.email) {
-            EditEmail.value = fullUserDataTwomorrow.email;
+        if (EditEmail && fullUserDataTwomorrow?.email) {
+            EditEmail.value = fullUserDataTwomorrow?.email;
         }
 
-        if (EditPhone && fullUserDataTwomorrow.mobile?.fullNumber) {
-            EditPhone.value = formatPhone(fullUserDataTwomorrow.mobile?.fullNumber);
-            EditPhone.dispatchEvent(new Event('input'));
+        if (EditTelephone && fullUserDataTwomorrow?.mobile?.fullNumber) {
+            EditTelephone.value = formatPhone(fullUserDataTwomorrow?.mobile?.fullNumber);
+            EditTelephone.dispatchEvent(new Event('input'));
         }
 
 
-        if (EditGender && fullUserDataTwomorrow.personGenderView) {
-            const genderValueFromTwomorrow = fullUserDataTwomorrow.personGenderView.toLowerCase();
+        if (EditGender && fullUserDataTwomorrow?.personGenderView) {
+            const genderValueFromTwomorrow = fullUserDataTwomorrow?.personGenderView.toLowerCase();
 
             let foundMatch = false;
             for (let i = 0; i < EditGender.options.length; i++) {
