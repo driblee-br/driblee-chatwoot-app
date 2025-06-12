@@ -60,7 +60,7 @@ export async function updateData() {
     btneffectUpdate.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando mudanças...';
     btneffectUpdate.disabled = true;
     function stopLoadingBotton() {
-        btneffectUpdate.innerHTML = 'Registrar Torcedor';
+        btneffectUpdate.innerHTML = 'Atualizar dados';
         btneffectUpdate.disabled = false;
     }
 
