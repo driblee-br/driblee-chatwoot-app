@@ -230,7 +230,8 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
         }
 
         if (EditCpf && fullUserDataTwomorrow.mainDocument) {
-            EditCpf.value = fullUserDataTwomorrow.mainDocument;
+            EditCpf.value = formatCPF(fullUserDataTwomorrow.mainDocument);
+            EditCpf.dispatchEvent(new Event('cpf'));
         }
 
         if (EditEmail && fullUserDataTwomorrow.email) {
@@ -238,8 +239,10 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
         }
 
         if (EditTelephone && fullUserDataTwomorrow.mobile?.fullNumber) {
-            EditTelephone.value = fullUserDataTwomorrow.mobile.fullNumber;
+            EditTelephone.value = formatPhone(fullUserDataTwomorrow.mobile?.fullNumber);
+            EditTelephone.dispatchEvent(new Event('input'));
         }
+
 
         if (EditGender && fullUserDataTwomorrow.personGenderView) {
             const genderValueFromTwomorrow = fullUserDataTwomorrow.personGenderView.toLowerCase();
