@@ -117,7 +117,7 @@ export async function fetchData() {
     btnBuscar.disabled = true;
 
     const params = {};
-    if (telephoneInput) params.telephone = telephoneInput;
+    if (telephoneInput) params.phone = telephoneInput;
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
