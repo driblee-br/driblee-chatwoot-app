@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('btn-copy-informations').addEventListener('click', () => {
-        collectData.copyFullInformations('');
+        console.log("Button copy pressed")
+        collectData.copyFullInformations();
     });
 
     document.getElementById('btn-check-payment').addEventListener('click', () => {

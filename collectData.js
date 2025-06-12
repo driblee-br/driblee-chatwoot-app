@@ -148,7 +148,7 @@ export function copyFullInformations() {
         "Número: " + number + "\n" +
         "Complemento: " + complement;
 
-
+    console.log("Trying to copy informtions")
     navigator.clipboard.writeText(message.trim())
         .then(() => {
             utils.showNotification('Texto copiado para a área de transferência!', 'info');
