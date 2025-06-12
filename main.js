@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = formattedValue;
     });
 
-    document.getElementById('busca-telephone').addEventListener('input', function (e) {
+    document.getElementById('busca-phone').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         let formattedValue = '';
 
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = formattedValue;
     });
 
-    document.getElementById('edit-telephone').addEventListener('input', function (e) {
+    document.getElementById('edit-phone').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         let formattedValue = '';
 

@@ -15,7 +15,7 @@ export function cleanAllInputsSearch() {
     }
     cleanResult('cpf');
     cleanResult('email');
-    cleanResult('telephone');
+    cleanResult('phone');
 
 
 }
@@ -32,7 +32,7 @@ export function showUserPopup(data, classe = null) {
     const content = document.createElement('div');
 
     const h3 = document.createElement('h3');
-    if (classe === 'telephone') {
+    if (classe === 'phone') {
         h3.textContent = 'Usuário encontrado por Telefone';
     } else if (classe === 'cpf') {
         h3.textContent = 'Usuário encontrado por CPF';
@@ -112,12 +112,12 @@ export async function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
     const cpfInput = document.getElementById('busca-cpf').value.replace(/\D/g, '');
     const emailInput = document.getElementById('busca-email').value.trim();
-    const telephoneInput = document.getElementById('busca-telephone').value.replace(/\D/g, '');
+    const phoneInput = document.getElementById('busca-phone').value.replace(/\D/g, '');
     btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
     btnBuscar.disabled = true;
 
     const params = {};
-    if (telephoneInput) params.phone = telephoneInput;
+    if (phoneInput) params.phone = phoneInput;
     if (cpfInput) params.cpf = cpfInput;
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
@@ -131,7 +131,7 @@ export async function fetchData() {
         console.log("Data recieved from search:", data)
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
-        toggleMessages('telephone', data.results.phone && data.results.phone.message == '');
+        toggleMessages('phone', data.results.phone && data.results.phone.message == '');
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
@@ -147,14 +147,14 @@ export async function fetchData() {
 export function refilSearch(cpf = null, email = null, phone_number = null) {
     const cpfInput = document.getElementById('busca-cpf');
     const emailInput = document.getElementById('busca-email');
-    const telephoneInput = document.getElementById('busca-telephone');
+    const phoneInput = document.getElementById('busca-phone');
     if (emailInput && email) {
         emailInput.value = email;
     }
 
-    if (telephoneInput && phone_number) {
-        telephoneInput.value = formatPhone(phone_number);
-        telephoneInput.dispatchEvent(new Event('input'));
+    if (phoneInput && phone_number) {
+        phoneInput.value = formatPhone(phone_number);
+        phoneInput.dispatchEvent(new Event('input'));
     }
 
     if (cpfInput && cpf) {
@@ -236,7 +236,7 @@ export function checkDataConsistency(results) {
         btnRegister.classList.remove("hidden");
         const cpf = document.getElementById('busca-cpf').value;
         const email = document.getElementById('busca-email').value;
-        const phone = document.getElementById('busca-telephone').value;
+        const phone = document.getElementById('busca-phone').value;
         btnRegister.addEventListener('click', () => {
             registerFan.register()
             utils.fillFullInformations('chatwoot', null, cpf, phone, email);

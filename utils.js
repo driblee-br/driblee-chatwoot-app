@@ -151,7 +151,7 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
     const EditName = document.getElementById("edit-nome");
     const EditCpf = document.getElementById("edit-cpf");
     const EditEmail = document.getElementById("edit-email");
-    const EditTelephone = document.getElementById("edit-telephone");
+    const EditPhone = document.getElementById("edit-phone");
     const EditGender = document.getElementById("edit-gender");
     const EditBirth = document.getElementById("edit-birth");
     const EditCity = document.getElementById("edit-city");
@@ -184,11 +184,11 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
             emailInput.value = email;
         }
 
-        if (EditTelephone && fullUserDataChatwoot.mobile?.number) {
-            EditTelephone.value = fullUserDataChatwoot.mobile.number;
-        } else if (EditTelephone && phone_number) {
-            EditTelephone.value = formatPhone(phone_number);
-            EditTelephone.dispatchEvent(new Event('input'));
+        if (EditPhone && fullUserDataChatwoot.mobile?.number) {
+            EditPhone.value = fullUserDataChatwoot.mobile.number;
+        } else if (EditPhone && phone_number) {
+            EditPhone.value = formatPhone(phone_number);
+            EditPhone.dispatchEvent(new Event('input'));
         }
 
         if (EditGender && fullUserDataChatwoot.gender) {
@@ -238,9 +238,9 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
             EditEmail.value = fullUserDataTwomorrow.email;
         }
 
-        if (EditTelephone && fullUserDataTwomorrow.mobile?.fullNumber) {
-            EditTelephone.value = formatPhone(fullUserDataTwomorrow.mobile?.fullNumber);
-            EditTelephone.dispatchEvent(new Event('input'));
+        if (EditPhone && fullUserDataTwomorrow.mobile?.fullNumber) {
+            EditPhone.value = formatPhone(fullUserDataTwomorrow.mobile?.fullNumber);
+            EditPhone.dispatchEvent(new Event('input'));
         }
 
 

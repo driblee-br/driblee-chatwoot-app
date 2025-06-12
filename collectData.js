@@ -120,7 +120,7 @@ export async function updateData() {
 export function copyInformations(typeInformations) {
     const fullName = document.getElementById('edit-nome')?.value || '';
     const cpf = document.getElementById('edit-cpf')?.value || '';
-    const phone = document.getElementById('edit-telephone')?.value || '';
+    const phone = document.getElementById('edit-phone')?.value || '';
     const email = document.getElementById('edit-email')?.value || '';
     const gender = document.getElementById('edit-gender')?.value || '';
     const birthDate = document.getElementById('edit-birth')?.value || '';

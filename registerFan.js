@@ -25,10 +25,10 @@ export function register() {
 export async function registerFan() {
     const nomeInput = document.getElementById('edit-nome').value;
     const emailInput = document.getElementById('edit-email').value;
-    const telephoneInput = '+55' + document.getElementById('edit-telephone').value.replace(/\D/g, '');
+    const phoneInput = '+55' + document.getElementById('edit-phone').value.replace(/\D/g, '');
     const cpfInput = document.getElementById('edit-cpf').value.replace(/\D/g, '');
 
-    if (!nomeInput || !emailInput || !telephoneInput || !cpfInput) {
+    if (!nomeInput || !emailInput || !phoneInput || !cpfInput) {
         utils.showNotification("É necessário preencher todos os dados", "error")
         return
     }
@@ -38,7 +38,7 @@ export async function registerFan() {
         name: nomeInput,
         email: emailInput,
         cpf: cpfInput,
-        telephone: telephoneInput,
+        phone: phoneInput,
         password: '0000'
     };
 
