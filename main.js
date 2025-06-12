@@ -70,6 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Habilita os dados básicos para serem editáveis
         document.getElementById('basic-informations').classList.remove('no-edit-update');
 
+        // Desabilita o campo de checar pagamento e reset de senha
+        document.getElementById('finances-panel').classList.add('no-edit-update');
+        document.getElementById('reset-password-panel').classList.add('no-edit-update');
+
+
         // Desabilita botão de edição
         document.getElementById("btn-edit").disabled = true;
 
@@ -92,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const complementarInformations = document.getElementById('complementar-informations');
         basicInformations.classList.add('no-edit-update');
         complementarInformations.classList.add('no-edit-update');
+
     });
 
     // SCREEN UPDATE
@@ -119,6 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
         basicInformations.classList.add('no-edit-update');
         complementarInformations.classList.add('no-edit-update');
         document.getElementById("btn-edit").disabled = false;
+        // Desabilita o campo de checar pagamento e reset de senha
+        document.getElementById('finances-panel').classList.remove('no-edit-update');
+        document.getElementById('reset-password-panel').classList.remove('no-edit-update');
+
 
     });
 
@@ -136,6 +146,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("btn-register-fan").addEventListener('click', function () {
         registerFan.registerFan();
+        // Desabilita o campo de checar pagamento e reset de senha
+        document.getElementById('finances-panel').classList.remove('no-edit-update');
+        document.getElementById('reset-password-panel').classList.remove('no-edit-update');
     });
 
 
