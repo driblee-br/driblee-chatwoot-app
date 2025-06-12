@@ -117,7 +117,7 @@ export async function updateData() {
     }
 }
 
-export function copyInformations(typeInformations) {
+export function copyFullInformations() {
     const fullName = document.getElementById('edit-nome')?.value || '';
     const cpf = document.getElementById('edit-cpf')?.value || '';
     const phone = document.getElementById('edit-phone')?.value || '';
@@ -131,61 +131,40 @@ export function copyInformations(typeInformations) {
     const street = document.getElementById('edit-street')?.value || '';
     const number = document.getElementById('edit-number')?.value || '';
     const complement = document.getElementById('edit-complement')?.value || '';
+    const message =
+        "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+        "CPF: " + cpf + "\n" +
+        "Nome Completo: " + fullName + "\n" +
+        "Telefone: " + phone + "\n" +
+        "Email: " + email + "\n" +
+        "Gênero: " + gender + "\n" +
+        "Data de Nascimento: " + birthDate + "\n" +
+        "Endereço:\n" +
+        "CEP: " + zipCode + "\n" +
+        "Estado: " + state + "\n" +
+        "Cidade: " + city + "\n" +
+        "Bairro: " + neighborhood + "\n" +
+        "Rua: " + street + "\n" +
+        "Número: " + number + "\n" +
+        "Complemento: " + complement;
 
 
-    if (typeInformations == 'initial') {
-        const message =
-            "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
-            "CPF: " + cpf + "\n" +
-            "Nome Completo: " + fullName + "\n" +
-            "Telefone: " + phone + "\n" +
-            "Email: " + email
+    navigator.clipboard.writeText(message.trim())
+        .then(() => {
+            utils.showNotification('Texto copiado para a área de transferência!', 'info');
+        })
+        .catch(err => {
+            console.error('Erro ao copiar texto: ', err);
+        });
+}
 
-        navigator.clipboard.writeText(message.trim())
-            .then(() => {
-                utils.showNotification('Texto copiado para a área de transferência!', 'info');
-            })
-            .catch(err => {
-                console.error('Erro ao copiar texto: ', err);
-            });
-    }
-    else if (typeInformations == 'full') {
-        const message =
-            "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
-            "CPF: " + cpf + "\n" +
-            "Nome Completo: " + fullName + "\n" +
-            "Telefone: " + phone + "\n" +
-            "Email: " + email +
-            "Gênero: " + gender + "\n" +
-            "Data de Nascimento: " + birthDate +
-            "Endereço:\n" +
-            "CEP: " + zipCode + "\n" +
-            "Estado: " + state + "\n" +
-            "Cidade: " + city + "\n" +
-            "Bairro: " + neighborhood + "\n" +
-            "Rua: " + street + "\n" +
-            "Número: " + number + "\n" +
-            "Complemento: " + complement;
-
-
-        navigator.clipboard.writeText(message.trim())
-            .then(() => {
-                utils.showNotification('Texto copiado para a área de transferência!', 'info');
-            })
-            .catch(err => {
-                console.error('Erro ao copiar texto: ', err);
-            });
-    }
-
-    else if (typeInformations == 'key') {
-        const message = "Enviamos um e-mail com instruções de redefinição de senha"
-        navigator.clipboard.writeText(message.trim())
-            .then(() => {
-                utils.showNotification('Texto copiado para a área de transferência!', 'info');
-            })
-            .catch(err => {
-                console.error('Erro ao copiar texto: ', err);
-            });
-
-    }
+export function copyKeyInformations() {
+    const message = "Enviamos um e-mail com instruções de redefinição de senha"
+    navigator.clipboard.writeText(message.trim())
+        .then(() => {
+            utils.showNotification('Texto copiado para a área de transferência!', 'info');
+        })
+        .catch(err => {
+            console.error('Erro ao copiar texto: ', err);
+        });
 }

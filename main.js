@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('btn-copy-informations').addEventListener('click', () => {
-        collectData.copyInformations();
+        collectData.copyFullInformations('');
     });
 
     document.getElementById('btn-check-payment').addEventListener('click', () => {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('btn-copy-reset-key').addEventListener('click', () => {
-        collectData.copyInformations('key');
+        collectData.copyKeyInformations('key');
     });
 
     //Bottom to effect the update fan's data
@@ -111,9 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
         collectData.updateData()
     });
 
-
     document.getElementById('btn-logo-basicos').addEventListener('click', function () {
-        window.open(`https://ecb.2morrow.com.br/Fan/Details?Id=${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
+        window.open(`https://ecb.2morrow.com.br/Fan`, '_blank');
     });
 
     document.getElementById('btn-logo-financeiro').addEventListener('click', function () {

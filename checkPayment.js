@@ -1,7 +1,9 @@
 import * as main from './main.js';
 
 export async function checkPayment() {
-    const url = `${main.getHost()}/checkpayment/`;
+
+    const guid = main.getfullUserDataTwomorrow().guid;
+    const url = `${main.getHost()}/checkpayment/?guid=${guid}`;
 
     const payload = {
         guid: "generico"
