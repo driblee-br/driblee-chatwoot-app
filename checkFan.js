@@ -131,7 +131,7 @@ export async function fetchData() {
         console.log("Data recieved from search:", data)
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
-        toggleMessages('telephone', data.results.telephone && data.results.telephone.message == '');
+        toggleMessages('telephone', data.results.phone && data.results.phone.message == '');
         return data;
     } catch (error) {
         console.error("Erro completo:", error);
