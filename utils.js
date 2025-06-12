@@ -198,7 +198,7 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
         if (EditEmail && fullUserDataChatwoot?.email) {
             EditEmail.value = fullUserDataChatwoot?.email;
         } else if (EditEmail && email) {
-            emailInput.value = email;
+            EditEmail.value = email;
         }
 
         if (EditTelephone && fullUserDataChatwoot?.mobile?.number) {
