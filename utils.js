@@ -201,8 +201,8 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
             EditEmail.value = email;
         }
 
-        if (EditTelephone && fullUserDataChatwoot?.mobile?.number) {
-            EditTelephone.value = fullUserDataChatwoot?.mobile.number;
+        if (EditTelephone && fullUserDataChatwoot?.contact?.phone_number) {
+            EditTelephone.value = fullUserDataChatwoot?.contact.phone_number;
         } else if (EditTelephone && phone_number) {
             EditTelephone.value = formatPhone(phone_number);
             EditTelephone.dispatchEvent(new Event('input'));

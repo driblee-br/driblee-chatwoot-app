@@ -116,8 +116,12 @@ document.addEventListener('DOMContentLoaded', function () {
         window.open(`https://ecb.2morrow.com.br/Fan`, '_blank');
     });
 
-    document.getElementById('btn-logo-financeiro').addEventListener('click', function () {
-        window.open(`https://ecb.2morrow.com.br/AffiliationPlan/Details/${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
+    document.getElementById('btn-twomorrow-payments').addEventListener('click', function () {
+        if (fullUserDataTwomorrow.affiliationPlans?.length > 0) {
+            window.open(`https://ecb.2morrow.com.br/AffiliationPlan/Details/${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
+        } else {
+            window.open(`https://ecb.2morrow.com.br/NewAffiliation`, '_blank');
+        }
     });
 
     document.getElementById('btn-send-email').addEventListener('click', function () {
