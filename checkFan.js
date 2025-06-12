@@ -235,13 +235,7 @@ export function checkDataConsistency(results) {
     if (values.length === 0) {
         const btnRegister = document.getElementById("btn-register");
         btnRegister.classList.remove("hidden");
-        const cpf = document.getElementById('busca-cpf').value;
-        const email = document.getElementById('busca-email').value;
-        const phone = document.getElementById('busca-phone').value;
-        btnRegister.addEventListener('click', () => {
-            registerFan.register()
-            utils.fillFullInformations('chatwoot', null, cpf, phone, email);
-        });
+        //Bottom to effect the update fan's data
         return null;
     }
 

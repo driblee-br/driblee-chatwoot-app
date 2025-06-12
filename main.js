@@ -38,41 +38,16 @@ document.addEventListener('DOMContentLoaded', function () {
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
 
     // SCREEN SEARCH //
+    // CPF field's format
     document.getElementById('busca-cpf').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formattedValue = '';
-
-        if (value.length > 0) {
-            formattedValue = value.substring(0, 3);
-        }
-        if (value.length > 3) {
-            formattedValue += '.' + value.substring(3, 6);
-        }
-        if (value.length > 6) {
-            formattedValue += '.' + value.substring(6, 9);
-        }
-        if (value.length > 9) {
-            formattedValue += '-' + value.substring(9, 11);
-        }
-
-        e.target.value = formattedValue;
+        let value = e.target.value;
+        e.target.value = utils.formatCPF(value);
     });
 
+    // Phone field's format
     document.getElementById('busca-phone').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formattedValue = '';
-
-        if (value.length > 0) {
-            formattedValue = '(' + value.substring(0, 2);
-        }
-        if (value.length > 2) {
-            formattedValue += ') ' + value.substring(2, 7);
-        }
-        if (value.length > 7) {
-            formattedValue += '-' + value.substring(7, 11);
-        }
-
-        e.target.value = formattedValue;
+        let value = e.target.value;
+        e.target.value = utils.formatPhone(value);
     });
 
     // Botton to search user in 2morrow 
@@ -83,86 +58,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+    //Botton to send template to META
+    document.getElementById('btn-meta').addEventListener('click', () => {
+        meta.meta();
+    });
+
+    // Botton to register a fan
+    document.getElementById("btn-register").addEventListener('click', () => {
+        registerFan.register()
+        const cpf = document.getElementById('busca-cpf').value;
+        const email = document.getElementById('busca-email').value;
+        const phone = document.getElementById('busca-phone').value;
+
+        utils.fillFullInformations('chatwoot', null, cpf, phone, email);
+    });
+
     // SCREEN CHOOSE //
+    // Botton go back to search
     document.getElementById('btn-back-to-search-choose').addEventListener('click', function () {
         utils.reloadScreen('CONSULTATION');
     });
 
     // SCREEN UPDATE
+    // Botton to go to 2morrow fan's screen
+    document.getElementById('btn-logo-basicos').addEventListener('click', function () {
+        window.open(`https://ecb.2morrow.com.br/Fan`, '_blank');
+    });
+
     //Botton to go to the search screen
     document.getElementById('btn-new-search').addEventListener('click', () => {
         utils.reloadScreen('CONSULTATION');
     });
 
-    document.getElementById('btn-copy-informations').addEventListener('click', () => {
-        console.log("Button copy pressed")
-        collectData.copyFullInformations();
-    });
-
-    document.getElementById('btn-check-payment').addEventListener('click', () => {
-        checkPayment.checkPayment();
-    });
-
-    document.getElementById('btn-copy-reset-key').addEventListener('click', () => {
-        collectData.copyKeyInformations('key');
-    });
-
-    //Bottom to effect the update fan's data
-    document.getElementById('btn-effect-update').addEventListener('click', () => {
-        collectData.updateData()
-    });
-
-    document.getElementById('btn-logo-basicos').addEventListener('click', function () {
-        window.open(`https://ecb.2morrow.com.br/Fan`, '_blank');
-    });
-
-    document.getElementById('btn-twomorrow-payments').addEventListener('click', function () {
-        if (fullUserDataTwomorrow.affiliationPlans?.length > 0) {
-            window.open(`https://ecb.2morrow.com.br/AffiliationPlan/Details/${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
-        } else {
-            window.open(`https://ecb.2morrow.com.br/NewAffiliation`, '_blank');
-        }
-    });
-
-    document.getElementById('btn-send-email').addEventListener('click', function () {
-        resetPassword.resetPassword();
-    });
-
+    // CPF format
     document.getElementById('edit-cpf').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formattedValue = '';
-
-        if (value.length > 0) {
-            formattedValue = value.substring(0, 3);
-        }
-        if (value.length > 3) {
-            formattedValue += '.' + value.substring(3, 6);
-        }
-        if (value.length > 6) {
-            formattedValue += '.' + value.substring(6, 9);
-        }
-        if (value.length > 9) {
-            formattedValue += '-' + value.substring(9, 11);
-        }
-
-        e.target.value = formattedValue;
+        let value = e.target.value;
+        e.target.value = utils.formatCPF(value);
     });
 
+    // Phone format
     document.getElementById('edit-phone').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formattedValue = '';
+        let value = e.target.value;
+        e.target.value = utils.formatPhone(value);
+    });
 
-        if (value.length > 0) {
-            formattedValue = '(' + value.substring(0, 2);
-        }
-        if (value.length > 2) {
-            formattedValue += ') ' + value.substring(2, 7);
-        }
-        if (value.length > 7) {
-            formattedValue += '-' + value.substring(7, 11);
-        }
-
-        e.target.value = formattedValue;
+    document.getElementById("btn-register-fan").addEventListener('click', function () {
+        registerFan.registerFan();
     });
 
 
@@ -178,23 +119,43 @@ document.addEventListener('DOMContentLoaded', function () {
         collectData.fillByCep(this.value);
     });
 
-
-
-    /*     //Botton to reset the password
-        document.getElementById('btn-reset-password').addEventListener('click', () => {
-            resetPassword.resetPassword();
-        }); */
-
-    //Botton to send template to META
-    document.getElementById('btn-meta').addEventListener('click', () => {
-        meta.meta();
+    // Botton to copy full informations
+    document.getElementById('btn-copy-informations').addEventListener('click', () => {
+        console.log("Button copy pressed")
+        collectData.copyFullInformations();
     });
 
-    //REGISTER//
+    //Bottom to effect the update fan's data
+    document.getElementById('btn-effect-update').addEventListener('click', () => {
+        console.log("Iniciando cadastro remoto")
+        collectData.updateData()
+    });
 
 
+    // Bottom to check payments status
+    document.getElementById('btn-check-payment').addEventListener('click', () => {
+        checkPayment.checkPayment();
+    });
 
 
+    // Botton to go to 2morrow fan payment's screen
+    document.getElementById('btn-twomorrow-payments').addEventListener('click', function () {
+        if (fullUserDataTwomorrow.affiliationPlans?.length > 0) {
+            window.open(`https://ecb.2morrow.com.br/AffiliationPlan/Details/${fullUserDataTwomorrow.affiliationPlans[0].id}`, '_blank');
+        } else {
+            window.open(`https://ecb.2morrow.com.br/NewAffiliation`, '_blank');
+        }
+    });
+
+    // Bottom to copy reset-password informations
+    document.getElementById('btn-copy-reset-key').addEventListener('click', () => {
+        collectData.copyKeyInformations('key');
+    });
+
+    // Botton to send a email to user
+    document.getElementById('btn-send-email').addEventListener('click', function () {
+        resetPassword.resetPassword();
+    });
 
 
 });

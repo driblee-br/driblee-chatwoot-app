@@ -53,20 +53,58 @@ export function isJSONValid(str) {
 }
 
 
-// Format phone number to Brazilian format (for front)
 export function formatPhone(phone) {
-    let cleaned = phone.replace(/\D/g, '');
-    if (cleaned.startsWith('55') && cleaned.length > 11) {
+    let cleaned = String(phone).replace(/\D/g, '');
+    let formattedValue = '';
+
+    if (cleaned.startsWith('55') && cleaned.length > 10) {
         cleaned = cleaned.slice(2);
     }
-    return cleaned.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+
+    if (cleaned.length > 0) {
+        formattedValue = '(' + cleaned.substring(0, 2);
+    }
+
+    if (cleaned.length > 2) {
+        if (cleaned.length >= 11) {
+            formattedValue += ') ' + cleaned.substring(2, 7);
+            if (cleaned.length > 7) {
+                formattedValue += '-' + cleaned.substring(7, 11);
+            }
+        } else {
+            formattedValue += ') ' + cleaned.substring(2, 6);
+            if (cleaned.length > 6) {
+                formattedValue += '-' + cleaned.substring(6, 10);
+            }
+        }
+    }
+
+    return formattedValue;
 }
 
-// Format CPF (for front)
+// Format CPF 
 export function formatCPF(cpf) {
+    let cleaned = String(cpf).replace(/\D/g, ''); // Remove tudo que não é dígito
+    let formattedValue = '';
 
-    return cpf.replace(/\D/g, '')
-        .replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
+    // 000
+    if (cleaned.length > 0) {
+        formattedValue = cleaned.substring(0, 3);
+    }
+    // 000.000
+    if (cleaned.length > 3) {
+        formattedValue += '.' + cleaned.substring(3, 6);
+    }
+    // 000.000.000
+    if (cleaned.length > 6) {
+        formattedValue += '.' + cleaned.substring(6, 9);
+    }
+    // 000.000.000-00
+    if (cleaned.length > 9) {
+        formattedValue += '-' + cleaned.substring(9, 11);
+    }
+
+    return formattedValue;
 }
 
 /**
@@ -88,43 +126,6 @@ export function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Send message to Fan
-export async function sendMessage(message) {
-    try {
-        let fullUserDataChatwoot = checkFan.getfullUserDataChatwoot();
-        const url = `${main.getHost()}/sendmessage/`;
-
-        const payload = {
-            account_id: fullUserDataChatwoot.conversation.account_id,
-            conversation_id: fullUserDataChatwoot.conversation.id,
-            message: message
-        };
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
-            mode: 'cors',
-            credentials: 'omit',
-            body: JSON.stringify(payload)
-        });
-
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        return data;
-    } catch {
-        console.log("Dados do chatwoot indisponíveis para testes locais")
-    }
-}
-
 export function editPanels(boolean) {
     const panels = document.querySelectorAll('.panel');
     if (boolean === false) {
@@ -140,11 +141,7 @@ export function editPanels(boolean) {
             }
         });
         document.getElementById('btn-register-fan').classList.remove('hidden');
-        //Botton to effect the fan's register
-        document.getElementById('btn-register-fan').addEventListener('click', () => {
-            registerFan.registerFan();
 
-        })
     }
     else {
         panels.forEach(panel => {
@@ -164,11 +161,13 @@ export function editPanels(boolean) {
 }
 
 export function fillFullInformations(from, name = null, cpf = null, phone_number = null, email = null) {
+    console.log("Parameters to auto fill:", name, phone_number, email)
     cleanAllInputs()
+    console.log("Parameters to auto fill:", name, phone_number, email)
     const EditName = document.getElementById("edit-nome");
     const EditCpf = document.getElementById("edit-cpf");
     const EditEmail = document.getElementById("edit-email");
-    const EditTelephone = document.getElementById("edit-telephone");
+    const EditTelephone = document.getElementById("edit-phone");
     const EditGender = document.getElementById("edit-gender");
     const EditBirth = document.getElementById("edit-birth");
     const EditCity = document.getElementById("edit-city");

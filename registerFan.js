@@ -11,9 +11,6 @@ export function register() {
     utils.reloadScreen('UPDATE');
     utils.editPanels(false);
 
-    ;
-
-
 }
 // Do a request to register a fan
 export async function registerFan() {
@@ -21,9 +18,16 @@ export async function registerFan() {
     const emailInput = document.getElementById('edit-email').value;
     const phoneInput = '+55' + document.getElementById('edit-phone').value.replace(/\D/g, '');
     const cpfInput = document.getElementById('edit-cpf').value.replace(/\D/g, '');
-
+    const btneffectRegister = document.getElementById('btn-register-fan');
+    btneffectRegister.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
+    btneffectRegister.disabled = true;
+    function stopLoadingBotton() {
+        btneffectRegister.innerHTML = 'Registrar Torcedor';
+        btneffectRegister.disabled = false;
+    }
     if (!nomeInput || !emailInput || !phoneInput || !cpfInput) {
         utils.showNotification("É necessário preencher todos os dados", "error")
+        stopLoadingBotton()
         return
     }
     const url = `${main.getHost()}/createuser/`;
@@ -58,11 +62,13 @@ export async function registerFan() {
             } else {
                 utils.showNotification("Erro inesperado", 'error')
             }
+            stopLoadingBotton()
             return
         }
         else if (data.response?.success === true) {
             if (data.response?.message) {
                 utils.showNotification(data.response.message, 'error')
+                stopLoadingBotton()
                 return
             }
             utils.showNotification("Torcedor cadastrado com sucesso!", 'success')
@@ -70,16 +76,21 @@ export async function registerFan() {
             main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
             document.getElementById("btn-register-fan").classList.add('hidden')
             utils.reloadScreen('UPDATE')
+            stopLoadingBotton()
             return data;
 
         } else {
             utils.showNotification(`Erro inesperado: ${data.response}`, 'error')
+            stopLoadingBotton()
             return
         }
     } catch (erro) {
         utils.showNotification("Falha ao criar usuário", 'error')
-
+        stopLoadingBotton()
         return
+    } finally {
+        btneffectRegister.innerHTML = '<i class="fas fa-search"></i> Registrar Torcedor';
+        btneffectRegister.disabled = false;
     }
 
 }
