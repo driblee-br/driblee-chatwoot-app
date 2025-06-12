@@ -57,9 +57,10 @@ export function showUserPopup(data, classe = null) {
     card.appendChild(content);
 
     card.addEventListener('click', () => {
-        main.setfullUserDataTwomorrow(data);
-        utils.fillFullInformations();
         utils.reloadScreen('UPDATE');
+        console.log("Data to fill:", data)
+        main.setfullUserDataTwomorrow(data);
+        utils.fillFullInformations('twomorrow');
         card.classList.add('card-clicked');
         setTimeout(() => card.classList.remove('card-clicked'), 200);
     });
