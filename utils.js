@@ -316,3 +316,17 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
         }
     }
 }
+
+export function legacyCopyText(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand("copy");
+        showNotification("Dados copiados com sucesso!", 'success')
+    } catch (err) {
+        showNotification("Falha ao copiar os dados", 'error')
+    }
+    document.body.removeChild(textarea);
+}
