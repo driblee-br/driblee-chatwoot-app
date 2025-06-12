@@ -128,6 +128,7 @@ export async function fetchData() {
     }
     try {
         let data = await verifyFanBack(params);
+        console.log("Data recieved from search:", data)
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');
         toggleMessages('telephone', data.results.telephone && data.results.telephone.message == '');
