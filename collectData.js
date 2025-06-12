@@ -149,22 +149,30 @@ export function copyFullInformations() {
         "Complemento: " + complement;
 
     console.log("Trying to copy informtions")
-    navigator.clipboard.writeText(message.trim())
-        .then(() => {
-            utils.showNotification('Texto copiado para a área de transferência!', 'info');
-        })
-        .catch(err => {
-            console.error('Erro ao copiar texto: ', err);
-        });
+    try {
+        navigator.clipboard.writeText(message.trim())
+            .then(() => {
+                utils.showNotification('Texto copiado para a área de transferência!', 'info');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+    } catch {
+        utils.showNotification("Falha ao copiar os dados", 'error')
+    }
 }
 
 export function copyKeyInformations() {
     const message = "Enviamos um e-mail com instruções de redefinição de senha"
-    navigator.clipboard.writeText(message.trim())
-        .then(() => {
-            utils.showNotification('Texto copiado para a área de transferência!', 'info');
-        })
-        .catch(err => {
-            console.error('Erro ao copiar texto: ', err);
-        });
+    try {
+        navigator.clipboard.writeText(message.trim())
+            .then(() => {
+                utils.showNotification('Texto copiado para a área de transferência!', 'info');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+    } catch {
+        utils.showNotification("Falha ao copiar os dados", 'error')
+    }
 }
