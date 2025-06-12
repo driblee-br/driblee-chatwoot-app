@@ -3,15 +3,6 @@ import * as checkFan from './checkFan.js';
 import * as utils from './utils.js';
 import * as main from './main.js';
 
-
-
-// Update the screen to register screen, doing the automatic fieling
-export function register() {
-    // Goes to the screen 'UPDATE'
-    utils.reloadScreen('UPDATE');
-    utils.editPanels(false);
-
-}
 // Do a request to register a fan
 export async function registerFan() {
     const nomeInput = document.getElementById('edit-nome').value;
@@ -39,6 +30,9 @@ export async function registerFan() {
         phone: phoneInput,
         password: '0000'
     };
+    console.log("Payload", payload)
+    console.log("Header", header)
+    console.log("url", url)
 
     try {
         const response = await fetch(url, {
@@ -52,6 +46,7 @@ export async function registerFan() {
             credentials: 'omit',
             body: JSON.stringify(payload)
         });
+
         const data = await response.json();
         if (data.response?.success === false) {
             if (data.response?.errorMessage) {
@@ -74,7 +69,7 @@ export async function registerFan() {
             utils.showNotification("Torcedor cadastrado com sucesso!", 'success')
             const results = await checkFan.fetchData();
             main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
-            document.getElementById("btn-register-fan").classList.add('hidden')
+            btneffectRegister.classList.add('hidden')
             utils.reloadScreen('UPDATE')
             stopLoadingBotton()
             return data;
@@ -91,6 +86,7 @@ export async function registerFan() {
     } finally {
         btneffectRegister.innerHTML = '<i class="fas fa-search"></i> Registrar Torcedor';
         btneffectRegister.disabled = false;
+
     }
 
 }

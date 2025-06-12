@@ -72,54 +72,61 @@
 
         <!-- Painel de Atualizar Dados Cadastrais -->
         <div id="UPDATE" class="hidden">
-            <div class="panel" id="basic-data">
+            <div class="panel" id="header">
                 <div class="panel-header">
                     <svg class="icon" viewBox="0 0 24 24">
                     </svg>
                     Dados do Torcedor
                     <img src="logo_bahia.png" id="btn-logo-basicos" class="logo-button" alt="Logo Bahia" />
-
+                    <button id="btn-edit" class="btn btn-limitted">Editar Dados</button>
                     <button id="btn-new-search" class="btn btn-limitted">Nova consulta</button>
                 </div>
-                <div class=" panel-content">
+            </div>
+            <div class="panel no-edit-update" id="basic-informations">
+                <div class="panel-header">
                     <form id="form-update">
                         <div id="card">
                             <h4>Informações Básicas</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-nome">Nome Completo <span class="required">*</span></label>
-                                    <input type="text" id="edit-nome">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-cpf">CPF <span class="required">*</span></label>
-                                    <input type="text" id="edit-cpf" placeholder="000.000.000-00" maxlength="14">
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit-phone">Celular <span class="required">*</span></label>
-                                    <input type="text" id="edit-phone" placeholder="(00) 00000-0000" maxlength="15">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-email">E-mail <span class="required">*</span></label>
-                                    <input type="email" id="edit-email">
-                                </div>
-
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="situation">Situação</label>
-                                    <div id="edit-situation"></div>
-                                </div>
-                            </div>
                         </div>
-                        <button id="btn-register-fan" type="button" class="btn btn-confirm hidden">Salvar Cadastro
-                            Básico</button>
+                    </form>
                 </div>
+                <div class="panel-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-nome">Nome Completo <span class="required">*</span></label>
+                            <input type="text" id="edit-nome">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-cpf">CPF <span class="required">*</span></label>
+                            <input type="text" id="edit-cpf" placeholder="000.000.000-00" maxlength="14">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-phone">Celular <span class="required">*</span></label>
+                            <input type="text" id="edit-phone" placeholder="(00) 00000-0000" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-email">E-mail <span class="required">*</span></label>
+                            <input type="email" id="edit-email">
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="situation">Situação</label>
+                            <div id="edit-situation"></div>
+                        </div>
+                    </div>
+                    <button id="btn-register-fan" type="button" class="btn btn-confirm hidden">Salvar Cadastro
+                        Básico</button>
+                </div>
+
+
             </div>
-            <div class="panel">
+            <div class="panel no-edit-update" id="complementar-informations">
                 <div class="panel">
                 </div>
                 <div class="panel-content" id="complementar-panel">
@@ -186,13 +193,12 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="btn-copy-informations" class="btn">Copiar texto</button>
+                        <button type="button" id="btn-copy-informations" class="btn btn-copy">Copiar texto</button>
 
                         <button type="button" id="btn-effect-update" class="btn">Atualizar
                             dados</button>
                 </div>
             </div>
-
             <div class="panel" id="finances-panel">
                 <div class="panel-header">
                     <svg class="icon" viewBox="0 0 24 24">
@@ -205,8 +211,10 @@
                     <form id="form-update">
                         <div id="card">
                             <div class="form-group">
-                                <button type="button" id="btn-check-payment" class="btn">Consultar pagamentos</button>
-                                <button type="button" id="btn-twomorrow-payments" class="btn">Ir para twomorrow</button>
+                                <button type="button" id="btn-check-payment" class="btn">Consultar
+                                    pagamentos</button>
+                                <button type="button" id="btn-twomorrow-payments" class="btn">Ir para
+                                    twomorrow</button>
 
                             </div>
 
@@ -224,7 +232,7 @@
                     <form id="form-update">
                         <div id="card">
                             <div class="form-group">
-                                <button type="button" id="btn-copy-reset-key" class="btn">Copiar
+                                <button type="button" id="btn-copy-reset-key" class="btn btn-copy">Copiar
                                     texto</button>
 
                                 <button type="button" id="btn-send-email" class="btn">Enviar email</button>

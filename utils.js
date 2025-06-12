@@ -5,7 +5,6 @@ import *  as registerFan from './registerFan.js';
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
     const allSteps = ['CONSULTATION', 'UPDATE', 'CHOOSE'];
-    editPanels(true)
     for (const step of allSteps) {
         const element = document.getElementById(step);
         if (element) {
@@ -22,6 +21,10 @@ export function reloadScreen(step_now) {
         document.getElementById("btn-register").classList.add("hidden");
         document.getElementById("btn-register-fan").classList.add('hidden');
         document.getElementById('finances').inner = '';
+        const basicInformations = document.getElementById('basic-informations');
+        const complementarInformations = document.getElementById('complementar-informations');
+        basicInformations.classList.add('no-edit-update');
+        complementarInformations.classList.add('no-edit-update');
     }
 
 }
@@ -126,39 +129,6 @@ export function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-export function editPanels(boolean) {
-    const panels = document.querySelectorAll('.panel');
-    if (boolean === false) {
-        panels.forEach(panel => {
-            if (panel.id !== 'basic-data') {
-                panel.classList.add('no-edit');
-
-                const inputs = panel.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    input.disabled = true;
-                    input.classList.add('disabled-field');
-                });
-            }
-        });
-        document.getElementById('btn-register-fan').classList.remove('hidden');
-
-    }
-    else {
-        panels.forEach(panel => {
-            if (panel.id !== 'basic-data') {
-                panel.classList.remove('no-edit');
-
-                const inputs = panel.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    input.disabled = false;
-                    input.classList.remove('disabled-field');
-                });
-            }
-        });
-        document.getElementById('btn-register-fan').classList.add('hidden');
-
-    }
-}
 
 export function fillFullInformations(from, name = null, cpf = null, phone_number = null, email = null) {
     console.log("Parameters to auto fill:", name, phone_number, email)

@@ -56,9 +56,18 @@ export function fillByCep(cep) {
 }
 
 export async function updateData() {
+    const btneffectUpdate = document.getElementById('btn-effect-update');
+    btneffectUpdate.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando mudanças...';
+    btneffectUpdate.disabled = true;
+    function stopLoadingBotton() {
+        btneffectUpdate.innerHTML = 'Registrar Torcedor';
+        btneffectUpdate.disabled = false;
+    }
 
     const EditName = document.getElementById("edit-nome").value;
     const EditCpf = document.getElementById("edit-cpf").value;
+    const EditPhone = document.getElementById("edit-phone").value;
+    const EditEmail = document.getElementById("edit-email").value;
     const EditGender = document.getElementById("edit-gender").value;
     const EditBirth = document.getElementById("edit-birth").value;
     const EditCity = document.getElementById("edit-city").value;
@@ -74,6 +83,8 @@ export async function updateData() {
     payload = {
         "name": EditName,
         "alias": "",
+        "phone_number": EditPhone,
+        "email": EditEmail,
         "mainDocument": EditCpf,
         "personGenderValue": EditGender,
         "birthDate": EditBirth,
@@ -99,21 +110,29 @@ export async function updateData() {
             credentials: 'omit',
             body: JSON.stringify(payload)
         });
+        console.log("PAYLOAD:", payload)
         const data = await response.json();
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+            const errorData = data.errorMessage;
+            utils.showNotification(`Erro:${errorData}`, 'error')
+            stopLoadingBotton();
+            return
+
         }
         const results = await checkFan.fetchData();
-        main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+        console.log('results.results', results.results)
+        main.setfullUserDataTwomorrow(results.results.cpf);
         utils.showNotification("Dados atualizados com sucesso.", 'success')
-
+        stopLoadingBotton()
         return data;
+
     } catch (e) {
         utils.showNotification(`Não foi possível concluir o update dos dados.`, 'error');
         console.log(e);
+        stopLoadingBotton()
         return
+
     }
 }
 

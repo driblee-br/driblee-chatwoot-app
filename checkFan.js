@@ -84,30 +84,6 @@ export function toggleMessages(field, found) {
     }
 }
 
-// Do request to the backend to search a fan
-async function verifyFanBack(params) {
-    const queryString = new URLSearchParams(params).toString();
-    const url = `${main.getHost()}/verify_fan/?${queryString}`;
-
-    const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-        },
-        mode: 'cors',
-        credentials: 'omit'
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-}
-
 // Function to preper data to search 
 export async function fetchData() {
     const btnBuscar = document.getElementById('btnBuscar');
@@ -128,7 +104,26 @@ export async function fetchData() {
         return;
     }
     try {
-        let data = await verifyFanBack(params);
+        const queryString = new URLSearchParams(params).toString();
+        const url = `${main.getHost()}/verify_fan/?${queryString}`;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
+            mode: 'cors',
+            credentials: 'omit'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+
         console.log("Data recieved from search:", data)
         toggleMessages('cpf', data.results.cpf && data.results.cpf.message == '');
         toggleMessages('email', data.results.email && data.results.email.message == '');

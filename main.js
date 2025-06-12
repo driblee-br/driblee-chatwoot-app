@@ -9,7 +9,7 @@ let fullUserDataTwomorrow;
 let fullUserDataChatwoot;
 
 export function getHost() {
-    return "https://be83-2804-14d-5c5b-82f8-c517-1910-75db-c4f6.ngrok-free.app"
+    return "https://be83-2804-14d-5c5b-82f8-c517-1910-75db-c4f6.ngrok-free.app/chatwoot-app"
 }
 
 export function getfullUserDataTwomorrow() {
@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
         checkFan.cleanAllInputsSearch();
         const results = await checkFan.fetchData();
         setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
-
     });
 
     //Botton to send template to META
@@ -65,18 +64,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Botton to register a fan
     document.getElementById("btn-register").addEventListener('click', () => {
-        registerFan.register()
+        //Recarrega a página para a página de update dos dados
+        utils.reloadScreen('UPDATE');
+
+        // Habilita os dados básicos para serem editáveis
+        document.getElementById('basic-informations').classList.remove('no-edit-update');
+
+        // Desabilita botão de edição
+        document.getElementById("btn-edit").disabled = true;
+
+        // Habilita o botão de efetivar registro
+        document.getElementById("btn-register-fan").classList.remove('hidden');
+
+        //Preenche automaticamente os campos da tela de registro
         const cpf = document.getElementById('busca-cpf').value;
         const email = document.getElementById('busca-email').value;
         const phone = document.getElementById('busca-phone').value;
-
         utils.fillFullInformations('chatwoot', null, cpf, phone, email);
+
     });
 
     // SCREEN CHOOSE //
     // Botton go back to search
     document.getElementById('btn-back-to-search-choose').addEventListener('click', function () {
         utils.reloadScreen('CONSULTATION');
+        const basicInformations = document.getElementById('basic-informations');
+        const complementarInformations = document.getElementById('complementar-informations');
+        basicInformations.classList.add('no-edit-update');
+        complementarInformations.classList.add('no-edit-update');
     });
 
     // SCREEN UPDATE
@@ -85,9 +100,26 @@ document.addEventListener('DOMContentLoaded', function () {
         window.open(`https://ecb.2morrow.com.br/Fan`, '_blank');
     });
 
+    // Botton to edit data
+    document.getElementById('btn-edit').addEventListener('click', function () {
+        const basicInformations = document.getElementById('basic-informations');
+        const complementarInformations = document.getElementById('complementar-informations');
+        basicInformations.classList.toggle('no-edit-update');
+        complementarInformations.classList.toggle('no-edit-update');
+
+    });
+
+
     //Botton to go to the search screen
     document.getElementById('btn-new-search').addEventListener('click', () => {
         utils.reloadScreen('CONSULTATION');
+        document.getElementById('finances').innerHTML = '';
+        const basicInformations = document.getElementById('basic-informations');
+        const complementarInformations = document.getElementById('complementar-informations');
+        basicInformations.classList.add('no-edit-update');
+        complementarInformations.classList.add('no-edit-update');
+        document.getElementById("btn-edit").disabled = false;
+
     });
 
     // CPF format

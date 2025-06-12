@@ -461,9 +461,17 @@
             border: 1px solid #ddd;
         }
 
+        #UPDATE .no-edit-update {
+            opacity: 0.7;
+            pointer-events: none;
+            background-color: #f8f8f8;
+            border: 1px dashed #ccc;
+        }
+
+
         .disabled-field+label,
         .no-edit .form-group label {
-            color: #777;
+            color: #aaaaaa;
         }
 
         #basic-data {
@@ -503,4 +511,21 @@
 
         h4 {
             margin-bottom: 10px;
+        }
+
+        .btn-copy {
+            background-color: white;
+            color: #2563eb;
+            border: 1px;
+            border-color: #2563eb;
+        }
+
+        .btn:disabled,
+        .btn-copy:disabled,
+        .btn:disabled:hover,
+        .btn-copy:disabled:hover {
+            background-color: #cccccc !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+            opacity: 0.7;
         }
