@@ -62,11 +62,10 @@ export async function registerFan() {
         }
         else if (data.response?.success === true) {
             if (data.response?.message) {
-                utils.showNotification(data.response.message, 'error')
+                utils.showNotification(data.response.message, 'success')
                 stopLoadingBotton()
                 return
             }
-            utils.showNotification("Torcedor cadastrado com sucesso!", 'success')
             const results = await checkFan.fetchData();
             main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
             btneffectRegister.classList.add('hidden')
