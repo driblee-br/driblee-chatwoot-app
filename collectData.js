@@ -128,10 +128,11 @@ export async function updateData() {
         if (!data.response.ok || data.response.success === false) {
             if (data.response.errorMessage) {
                 utils.showNotification(`Erro:${data.response.errorMessage}`, 'error')
-                stopLoadingBotton();
+
             } else if (data.response.message) {
                 utils.showNotification(`Erro:${data.response.message}`, 'error')
             }
+            stopLoadingBotton();
             return
 
         }
