@@ -32,14 +32,22 @@ export async function resetPassword() {
             throw new Error("Resposta inválida do servidor");
         }
 
+        let parsedResponse = {};
+        if (data?.response) {
+            try {
+                parsedResponse = JSON.parse(data.response);
+            } catch (e) {
+                console.warn("Falha ao parsear 'response' interno:", e);
+            }
+        }
+
         if (!response.ok) {
-            utils.showNotification(data?.error || "Erro ao enviar email", 'error');
+            utils.showNotification(parsedResponse?.errorMessage || "Erro ao enviar email", 'error');
         } else {
-            utils.showNotification(data?.message || "Sucesso", 'success');
+            utils.showNotification(parsedResponse?.message || "Sucesso", 'success');
         }
     } catch (e) {
         console.error(" Erro ao fazer requisição:", e);
         utils.showNotification("Erro inesperado: " + e.message, 'error');
     }
-
 }
