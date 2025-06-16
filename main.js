@@ -70,13 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Habilita os dados básicos para serem editáveis
         document.getElementById('basic-informations').classList.remove('no-edit-update');
 
-        // Desabilita o campo de checar pagamento e reset de senha
+        // Habilita o campo de checar pagamento e reset de senha
         document.getElementById('finances-panel').classList.add('no-edit-update');
         document.getElementById('reset-password-panel').classList.add('no-edit-update');
 
-
-        // Desabilita botão de edição
+        // Desabilita botẽs de ação
         document.getElementById("btn-edit").disabled = true;
+        document.getElementById("btn-check-payment").disabled = true;
+        document.getElementById("btn-twomorrow-payments").disabled = true;
 
         // Habilita o botão de efetivar registro
         document.getElementById("btn-register-fan").classList.remove('hidden');
@@ -125,6 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
         basicInformations.classList.add('no-edit-update');
         complementarInformations.classList.add('no-edit-update');
         document.getElementById("btn-edit").disabled = false;
+        document.getElementById("btn-check-payment").disabled = false;
+        document.getElementById("btn-twomorrow-payments").disabled = false;
+
         // Desabilita o campo de checar pagamento e reset de senha
         document.getElementById('finances-panel').classList.remove('no-edit-update');
         document.getElementById('reset-password-panel').classList.remove('no-edit-update');
@@ -173,6 +177,10 @@ document.addEventListener('DOMContentLoaded', function () {
     //Bottom to effect the update fan's data
     document.getElementById('btn-effect-update').addEventListener('click', () => {
         console.log("Iniciando cadastro remoto")
+        document.getElementById("btn-edit").disabled = false;
+        document.getElementById("btn-check-payment").disabled = false;
+        document.getElementById("btn-twomorrow-payments").disabled = false;
+
         collectData.updateData()
     });
 
