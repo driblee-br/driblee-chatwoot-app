@@ -37,7 +37,7 @@ export function showUserPopup(data, classe = null) {
     } else if (classe === 'cpf') {
         h3.textContent = 'Usuário encontrado por CPF';
     } else {
-        h3.textContent = 'Informações do Usuário';
+        h3.textContent = 'Usuário encontrado por Email';
     }
     const createInfoParagraph = (label, value) => {
         const p = document.createElement('p');
@@ -199,46 +199,21 @@ export function checkDataConsistency(results) {
     const values = [];
     for (const key in results) {
         const item = results[key];
-        if (item?.resultObject) {
+        if (item?.resultObject && results[key].message == "") {
             values.push(JSON.stringify(item.resultObject));
         }
     }
-
     let allEqual;
-
-    function OneResult() {
-        let emptyMessages = 0;
-        if (values.every(value => value === values[0]) && values.length > 1) {
-            allEqual = true
-            emptyMessages = 1;
-
-        } else {
-            for (const key in results) {
-                if (results[key].message == "") {
-                    emptyMessages += 1
-                }
-            }
-            if (emptyMessages == 1) {
-                allEqual = true
-            } else allEqual = false
-
-        }
-        return emptyMessages
+    if (values.every(value => value === values[0]) && values.length > 1) {
+        allEqual = true
+    } else {
+        allEqual = false
     }
 
-    const emptyMessages = OneResult(results.results);
     if (values.length === 0) {
         const btnRegister = document.getElementById("btn-register");
         btnRegister.classList.remove("hidden");
-        //Bottom to effect the update fan's data
         return null;
-    }
-
-    let totalKeys = 0;
-    for (const key in results) {
-        if (results[key]?.resultObject != null) {
-            totalKeys += 1;
-        }
     }
 
     if (allEqual) {
