@@ -7,7 +7,7 @@ import * as main from './main.js';
 export async function registerFan() {
     const nomeInput = document.getElementById('edit-nome').value;
     const emailInput = document.getElementById('edit-email').value;
-    const phoneInput = '+55' + document.getElementById('edit-phone').value.replace(/\D/g, '');
+    const phoneInput = '55' + document.getElementById('edit-phone').value.replace(/\D/g, '');
     const cpfInput = document.getElementById('edit-cpf').value.replace(/\D/g, '');
     const btneffectRegister = document.getElementById('btn-register-fan');
     btneffectRegister.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
