@@ -66,7 +66,8 @@ export async function updateData() {
 
     const EditName = document.getElementById("edit-nome").value;
     const EditCpf = document.getElementById("edit-cpf").value;
-    const EditPhone = document.getElementById("edit-phone").value;
+    const EditPhone = '55' + document.getElementById("edit-phone").value.replace(/\D/g, '');
+
     const EditEmail = document.getElementById("edit-email").value;
     let EditGender = document.getElementById("edit-gender").value;
     console.log(EditGender)
