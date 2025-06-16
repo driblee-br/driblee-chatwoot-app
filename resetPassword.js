@@ -16,26 +16,30 @@ export async function resetPassword() {
             },
             mode: 'cors',
             credentials: 'omit',
-            body: JSON.stringify({
-                userName: `${userName}`
-            })
+            body: JSON.stringify({ userName })
         });
-        console.log("Response reset:", response)
-        if (!response.ok) {
-            if (response?.errorMessage) {
-                utils.showNotification(response.errorMessage, 'error')
-            } else {
-                utils.showNotification("Erro ao enviar email", 'error')
-            }
-        } else {
-            if (response?.message == "Email enviado") {
-                utils.showNotification(response.message, 'success')
-            } else {
-                utils.showNotification(response.message, 'info')
-            }
+
+        console.log("Raw response object:", response);  // só o metadata (não mostra o conteúdo)
+
+        // Tenta forçar o parse como JSON, se der erro, tenta como texto
+        let data;
+        try {
+            data = await response.json();
+            console.log(" JSON recebido do backend:", data);
+        } catch (jsonErr) {
+            const text = await response.text();
+            console.warn(" Resposta não era JSON. Conteúdo como texto:", text);
+            throw new Error("Resposta inválida do servidor");
         }
-    } catch {
-        utils.showNotification("Erro inesperado.", 'error')
-        return
+
+        if (!response.ok) {
+            utils.showNotification(data?.error || "Erro ao enviar email", 'error');
+        } else {
+            utils.showNotification(data?.message || "Sucesso", 'success');
+        }
+    } catch (e) {
+        console.error(" Erro ao fazer requisição:", e);
+        utils.showNotification("Erro inesperado: " + e.message, 'error');
     }
+
 }

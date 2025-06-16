@@ -9,6 +9,7 @@ export async function checkPayment() {
         btnCheckPayment.disabled = false;
     }
     const guid = main.getfullUserDataTwomorrow().guid;
+    console.log("GUID:", guid)
     const url = `${main.getHost()}/checkpayment/${guid}`;
 
     try {

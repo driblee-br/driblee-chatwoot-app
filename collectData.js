@@ -123,7 +123,7 @@ export async function updateData() {
         console.log("PAYLOAD:", payload)
         const data = await response.json();
         console.log("Response from api to update data:", data)
-        if (!data.response.ok || data.response.success === false) {
+        if (data.response.success === false) {
             if (data.response.errorMessage) {
                 utils.showNotification(`Erro:${data.response.errorMessage}`, 'error')
 
@@ -133,19 +133,29 @@ export async function updateData() {
             stopLoadingBotton();
             return
 
+        } else {
+
+
+            const results = await checkFan.fetchData();
+            console.log('results.results', results.results)
+            for (const key in results.results) {
+                if (results.results[key].message === '') {
+                    main.setfullUserDataTwomorrow(results.results[key].resultObject);
+                    break;
+                }
+            }
+            if (data.response.message) {
+                utils.showNotification(data.response.message, 'success')
+            }
+            utils.showNotification("Dados atualizados com sucesso.", 'success')
+            stopLoadingBotton()
+            document.getElementById("btn-edit").disabled = false;
+            document.getElementById("btn-check-payment").disabled = false;
+            document.getElementById("btn-twomorrow-payments").disabled = false;
+            document.getElementById("btn-send-email").disabled = false;
+
+            return data;
         }
-        const results = await checkFan.fetchData();
-        console.log('results.results', results.results)
-        main.setfullUserDataTwomorrow(results.results.cpf);
-        utils.showNotification("Dados atualizados com sucesso.", 'success')
-        stopLoadingBotton()
-        document.getElementById("btn-edit").disabled = false;
-        document.getElementById("btn-check-payment").disabled = false;
-        document.getElementById("btn-twomorrow-payments").disabled = false;
-        document.getElementById("btn-send-email").disabled = false;
-
-        return data;
-
     } catch (e) {
         utils.showNotification(`Não foi possível concluir o update dos dados.`, 'error');
         console.log(e);
