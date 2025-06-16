@@ -69,6 +69,7 @@ export async function updateData() {
     const EditPhone = document.getElementById("edit-phone").value;
     const EditEmail = document.getElementById("edit-email").value;
     let EditGender = document.getElementById("edit-gender").value;
+    console.log(EditGender)
     const gender_mapping = {
         "Masculino": "M",
         "Feminino": "F",
@@ -76,6 +77,7 @@ export async function updateData() {
         "Outro": "O"
     }
     EditGender = gender_mapping[EditGender] || "N";
+    console.log(EditGender)
     const EditBirth = document.getElementById("edit-birth").value;
     const EditCity = document.getElementById("edit-city").value;
     const EditNeigbor = document.getElementById("edit-neigbor").value;
