@@ -66,8 +66,6 @@ export async function updateData() {
 
     const EditName = document.getElementById("edit-nome").value;
     const EditCpf = document.getElementById("edit-cpf").value;
-    const EditPhone = '55' + document.getElementById("edit-phone").value.replace(/\D/g, '');
-
     const EditEmail = document.getElementById("edit-email").value;
     let EditGender = document.getElementById("edit-gender").value;
     console.log(EditGender)
@@ -96,7 +94,6 @@ export async function updateData() {
     payload = {
         "name": EditName,
         "alias": "",
-        "phone_number": EditPhone,
         "email": EditEmail,
         "mainDocument": EditCpf,
         "personGenderValue": EditGender,
