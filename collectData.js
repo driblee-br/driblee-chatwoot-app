@@ -75,7 +75,7 @@ export async function updateData() {
         "Não Informado": "N",
         "Outro": "O"
     }
-    EditGender = gender_mapping.get(EditGender, "N")
+    EditGender = gender_mapping[EditGender] || "N";
     const EditBirth = document.getElementById("edit-birth").value;
     const EditCity = document.getElementById("edit-city").value;
     const EditNeigbor = document.getElementById("edit-neigbor").value;
