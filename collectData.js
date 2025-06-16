@@ -68,13 +68,14 @@ export async function updateData() {
     const EditCpf = document.getElementById("edit-cpf").value;
     const EditPhone = document.getElementById("edit-phone").value;
     const EditEmail = document.getElementById("edit-email").value;
+    let EditGender = document.getElementById("edit-gender").value;
     const gender_mapping = {
         "Masculino": "M",
         "Feminino": "F",
         "Não Informado": "N",
         "Outro": "O"
     }
-    const EditGender = gender_mapping.get(data.personGenderValue, "N")
+    EditGender = gender_mapping.get(EditGender, "N")
     const EditBirth = document.getElementById("edit-birth").value;
     const EditCity = document.getElementById("edit-city").value;
     const EditNeigbor = document.getElementById("edit-neigbor").value;
