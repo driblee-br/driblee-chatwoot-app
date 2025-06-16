@@ -139,6 +139,9 @@ export async function updateData() {
         main.setfullUserDataTwomorrow(results.results.cpf);
         utils.showNotification("Dados atualizados com sucesso.", 'success')
         stopLoadingBotton()
+        document.getElementById("btn-edit").disabled = false;
+        document.getElementById("btn-check-payment").disabled = false;
+        document.getElementById("btn-twomorrow-payments").disabled = false;
         return data;
 
     } catch (e) {

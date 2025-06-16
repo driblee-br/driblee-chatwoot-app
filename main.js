@@ -177,9 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //Bottom to effect the update fan's data
     document.getElementById('btn-effect-update').addEventListener('click', () => {
         console.log("Iniciando cadastro remoto")
-        document.getElementById("btn-edit").disabled = false;
-        document.getElementById("btn-check-payment").disabled = false;
-        document.getElementById("btn-twomorrow-payments").disabled = false;
+
 
         collectData.updateData()
     });
