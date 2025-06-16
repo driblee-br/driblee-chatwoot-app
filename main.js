@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("btn-edit").disabled = true;
         document.getElementById("btn-check-payment").disabled = true;
         document.getElementById("btn-twomorrow-payments").disabled = true;
+        document.getElementById("btn-send-email").disabled = true;
 
         // Habilita o botão de efetivar registro
         document.getElementById("btn-register-fan").classList.remove('hidden');
@@ -128,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("btn-edit").disabled = false;
         document.getElementById("btn-check-payment").disabled = false;
         document.getElementById("btn-twomorrow-payments").disabled = false;
+        document.getElementById("btn-send-email").disabled = false;
 
         // Desabilita o campo de checar pagamento e reset de senha
         document.getElementById('finances-panel').classList.remove('no-edit-update');

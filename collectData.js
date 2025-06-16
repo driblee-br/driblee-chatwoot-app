@@ -142,6 +142,8 @@ export async function updateData() {
         document.getElementById("btn-edit").disabled = false;
         document.getElementById("btn-check-payment").disabled = false;
         document.getElementById("btn-twomorrow-payments").disabled = false;
+        document.getElementById("btn-send-email").disabled = false;
+
         return data;
 
     } catch (e) {
