@@ -125,7 +125,7 @@ export async function updateData() {
         console.log("PAYLOAD:", payload)
         const data = await response.json();
         console.log("Response from api to update data:", data)
-        if (!response.ok || response.success === false) {
+        if (!data.response.ok || data.response.success === false) {
             if (data.response.errorMessage) {
                 utils.showNotification(`Erro:${data.response.errorMessage}`, 'error')
                 stopLoadingBotton();
