@@ -204,6 +204,7 @@ export function checkDataConsistency(results) {
         }
     }
     let allEqual;
+    console.log("Values", values)
     if (values.every(value => value === values[0]) && values.length > 1) {
         allEqual = true
     } else {
