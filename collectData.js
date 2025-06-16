@@ -78,7 +78,10 @@ export async function updateData() {
     }
     EditGender = gender_mapping[EditGender] || "N";
     console.log(EditGender)
-    const EditBirth = document.getElementById("edit-birth").value;
+    let EditBirth = document.getElementById("edit-birth").value;
+    const birthDateObj = new Date(`${EditBirth}T00:00:00`);
+    EditBirth = birthDateObj.toISOString();
+
     const EditCity = document.getElementById("edit-city").value;
     const EditNeigbor = document.getElementById("edit-neigbor").value;
     const EditStreet = document.getElementById("edit-street").value;
@@ -98,7 +101,7 @@ export async function updateData() {
         "personGenderValue": EditGender,
         "birthDate": EditBirth,
         "postalCode": EditCep,
-        "address": EditCity + EditStreet,
+        "address": EditCity + ', ' + EditStreet,
         "number": EditNumber,
         "complement": EditComplement,
         "district": EditNeigbor,
@@ -121,7 +124,7 @@ export async function updateData() {
         });
         console.log("PAYLOAD:", payload)
         const data = await response.json();
-
+        console.log("Response from api to update data:", data)
         if (!response.ok) {
             const errorData = data.errorMessage;
             utils.showNotification(`Erro:${errorData}`, 'error')
