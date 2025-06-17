@@ -9,7 +9,7 @@ let fullUserDataTwomorrow;
 let fullUserDataChatwoot;
 
 export function getHost() {
-    return "https://afd1-2804-14d-5c5b-82f8-6ab-a6df-8b31-b281.ngrok-free.app/chatwoot-app"
+    return "https://api.driblee.com/chatwoot-app"
 }
 
 export function getfullUserDataTwomorrow() {
