@@ -9,7 +9,7 @@ let fullUserDataTwomorrow;
 let fullUserDataChatwoot;
 
 export function getHost() {
-    return "https://5153-2804-14d-5c5b-82f8-a4bc-db62-28ae-579f.ngrok-free.app/chatwoot-app"
+    return "https://77e9-2804-14d-5c5b-82f8-78b-7e4e-c6c4-6ccb.ngrok-free.app/chatwoot-app"
 }
 
 export function getfullUserDataTwomorrow() {
