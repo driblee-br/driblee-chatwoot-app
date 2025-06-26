@@ -16,6 +16,7 @@ export function getfullUserDataTwomorrow() {
 }
 
 export function setfullUserDataTwomorrow(data) {
+    console.log("Setting fullUserDataTwomorrow:", data)
     fullUserDataTwomorrow = data;
 }
 
@@ -67,14 +68,14 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('finances-panel').classList.add('no-edit-update');
         document.getElementById('reset-password-panel').classList.add('no-edit-update');
 
-        // Desabilita botẽs de ação
-        document.getElementById("btn-edit").disabled = true;
-        document.getElementById("btn-check-payment").disabled = true;
-        document.getElementById("btn-twomorrow-payments").disabled = true;
-        document.getElementById("btn-send-email").disabled = true;
-
         // Habilita o botão de efetivar registro
         document.getElementById("btn-register-fan").classList.remove('hidden');
+        document.getElementById("btn-copy-basic-informations").classList.remove('hidden');
+
+        // Desabilita botẽs de ação
+        document.getElementById("btn-edit").disabled = true;
+
+
 
         //Preenche automaticamente os campos da tela de registro
         const cpf = document.getElementById('busca-cpf').value;
@@ -120,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
         basicInformations.classList.add('no-edit-update');
         complementarInformations.classList.add('no-edit-update');
         document.getElementById("btn-edit").disabled = false;
-        document.getElementById("btn-check-payment").disabled = false;
         document.getElementById("btn-twomorrow-payments").disabled = false;
         document.getElementById("btn-send-email").disabled = false;
 
@@ -145,9 +145,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("btn-register-fan").addEventListener('click', function () {
         registerFan.registerFan();
-        // Desabilita o campo de checar pagamento e reset de senha
+        // Habilita o campo de checar pagamento e reset de senha
         document.getElementById('finances-panel').classList.remove('no-edit-update');
         document.getElementById('reset-password-panel').classList.remove('no-edit-update');
+
     });
 
 
@@ -167,6 +168,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btn-copy-informations').addEventListener('click', () => {
         console.log("Button copy pressed")
         collectData.copyFullInformations();
+    });
+
+    document.getElementById('btn-copy-basic-informations').addEventListener('click', () => {
+        console.log("Button copy pressed")
+        registerFan.copyFullInformations();
     });
 
     //Bottom to effect the update fan's data

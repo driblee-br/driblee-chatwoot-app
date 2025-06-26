@@ -19,6 +19,7 @@ export function reloadScreen(step_now) {
     if (step_now == 'CONSULTATION') {
         document.getElementById("btn-register").classList.add("hidden");
         document.getElementById("btn-register-fan").classList.add('hidden');
+        document.getElementById("btn-copy-basic-informations").classList.add('hidden');
         document.getElementById('finances').inner = '';
         const basicInformations = document.getElementById('basic-informations');
         const complementarInformations = document.getElementById('complementar-informations');

@@ -218,7 +218,6 @@ export function checkDataConsistency(results) {
     }
 
     if (allEqual) {
-        const entries = Object.entries(results);
         for (const key in results) {
             const item = results[key];
             if (item.message == "") {

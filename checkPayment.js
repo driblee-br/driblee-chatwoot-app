@@ -1,14 +1,9 @@
 import * as main from './main.js';
 
 export async function checkPayment() {
-    const btnCheckPayment = document.getElementById('btn-check-payment');
-    btnCheckPayment.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procurando planos...';
-    btnCheckPayment.disabled = true;
-    function stopLoadingBotton() {
-        btnCheckPayment.innerHTML = 'Consultar pagamentos';
-        btnCheckPayment.disabled = false;
-    }
-    const guid = main.getfullUserDataTwomorrow().guid;
+    const fullUsrDataTwomorrow = main.getfullUserDataTwomorrow();
+    console.log("Full User Data:", fullUsrDataTwomorrow)
+    const guid = fullUsrDataTwomorrow?.guid;
     console.log("GUID:", guid)
     const url = `${main.getHost()}/checkpayment/${guid}`;
 
@@ -27,14 +22,11 @@ export async function checkPayment() {
 
         if (!response.ok) {
             const errorData = await response.json();
-            stopLoadingBotton()
             throw new Error(errorData.errorMessage || `Erro HTTP: ${response.status}`);
         }
         showPaymentAtributes(data)
-        stopLoadingBotton()
         return data;
     } catch {
-        stopLoadingBotton()
         return
     }
 }

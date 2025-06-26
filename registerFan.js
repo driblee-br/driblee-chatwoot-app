@@ -10,6 +10,8 @@ export async function registerFan() {
     const phoneInput = '+55' + document.getElementById('edit-phone').value.replace(/\D/g, '');
     const cpfInput = document.getElementById('edit-cpf').value.replace(/\D/g, '');
     const btneffectRegister = document.getElementById('btn-register-fan');
+
+    const btnCopyInformations = document.getElementById('btn-copy-basic-informations');
     btneffectRegister.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
     btneffectRegister.disabled = true;
     function stopLoadingBotton() {
@@ -65,11 +67,13 @@ export async function registerFan() {
             if (data.response?.message) {
                 utils.showNotification(data.response.message, 'success')
                 stopLoadingBotton()
-                return
             }
             const results = await checkFan.fetchData();
-            main.setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
+            main.setfullUserDataTwomorrow(results.results['cpf'].resultObject);
+            document.getElementById('basic-informations').classList.add('no-edit-update');
             btneffectRegister.classList.add('hidden')
+            btnCopyInformations.classList.add('hidden');
+            document.getElementById("btn-edit").disabled = false;
             utils.reloadScreen('UPDATE')
             stopLoadingBotton()
             return data;
@@ -101,7 +105,6 @@ export function copyFullInformations() {
         "CPF: " + cpf + "\n" +
         "Nome Completo: " + fullName + "\n" +
         "Telefone: " + phone + "\n" +
-        "Email: " + email + "\n" +
-    console.log("Trying to copy informations");
+        "Email: " + email
     utils.legacyCopyText(message);
 }

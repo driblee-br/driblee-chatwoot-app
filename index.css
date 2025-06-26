@@ -167,26 +167,6 @@
             text-align: center;
         }
 
-        /* 
-        .btn-consult-payment,
-        .btn-clear-inputs {
-            background: #6b7280;
-        }
-
-        .btn-consult-payment:hover,
-        .btn-clear-inputs:hover {
-            background: #4b5563;
-        }
-
-        .btn.btn-register {
-            background-color: #971919 !important;
-            color: white !important;
-        }
-
-        .btn.btn-register:hover {
-            background-color: #be2121 !important;
-        }
- */
         .result-box {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
