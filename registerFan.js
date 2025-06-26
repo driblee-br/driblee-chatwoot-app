@@ -90,3 +90,18 @@ export async function registerFan() {
     }
 
 }
+
+export function copyFullInformations() {
+    const fullName = document.getElementById('edit-nome')?.value || '';
+    const cpf = document.getElementById('edit-cpf')?.value || '';
+    const phone = document.getElementById('edit-phone')?.value || '';
+    const email = document.getElementById('edit-email')?.value || '';
+    const message =
+        "Olá! Você poderia, por favor, confirmar suas informações?\n\n" +
+        "CPF: " + cpf + "\n" +
+        "Nome Completo: " + fullName + "\n" +
+        "Telefone: " + phone + "\n" +
+        "Email: " + email + "\n" +
+    console.log("Trying to copy informations");
+    utils.legacyCopyText(message);
+}

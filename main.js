@@ -3,7 +3,6 @@ import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
 import * as collectData from './collectData.js';
 import * as resetPassword from './resetPassword.js';
-import * as meta from './meta.js';
 let fullUserDataTwomorrow;
 let fullUserDataChatwoot;
 
@@ -54,11 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
         checkFan.cleanAllInputsSearch();
         const results = await checkFan.fetchData();
         setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
-    });
-
-    //Botton to send template to META
-    document.getElementById('btn-meta').addEventListener('click', () => {
-        meta.meta();
     });
 
     // Botton to register a fan
