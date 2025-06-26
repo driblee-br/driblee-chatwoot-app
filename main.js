@@ -1,7 +1,6 @@
 import * as checkFan from './checkFan.js';
 import * as registerFan from './registerFan.js';
 import * as utils from './utils.js';
-import * as checkPayment from './checkPayment.js';
 import * as collectData from './collectData.js';
 import * as resetPassword from './resetPassword.js';
 import * as meta from './meta.js';
@@ -182,12 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         collectData.updateData()
-    });
-
-
-    // Bottom to check payments status
-    document.getElementById('btn-check-payment').addEventListener('click', () => {
-        checkPayment.checkPayment();
     });
 
 

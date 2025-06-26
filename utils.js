@@ -1,6 +1,5 @@
-import * as checkFan from './checkFan.js';
 import * as main from './main.js';
-import *  as registerFan from './registerFan.js';
+import * as checkPayment from './checkPayment.js';
 
 // Show just the screen relted as the atual status
 export function reloadScreen(step_now) {
@@ -27,6 +26,9 @@ export function reloadScreen(step_now) {
         complementarInformations.classList.add('no-edit-update');
     }
 
+    if (step_now == 'UPDATE') {
+        checkPayment.checkPayment();
+    }
 }
 
 // Function to clean all inputs in the register page
