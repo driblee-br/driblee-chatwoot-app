@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // SCREEN CHOOSE //
     // Botton go back to search
     document.getElementById('btn-back-to-search-choose').addEventListener('click', function () {
+        setfullUserDataTwomorrow(null);
         utils.reloadScreen('CONSULTATION');
         const basicInformations = document.getElementById('basic-informations');
         const complementarInformations = document.getElementById('complementar-informations');
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //Botton to go to the search screen
     document.getElementById('btn-new-search').addEventListener('click', () => {
+        setfullUserDataTwomorrow(null);
         utils.reloadScreen('CONSULTATION');
         document.getElementById('finances').innerHTML = '';
         const basicInformations = document.getElementById('basic-informations');

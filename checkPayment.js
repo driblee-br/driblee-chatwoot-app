@@ -1,9 +1,12 @@
 import * as main from './main.js';
 
 export async function checkPayment() {
-    const fullUsrDataTwomorrow = main.getfullUserDataTwomorrow();
-    console.log("Full User Data:", fullUsrDataTwomorrow)
-    const guid = fullUsrDataTwomorrow?.guid;
+    const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
+    if (fullUserDataTwomorrow == null) {
+        return
+    }
+    console.log("Full User Data:", fullUserDataTwomorrow)
+    const guid = fullUserDataTwomorrow?.guid;
     console.log("GUID:", guid)
     const url = `${main.getHost()}/checkpayment/${guid}`;
 
