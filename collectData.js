@@ -108,11 +108,21 @@ export async function updateData() {
         "description": "",
         "state": EditState,
     }
+    if (EditCep== ""){
+        utils.showNotification('O campo "CEP" não foi preenchido', "error")
+        stopLoadingBotton()
+        return
+    }
+
     if (EditCity == ""){
-        alert('O campo "cidade" não foi preenchido')
+        utils.showNotification('O campo "cidade" não foi preenchido', "error")
+        stopLoadingBotton()
+        return
     }
     if (EditState == ""){
-        alert('O campo "estado" não foi preenchido')
+        utils.showNotification('O campo "estado" não foi preenchido', "error")
+        stopLoadingBotton()
+        return
     }
 
     try {
