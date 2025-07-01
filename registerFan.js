@@ -23,7 +23,7 @@ export async function registerFan() {
         stopLoadingBotton()
         return
     }
-    const url = `${main.getHost()}/create-user/`;
+    const url = `${main.getHost()}/create-user`;
 
     const payload = {
         name: nomeInput,

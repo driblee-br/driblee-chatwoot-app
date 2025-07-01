@@ -7,8 +7,7 @@ let fullUserDataTwomorrow;
 let fullUserDataChatwoot;
 
 export function getHost() {
-    return "http://localhost:8086/chatwoot-app"
-    //return "https://api.driblee.com/chatwoot-app"
+    return "https://api.driblee.com/chatwoot-app"
 }
 
 export function getfullUserDataTwomorrow() {
