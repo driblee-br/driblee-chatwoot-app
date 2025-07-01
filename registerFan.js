@@ -84,6 +84,7 @@ export async function registerFan() {
             return
         }
     } catch (erro) {
+        console.log("Falha ao criar usuário: ", erro)
         utils.showNotification("Falha ao criar usuário", 'error')
         stopLoadingBotton()
         return
