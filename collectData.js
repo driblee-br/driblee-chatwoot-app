@@ -88,9 +88,9 @@ export async function updateData() {
     const EditNumber = document.getElementById("edit-number").value;
     const EditCep = document.getElementById("edit-cep").value;
     const EditComplement = document.getElementById("edit-complement").value;
-    let url;
     let payload;
-    url = `${main.getHost()}/updatedata/`;
+    const url = `${main.getHost()}/updatedata/`;
+    
 
     payload = {
         "name": EditName,
@@ -108,7 +108,13 @@ export async function updateData() {
         "description": "",
         "state": EditState,
     }
-
+    if (EditCity == ""){
+        alert('O campo "cidade" não foi preenchido')
+    }
+    if (EditState == ""){
+        alert('O campo "estado" não foi preenchido')
+    }
+    
     try {
         const response = await fetch(url, {
             method: 'POST',
