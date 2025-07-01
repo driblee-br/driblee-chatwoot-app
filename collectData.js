@@ -89,7 +89,7 @@ export async function updateData() {
     const EditCep = document.getElementById("edit-cep").value;
     const EditComplement = document.getElementById("edit-complement").value;
     let payload;
-    const url = `${main.getHost()}/update-data/`;
+    const url = `${main.getHost()}/update-data`;
     
 
     payload = {
