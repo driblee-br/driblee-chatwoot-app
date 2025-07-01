@@ -106,7 +106,7 @@ export async function fetchData() {
     }
     try {
         const queryString = new URLSearchParams(params).toString();
-        const url = `${main.getHost()}/verify-fan/?${queryString}`;
+        const url = `${main.getHost()}/verify-fan?${queryString}`;
 
         const response = await fetch(url, {
             method: 'GET',
