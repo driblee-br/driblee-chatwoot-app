@@ -8,7 +8,7 @@ export async function checkPayment() {
     console.log("Full User Data:", fullUserDataTwomorrow)
     const guid = fullUserDataTwomorrow?.guid;
     console.log("GUID:", guid)
-    const url = `${main.getHost()}/checkpayment/${guid}`;
+    const url = `${main.getHost()}/check-payment/${guid}`;
 
     try {
         const response = await fetch(url, {
