@@ -9,7 +9,7 @@ import * as collectData from './collectData.js';
 export function cleanAllInputsSearch() {
     function cleanResult(field) {
         const foundMsg = document.getElementById(`msg-${field}-found`);
-        const notFoundMsg = document.getElementById(`msg-${field}-non-found`);
+        const notFoundMsg = document.getElementById(`msg-${field}-not-found`);
         notFoundMsg.style.display = 'none';
         foundMsg.style.display = 'none';
     }
@@ -72,7 +72,7 @@ export function showUserPopup(data, classe = null) {
 //Function to exhibit the status of the search for each parameter
 export function toggleMessages(field, found) {
     const foundMsg = document.getElementById(`msg-${field}-found`);
-    const notFoundMsg = document.getElementById(`msg-${field}-non-found`);
+    const notFoundMsg = document.getElementById(`msg-${field}-not-found`);
 
     if (foundMsg && notFoundMsg) {
         if (found) {
@@ -87,12 +87,12 @@ export function toggleMessages(field, found) {
 
 // Function to preper data to search 
 export async function fetchData() {
-    const btnBuscar = document.getElementById('btnBuscar');
-    const cpfInput = document.getElementById('busca-cpf').value.replace(/\D/g, '');
-    const emailInput = document.getElementById('busca-email').value.trim();
-    const phoneInput = document.getElementById('busca-phone').value.replace(/\D/g, '');
-    btnBuscar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
-    btnBuscar.disabled = true;
+    const btnSearch = document.getElementById('btn-search');
+    const cpfInput = document.getElementById('search-cpf').value.replace(/\D/g, '');
+    const emailInput = document.getElementById('search-email').value.trim();
+    const phoneInput = document.getElementById('search-phone').value.replace(/\D/g, '');
+    btnSearch.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+    btnSearch.disabled = true;
 
     const params = {};
     if (phoneInput) params.phone = phoneInput;
@@ -100,8 +100,8 @@ export async function fetchData() {
     if (emailInput) params.email = emailInput;
     if (Object.keys(params).length === 0) {
         showNotification('Informe ao menos um dado para buscar.', 'warning');
-        btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
-        btnBuscar.disabled = false;
+        btnSearch.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
+        btnSearch.disabled = false;
         return;
     }
     try {
@@ -134,17 +134,17 @@ export async function fetchData() {
         console.error("Erro completo:", error);
         showNotification(`Erro na busca: ${error.message}`, 'error');
     } finally {
-        btnBuscar.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
-        btnBuscar.disabled = false;
+        btnSearch.innerHTML = '<i class="fas fa-search"></i> Buscar Torcedor';
+        btnSearch.disabled = false;
 
     }
 }
 
 //Function to automatic fill the input
 export function refilSearch(cpf = null, email = null, phone_number = null) {
-    const cpfInput = document.getElementById('busca-cpf');
-    const emailInput = document.getElementById('busca-email');
-    const phoneInput = document.getElementById('busca-phone');
+    const cpfInput = document.getElementById('search-cpf');
+    const emailInput = document.getElementById('search-email');
+    const phoneInput = document.getElementById('search-phone');
     if (emailInput && email) {
         emailInput.value = email;
     }

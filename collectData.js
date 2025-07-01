@@ -82,6 +82,7 @@ export async function updateData() {
     EditBirth = birthDateObj.toISOString();
 
     const EditCity = document.getElementById("edit-city").value;
+    const EditState = document.getElementById("edit-state").value;
     const EditNeigbor = document.getElementById("edit-neigbor").value;
     const EditStreet = document.getElementById("edit-street").value;
     const EditNumber = document.getElementById("edit-number").value;
@@ -103,9 +104,9 @@ export async function updateData() {
         "number": EditNumber,
         "complement": EditComplement,
         "district": EditNeigbor,
-        "cityId": 0,
+        "city": EditCity,
         "description": "",
-        "stateId": 0
+        "state": EditState,
     }
 
     try {

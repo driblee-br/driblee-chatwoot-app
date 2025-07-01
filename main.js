@@ -34,23 +34,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Recieving data from chatwoot
     window.addEventListener("message", checkFan.searchUser);
+    
+
     window.parent.postMessage('chatwoot-dashboard-app:fetch-info', '*');
 
     // SCREEN SEARCH //
     // CPF field's format
-    document.getElementById('busca-cpf').addEventListener('input', function (e) {
+    document.getElementById('search-cpf').addEventListener('input', function (e) {
         let value = e.target.value;
         e.target.value = utils.formatCPF(value);
     });
 
     // Phone field's format
-    document.getElementById('busca-phone').addEventListener('input', function (e) {
+    document.getElementById('search-phone').addEventListener('input', function (e) {
         let value = e.target.value;
         e.target.value = utils.formatPhone(value);
     });
 
     // Botton to search user in 2morrow 
-    document.getElementById('btnBuscar').addEventListener('click', async () => {
+    document.getElementById('btn-search').addEventListener('click', async () => {
         checkFan.cleanAllInputsSearch();
         const results = await checkFan.fetchData();
         setfullUserDataTwomorrow(checkFan.checkDataConsistency(results.results));
@@ -78,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         //Preenche automaticamente os campos da tela de registro
-        const cpf = document.getElementById('busca-cpf').value;
-        const email = document.getElementById('busca-email').value;
-        const phone = document.getElementById('busca-phone').value;
+        const cpf = document.getElementById('search-cpf').value;
+        const email = document.getElementById('search-email').value;
+        const phone = document.getElementById('search-phone').value;
         utils.fillFullInformations('chatwoot', null, cpf, phone, email);
 
     });
@@ -91,9 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
         setfullUserDataTwomorrow(null);
         utils.reloadScreen('CONSULTATION');
         const basicInformations = document.getElementById('basic-informations');
-        const complementarInformations = document.getElementById('complementar-informations');
+        const additionalInformation = document.getElementById('additional-information');
         basicInformations.classList.add('no-edit-update');
-        complementarInformations.classList.add('no-edit-update');
+        additionalInformation.classList.add('no-edit-update');
 
     });
 
@@ -106,9 +108,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Botton to edit data
     document.getElementById('btn-edit').addEventListener('click', function () {
         const basicInformations = document.getElementById('basic-informations');
-        const complementarInformations = document.getElementById('complementar-informations');
+        const additionalInformation = document.getElementById('additional-information');
         basicInformations.classList.toggle('no-edit-update');
-        complementarInformations.classList.toggle('no-edit-update');
+        additionalInformation.classList.toggle('no-edit-update');
 
     });
 
@@ -119,9 +121,9 @@ document.addEventListener('DOMContentLoaded', function () {
         utils.reloadScreen('CONSULTATION');
         document.getElementById('finances').innerHTML = '';
         const basicInformations = document.getElementById('basic-informations');
-        const complementarInformations = document.getElementById('complementar-informations');
+        const additionalInformation = document.getElementById('additional-information');
         basicInformations.classList.add('no-edit-update');
-        complementarInformations.classList.add('no-edit-update');
+        additionalInformation.classList.add('no-edit-update');
         document.getElementById("btn-edit").disabled = false;
         document.getElementById("btn-twomorrow-payments").disabled = false;
         document.getElementById("btn-send-email").disabled = false;

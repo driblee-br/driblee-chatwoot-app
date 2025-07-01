@@ -103,7 +103,7 @@
             margin-bottom: 16px;
         }
 
-        .finded-message {
+        .message-found {
             display: none;
             margin-top: 1px;
             font-size: 0.75rem;
@@ -111,7 +111,7 @@
             text-align: right;
         }
 
-        .non-finded-message {
+        .message-not-found {
             display: none;
             margin-top: 1px;
             font-size: 0.75rem;

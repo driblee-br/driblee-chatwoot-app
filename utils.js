@@ -22,9 +22,9 @@ export function reloadScreen(step_now) {
         document.getElementById("btn-copy-basic-informations").classList.add('hidden');
         document.getElementById('finances').inner = '';
         const basicInformations = document.getElementById('basic-informations');
-        const complementarInformations = document.getElementById('complementar-informations');
+        const additionalInformation = document.getElementById('additional-information');
         basicInformations.classList.add('no-edit-update');
-        complementarInformations.classList.add('no-edit-update');
+        additionalInformation.classList.add('no-edit-update');
     }
 
     if (step_now == 'UPDATE') {
