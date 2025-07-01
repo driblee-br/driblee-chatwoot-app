@@ -89,7 +89,7 @@ export async function updateData() {
     const EditCep = document.getElementById("edit-cep").value;
     const EditComplement = document.getElementById("edit-complement").value;
     let payload;
-    const url = `${main.getHost()}/updatedata/`;
+    const url = `${main.getHost()}/update-data/`;
     
 
     payload = {
@@ -114,7 +114,7 @@ export async function updateData() {
     if (EditState == ""){
         alert('O campo "estado" não foi preenchido')
     }
-    
+
     try {
         const response = await fetch(url, {
             method: 'POST',

@@ -5,7 +5,7 @@ export async function resetPassword() {
     console.log("A funcionalidade de enviar email ainda não foi implementada")
     const userName = main.getfullUserDataTwomorrow().mainDocument
     console.log("Main document:", userName)
-    const url = `${main.getHost()}/reset_password/`;
+    const url = `${main.getHost()}/reset-password/`;
     try {
         const response = await fetch(url, {
             method: 'POST',
