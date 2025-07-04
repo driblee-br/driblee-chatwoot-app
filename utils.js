@@ -151,89 +151,90 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
     const EditState = document.getElementById("edit-state");
     const EditComplement = document.getElementById("edit-complement");
     const EditSituation = document.getElementById("edit-situation");
+
     if (from == 'chatwoot') {
         const fullUserDataChatwoot = main.getfullUserDataChatwoot();
 
-        if (EditName && fullUserDataChatwoot?.name) {
+        // Only fill if field is empty or has no user-entered value
+        if (EditName && !EditName.value.trim() && fullUserDataChatwoot?.name) {
             EditName.value = fullUserDataChatwoot?.name;
-        } else if (EditName && name) {
+        } else if (EditName && !EditName.value.trim() && name) {
             EditName.value = name;
         }
 
-        if (EditCpf && fullUserDataChatwoot?.cpf) {
+        if (EditCpf && !EditCpf.value.trim() && fullUserDataChatwoot?.cpf) {
             EditCpf.value = fullUserDataChatwoot?.cpf;
-        } else if (EditCpf && cpf) {
+        } else if (EditCpf && !EditCpf.value.trim() && cpf) {
             EditCpf.value = formatCPF(cpf);
             EditCpf.dispatchEvent(new Event('cpf'));
         }
 
-        if (EditEmail && fullUserDataChatwoot?.email) {
+        if (EditEmail && !EditEmail.value.trim() && fullUserDataChatwoot?.email) {
             EditEmail.value = fullUserDataChatwoot?.email;
-        } else if (EditEmail && email) {
+        } else if (EditEmail && !EditEmail.value.trim() && email) {
             EditEmail.value = email;
         }
 
-        if (EditTelephone && fullUserDataChatwoot?.contact?.phone_number) {
+        if (EditTelephone && !EditTelephone.value.trim() && fullUserDataChatwoot?.contact?.phone_number) {
             EditTelephone.value = fullUserDataChatwoot?.contact.phone_number;
-        } else if (EditTelephone && phone_number) {
+        } else if (EditTelephone && !EditTelephone.value.trim() && phone_number) {
             EditTelephone.value = formatPhone(phone_number);
             EditTelephone.dispatchEvent(new Event('input'));
         }
 
-        if (EditGender && fullUserDataChatwoot?.gender) {
+        if (EditGender && !EditGender.value && fullUserDataChatwoot?.gender) {
             EditGender.value = fullUserDataChatwoot?.gender;
         }
 
-        if (EditBirth && fullUserDataChatwoot?.birthDate) {
+        if (EditBirth && !EditBirth.value && fullUserDataChatwoot?.birthDate) {
             EditBirth.value = fullUserDataChatwoot?.birthDate;
         }
 
-        if (EditCity && fullUserDataChatwoot?.address?.city) {
+        if (EditCity && !EditCity.value.trim() && fullUserDataChatwoot?.address?.city) {
             EditCity.value = fullUserDataChatwoot?.address.city;
         }
 
-        if (EditNeigbor && fullUserDataChatwoot?.address?.neighborhood) {
+        if (EditNeigbor && !EditNeigbor.value.trim() && fullUserDataChatwoot?.address?.neighborhood) {
             EditNeigbor.value = fullUserDataChatwoot?.address.neighborhood;
         }
 
-        if (EditStreet && fullUserDataChatwoot?.address?.street) {
+        if (EditStreet && !EditStreet.value.trim() && fullUserDataChatwoot?.address?.street) {
             EditStreet.value = fullUserDataChatwoot?.address.street;
         }
 
-        if (EditNumber && fullUserDataChatwoot?.address?.number) {
+        if (EditNumber && !EditNumber.value.trim() && fullUserDataChatwoot?.address?.number) {
             EditNumber.value = fullUserDataChatwoot?.address.number;
         }
 
-        if (EditCep && fullUserDataChatwoot?.address?.cep) {
+        if (EditCep && !EditCep.value.trim() && fullUserDataChatwoot?.address?.cep) {
             EditCep.value = fullUserDataChatwoot?.address.cep;
         }
     } else if (from == 'twomorrow') {
         const fullUserDataTwomorrow = main.getfullUserDataTwomorrow();
-        if (EditSituation && fullUserDataTwomorrow?.fanStatusView) {
-            EditSituation.textContent = fullUserDataTwomorrow?.fanStatusView;
 
+        if (EditSituation && !EditSituation.textContent.trim() && fullUserDataTwomorrow?.fanStatusView) {
+            EditSituation.textContent = fullUserDataTwomorrow?.fanStatusView;
         }
 
-        if (EditName && fullUserDataTwomorrow?.name) {
+        if (EditName && !EditName.value.trim() && fullUserDataTwomorrow?.name) {
             EditName.value = fullUserDataTwomorrow?.name;
         }
 
-        if (EditCpf && fullUserDataTwomorrow?.mainDocument) {
+        if (EditCpf && !EditCpf.value.trim() && fullUserDataTwomorrow?.mainDocument) {
             EditCpf.value = formatCPF(fullUserDataTwomorrow?.mainDocument);
             EditCpf.dispatchEvent(new Event('cpf'));
         }
 
-        if (EditEmail && fullUserDataTwomorrow?.email) {
+        if (EditEmail && !EditEmail.value.trim() && fullUserDataTwomorrow?.email) {
             EditEmail.value = fullUserDataTwomorrow?.email;
         }
 
-        if (EditTelephone && fullUserDataTwomorrow?.mobile?.fullNumber) {
+        if (EditTelephone && !EditTelephone.value.trim() && fullUserDataTwomorrow?.mobile?.fullNumber) {
             EditTelephone.value = formatPhone(fullUserDataTwomorrow?.mobile?.fullNumber);
             EditTelephone.dispatchEvent(new Event('input'));
         }
 
-
-        if (EditGender && fullUserDataTwomorrow?.personGenderView) {
+        if (EditGender && !EditGender.value && fullUserDataTwomorrow?.personGenderView) {
             const genderValueFromTwomorrow = fullUserDataTwomorrow?.personGenderView.toLowerCase();
 
             let foundMatch = false;
@@ -246,7 +247,7 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
             }
         }
 
-        if (EditBirth && fullUserDataTwomorrow.birthDate) {
+        if (EditBirth && !EditBirth.value && fullUserDataTwomorrow.birthDate) {
             try {
                 const date = new Date(fullUserDataTwomorrow.birthDate);
                 if (!isNaN(date.getTime())) { // Verifica se a data é válida
@@ -259,31 +260,31 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
             }
         }
 
-        if (EditCity && fullUserDataTwomorrow.address?.city) {
+        if (EditCity && !EditCity.value.trim() && fullUserDataTwomorrow.address?.city) {
             EditCity.value = fullUserDataTwomorrow.address.city;
         }
 
-        if (EditNeigbor && fullUserDataTwomorrow.address?.district) {
+        if (EditNeigbor && !EditNeigbor.value.trim() && fullUserDataTwomorrow.address?.district) {
             EditNeigbor.value = fullUserDataTwomorrow.address.district;
         }
 
-        if (EditStreet && fullUserDataTwomorrow.address?.address) {
+        if (EditStreet && !EditStreet.value.trim() && fullUserDataTwomorrow.address?.address) {
             EditStreet.value = fullUserDataTwomorrow.address.address;
         }
 
-        if (EditNumber && fullUserDataTwomorrow.address?.number) {
+        if (EditNumber && !EditNumber.value.trim() && fullUserDataTwomorrow.address?.number) {
             EditNumber.value = fullUserDataTwomorrow.address.number;
         }
 
-        if (EditCep && fullUserDataTwomorrow.address?.postalCode) {
+        if (EditCep && !EditCep.value.trim() && fullUserDataTwomorrow.address?.postalCode) {
             EditCep.value = fullUserDataTwomorrow.address.postalCode;
         }
 
-        if (EditState && fullUserDataTwomorrow.address?.state) {
+        if (EditState && !EditState.value.trim() && fullUserDataTwomorrow.address?.state) {
             EditState.value = fullUserDataTwomorrow.address.state;
         }
 
-        if (EditComplement && fullUserDataTwomorrow.address?.complement) {
+        if (EditComplement && !EditComplement.value.trim() && fullUserDataTwomorrow.address?.complement) {
             EditComplement.value = fullUserDataTwomorrow.address.complement;
         }
     }
