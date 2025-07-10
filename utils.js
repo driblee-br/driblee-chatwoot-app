@@ -156,30 +156,31 @@ export function fillFullInformations(from, name = null, cpf = null, phone_number
         const fullUserDataChatwoot = main.getfullUserDataChatwoot();
 
         // Only fill if field is empty or has no user-entered value
-        if (EditName && !EditName.value.trim() && fullUserDataChatwoot?.name) {
-            EditName.value = fullUserDataChatwoot?.name;
-        } else if (EditName && !EditName.value.trim() && name) {
+        if (EditName && !EditName.value.trim() && name) {
             EditName.value = name;
         }
+        else if (EditName && !EditName.value.trim() && fullUserDataChatwoot?.name) {
+            EditName.value = fullUserDataChatwoot?.name;
+        }
 
-        if (EditCpf && !EditCpf.value.trim() && fullUserDataChatwoot?.cpf) {
-            EditCpf.value = fullUserDataChatwoot?.cpf;
-        } else if (EditCpf && !EditCpf.value.trim() && cpf) {
+        if (EditCpf && !EditCpf.value.trim() && cpf) {
             EditCpf.value = formatCPF(cpf);
             EditCpf.dispatchEvent(new Event('cpf'));
+        } else if (EditCpf && !EditCpf.value.trim() && fullUserDataChatwoot?.cpf) {
+            EditCpf.value = fullUserDataChatwoot?.cpf;
         }
 
-        if (EditEmail && !EditEmail.value.trim() && fullUserDataChatwoot?.email) {
-            EditEmail.value = fullUserDataChatwoot?.email;
-        } else if (EditEmail && !EditEmail.value.trim() && email) {
+        if (EditEmail && !EditEmail.value.trim() && email) {
             EditEmail.value = email;
+        } else if (EditEmail && !EditEmail.value.trim() && fullUserDataChatwoot?.email) {
+            EditEmail.value = fullUserDataChatwoot?.email;
         }
 
-        if (EditTelephone && !EditTelephone.value.trim() && fullUserDataChatwoot?.contact?.phone_number) {
-            EditTelephone.value = fullUserDataChatwoot?.contact.phone_number;
-        } else if (EditTelephone && !EditTelephone.value.trim() && phone_number) {
+        if (EditTelephone && !EditTelephone.value.trim() && phone_number) {
             EditTelephone.value = formatPhone(phone_number);
             EditTelephone.dispatchEvent(new Event('input'));
+        } else if (EditTelephone && !EditTelephone.value.trim() && fullUserDataChatwoot?.contact?.phone_number) {
+            EditTelephone.value = fullUserDataChatwoot?.contact.phone_number;
         }
 
         if (EditGender && !EditGender.value && fullUserDataChatwoot?.gender) {
